@@ -1,3 +1,6 @@
+import "@fontsource/firago";
+import "./generalStyles.css";
+
 function App() {
   return (
     <div>
