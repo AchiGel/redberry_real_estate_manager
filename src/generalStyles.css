@@ -7,3 +7,9 @@
 body {
   font-family: "FiraGO";
 }
+
+a,
+button {
+  text-decoration: none;
+  font-family: "FiraGo";
+}
