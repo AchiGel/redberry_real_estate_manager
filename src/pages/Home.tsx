@@ -2,6 +2,7 @@ import styled from "styled-components";
 import FilterSection from "../components/FilterSection";
 import ListingCard from "../components/ListingCard";
 import { useEffect, useState } from "react";
+import { AgentTypes } from "./ItemPage";
 
 export const token = "9cfd9147-04a6-47c4-8eba-407452441d23";
 
@@ -9,6 +10,7 @@ const API_URL =
   "https://api.real-estate-manager.redberryinternship.ge/api/real-estates";
 
 export interface PropertyTypes {
+  agent: AgentTypes;
   address: string;
   image: string;
   price: number;

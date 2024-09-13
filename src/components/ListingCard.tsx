@@ -38,16 +38,16 @@ const ListingCardInfoDown = styled.div`
   gap: 32px;
 `;
 
-const ListingPrice = styled.h2`
+export const ListingPrice = styled.h2<{ fontSize: string }>`
   color: #021526;
-  font-size: 28px;
+  font-size: ${(props) => props.fontSize};
   font-weight: 700;
   margin-bottom: 6.5px;
 `;
 
-const ListingAddress = styled.h3`
+export const ListingAddress = styled.h3<{ fontSize: string }>`
   color: rgba(2, 21, 38, 0.7);
-  font-size: 16px;
+  font-size: ${(props) => props.fontSize};
   font-weight: 400;
   position: relative;
   padding-left: 20px;
@@ -66,9 +66,9 @@ const ListingAddress = styled.h3`
   }
 `;
 
-const DownSectionInfos = styled.p<{ icon: string }>`
+export const DownSectionInfos = styled.p<{ icon: string; fontSize: string }>`
   color: rgba(2, 21, 38, 0.7);
-  font-size: 16px;
+  font-size: ${(props) => props.fontSize};
   font-weight: 400;
   position: relative;
   padding-left: 20px;
@@ -86,16 +86,20 @@ const DownSectionInfos = styled.p<{ icon: string }>`
   }
 `;
 
-const IsRental = styled.div`
+export const IsRental = styled.div<{
+  fontSize: string;
+  left: string;
+  top: string;
+}>`
   border-radius: 15px;
   background: rgba(2, 21, 38, 0.5);
   position: absolute;
-  left: 23px;
-  top: 23px;
+  left: ${(props) => props.left};
+  top: ${(props) => props.top};
   padding: 6px 12px;
   color: #fff;
   text-align: center;
-  font-size: 12px;
+  font-size: ${(props) => props.fontSize};
   font-weight: 500;
   letter-spacing: 0.48px;
 `;
@@ -104,25 +108,29 @@ export default function ListingCard(props: PropertyTypes) {
   return (
     <Link to={`${props.id}`}>
       <ListingCardLayout>
-        <IsRental>{props.is_rental ? "ქირავდება" : "იყიდება"}</IsRental>
+        <IsRental left="23px" top="23px" fontSize="12px">
+          {props.is_rental ? "ქირავდება" : "იყიდება"}
+        </IsRental>
         <ListingCoverImg src={props.image} />
         <ListingCardInfo>
           <ListingCardInfoUp>
-            <ListingPrice>
+            <ListingPrice fontSize="28px">
               {Intl.NumberFormat("ka-GE", {
                 useGrouping: true,
               }).format(props.price) + " ₾"}
             </ListingPrice>
-            <ListingAddress>{props.city + ", " + props.address}</ListingAddress>
+            <ListingAddress fontSize="16px">
+              {props.city + ", " + props.address}
+            </ListingAddress>
           </ListingCardInfoUp>
           <ListingCardInfoDown>
-            <DownSectionInfos icon="./listingicons/bed.svg">
+            <DownSectionInfos icon="./listingicons/bed.svg" fontSize="16px">
               {props.bedrooms}
             </DownSectionInfos>
-            <DownSectionInfos icon="./listingicons/Vector.svg">
+            <DownSectionInfos icon="./listingicons/Vector.svg" fontSize="16px">
               {props.area + " მ²"}
             </DownSectionInfos>
-            <DownSectionInfos icon="./listingicons/post.svg">
+            <DownSectionInfos icon="./listingicons/post.svg" fontSize="16px">
               {props.zip_code}
             </DownSectionInfos>
           </ListingCardInfoDown>
