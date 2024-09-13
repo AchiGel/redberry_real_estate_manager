@@ -3,6 +3,11 @@ import FilterSection from "../components/FilterSection";
 import ListingCard from "../components/ListingCard";
 import { useEffect, useState } from "react";
 
+export const token = "9cfd9147-04a6-47c4-8eba-407452441d23";
+
+const API_URL =
+  "https://api.real-estate-manager.redberryinternship.ge/api/real-estates";
+
 export interface PropertyTypes {
   address: string;
   image: string;
@@ -15,6 +20,8 @@ export interface PropertyTypes {
     name: string;
   };
   is_rental: number;
+  created_at: string;
+  description: string;
 }
 
 const ListingGrid = styled.section`
@@ -23,13 +30,8 @@ const ListingGrid = styled.section`
   gap: 20px;
 `;
 
-const API_URL =
-  "https://api.real-estate-manager.redberryinternship.ge/api/real-estates";
-
 export default function Home() {
   const [listing, setListing] = useState([]);
-
-  const token = "9cfd9147-04a6-47c4-8eba-407452441d23";
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,6 +67,7 @@ export default function Home() {
                 area={item.area}
                 city={item.city.name}
                 is_rental={item.is_rental}
+                id={item.id}
               />
             ))
           : "No properties"}

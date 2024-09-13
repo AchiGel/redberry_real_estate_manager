@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { PropertyTypes } from "../pages/Home";
+import { Link } from "react-router-dom";
 
 const ListingCardLayout = styled.div`
   position: relative;
@@ -101,30 +102,32 @@ const IsRental = styled.div`
 
 export default function ListingCard(props: PropertyTypes) {
   return (
-    <ListingCardLayout>
-      <IsRental>{props.is_rental ? "ქირავდება" : "იყიდება"}</IsRental>
-      <ListingCoverImg src={props.image} />
-      <ListingCardInfo>
-        <ListingCardInfoUp>
-          <ListingPrice>
-            {Intl.NumberFormat("ka-GE", {
-              useGrouping: true,
-            }).format(props.price) + " ₾"}
-          </ListingPrice>
-          <ListingAddress>{props.city + ", " + props.address}</ListingAddress>
-        </ListingCardInfoUp>
-        <ListingCardInfoDown>
-          <DownSectionInfos icon="./listingicons/bed.svg">
-            {props.bedrooms}
-          </DownSectionInfos>
-          <DownSectionInfos icon="./listingicons/Vector.svg">
-            {props.area + " მ²"}
-          </DownSectionInfos>
-          <DownSectionInfos icon="./listingicons/post.svg">
-            {props.zip_code}
-          </DownSectionInfos>
-        </ListingCardInfoDown>
-      </ListingCardInfo>
-    </ListingCardLayout>
+    <Link to={`${props.id}`}>
+      <ListingCardLayout>
+        <IsRental>{props.is_rental ? "ქირავდება" : "იყიდება"}</IsRental>
+        <ListingCoverImg src={props.image} />
+        <ListingCardInfo>
+          <ListingCardInfoUp>
+            <ListingPrice>
+              {Intl.NumberFormat("ka-GE", {
+                useGrouping: true,
+              }).format(props.price) + " ₾"}
+            </ListingPrice>
+            <ListingAddress>{props.city + ", " + props.address}</ListingAddress>
+          </ListingCardInfoUp>
+          <ListingCardInfoDown>
+            <DownSectionInfos icon="./listingicons/bed.svg">
+              {props.bedrooms}
+            </DownSectionInfos>
+            <DownSectionInfos icon="./listingicons/Vector.svg">
+              {props.area + " მ²"}
+            </DownSectionInfos>
+            <DownSectionInfos icon="./listingicons/post.svg">
+              {props.zip_code}
+            </DownSectionInfos>
+          </ListingCardInfoDown>
+        </ListingCardInfo>
+      </ListingCardLayout>
+    </Link>
   );
 }
