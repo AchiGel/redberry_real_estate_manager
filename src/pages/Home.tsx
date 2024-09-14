@@ -51,8 +51,6 @@ export default function Home() {
     fetchData();
   }, []);
 
-  console.log("render", listing);
-
   return (
     <div>
       <FilterSection />

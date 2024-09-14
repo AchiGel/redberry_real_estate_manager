@@ -10,6 +10,7 @@ import {
   ListingPrice,
 } from "../components/ListingCard";
 import AgentCard from "../components/AgentCard";
+import Slider from "../components/Slider";
 
 export interface AgentTypes {
   avatar: string;
@@ -23,6 +24,7 @@ const ListingPageLayout = styled.section`
   display: flex;
   margin-top: 29px;
   gap: 68px;
+  margin-bottom: 53px;
 `;
 
 const ListingPageLayoutLeft = styled.div`
@@ -79,6 +81,8 @@ export default function ItemPage() {
 
   const [listingPage, setListingPage] = useState<PropertyTypes>();
 
+  const [listing, setListing] = useState([]);
+
   console.log(listingPage);
 
   useEffect(() => {
@@ -98,6 +102,23 @@ export default function ItemPage() {
     };
 
     if (id) fetchListingPage();
+
+    const fetchListing = async () => {
+      const response = await fetch(
+        "https://api.real-estate-manager.redberryinternship.ge/api/real-estates",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      setListing(data);
+    };
+
+    fetchListing();
   }, [id]);
 
   if (!listingPage) {
@@ -163,6 +184,7 @@ export default function ItemPage() {
           />
         </ListingPageLayoutRight>
       </ListingPageLayout>
+      <Slider listing={listing} />
     </div>
   );
 }
