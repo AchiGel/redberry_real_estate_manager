@@ -5,6 +5,7 @@ import Selector from "../Selector";
 import ChosenOption from "../ChosenOption";
 import { useEffect } from "react";
 import RegionFilter from "./RegionFilter";
+import { PropertyTypes } from "../../pages/Home";
 
 export interface ButtonTypes {
   buttonType: string;
@@ -13,6 +14,16 @@ export interface ButtonTypes {
 export interface RegionsTypes {
   id: number;
   name: string;
+}
+
+interface FilterSectionProps {
+  filterOptions: PropertyTypes[];
+  setFilterOptions: React.Dispatch<React.SetStateAction<PropertyTypes[]>>;
+  regions: RegionsTypes[] | undefined;
+  setRegions: React.Dispatch<React.SetStateAction<RegionsTypes[] | undefined>>;
+  regionsSelected: number[] | undefined;
+  setRegionsSelected: React.Dispatch<React.SetStateAction<number[]>>;
+  listing: PropertyTypes[];
 }
 
 const FilterSectionWrapper = styled.section`
@@ -59,7 +70,8 @@ export default function FilterSection({
   setRegions,
   regionsSelected,
   setRegionsSelected,
-}) {
+  listing,
+}: FilterSectionProps) {
   useEffect(() => {
     const fetchRegions = async () => {
       const response = await fetch(
@@ -85,6 +97,8 @@ export default function FilterSection({
             regions={regions}
             regionsSelected={regionsSelected}
             setRegionsSelected={setRegionsSelected}
+            setFilteredOptions={setFilterOptions}
+            listing={listing}
           />
           <Selector />
           <Selector />

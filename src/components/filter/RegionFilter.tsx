@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RegionsTypes } from "./FilterSection";
 import styled from "styled-components";
+import { PropertyTypes } from "../../pages/Home";
 
 const RegionsWrapper = styled.div`
   position: relative;
@@ -75,13 +76,33 @@ const SelectButton = styled.button`
 export default function RegionFilter({
   regions,
   setRegionsSelected,
+  setFilteredOptions,
+  listing,
+  regionsSelected,
 }: {
   regions: RegionsTypes[] | undefined;
   regionsSelected: number[];
   setRegionsSelected: React.Dispatch<React.SetStateAction<number[]>>;
+  setFilteredOptions: React.Dispatch<React.SetStateAction<typeof listing>>;
+  listing: PropertyTypes[];
 }) {
   const [regionsClicked, setRegionsClicked] = useState(false);
   const [tempRegionsSelected, setTempRegionsSelected] = useState<number[]>([]);
+
+  const handleSelectRegions = () => {
+    setRegionsSelected(tempRegionsSelected);
+    setRegionsClicked(false);
+  };
+
+  useEffect(() => {
+    if (!regionsSelected || !listing) return;
+
+    setFilteredOptions(
+      listing.filter((el: PropertyTypes) =>
+        regionsSelected.includes(el.city.region.id)
+      )
+    );
+  }, [regionsSelected, setFilteredOptions, listing]);
 
   const handleRegionChange = (region: number) => {
     setTempRegionsSelected((prevSelected) =>
@@ -89,11 +110,6 @@ export default function RegionFilter({
         ? prevSelected.filter((r) => r !== region)
         : [...prevSelected, region]
     );
-  };
-
-  const handleSelectRegions = () => {
-    setRegionsSelected(tempRegionsSelected);
-    setRegionsClicked(false);
   };
 
   return (

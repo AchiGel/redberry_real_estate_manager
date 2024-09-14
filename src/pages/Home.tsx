@@ -1,5 +1,7 @@
 import styled from "styled-components";
-import FilterSection from "../components/filter/FilterSection";
+import FilterSection, {
+  RegionsTypes,
+} from "../components/filter/FilterSection";
 import ListingCard from "../components/ListingCard";
 import { useEffect, useState } from "react";
 import { AgentTypes } from "./ItemPage";
@@ -33,15 +35,16 @@ const ListingGrid = styled.section`
 `;
 
 export default function Home() {
-  const [listing, setListing] = useState([]);
-  const [filterOptions, setFilterOptions] = useState([]);
-  const [regions, setRegions] = useState();
+  const [listing, setListing] = useState<PropertyTypes[]>([]);
+  const [filterOptions, setFilterOptions] = useState<PropertyTypes[]>([]);
+  const [regions, setRegions] = useState<RegionsTypes[] | undefined>();
   const [regionsSelected, setRegionsSelected] = useState<
     number[] | undefined
   >();
 
   console.log(regionsSelected);
   console.log(listing);
+  console.log(filterOptions);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,11 +71,27 @@ export default function Home() {
         setRegions={setRegions}
         regionsSelected={regionsSelected}
         setRegionsSelected={setRegionsSelected}
+        listing={listing}
       />
       <ListingGrid>
-        {regionsSelected?.length
-          ? "filtered properties"
-          : listing.length
+        {regionsSelected
+          ? filterOptions.length > 0
+            ? filterOptions.map((item: PropertyTypes) => (
+                <ListingCard
+                  key={item.id}
+                  image={item.image}
+                  price={item.price}
+                  address={item.address}
+                  bedrooms={item.bedrooms}
+                  zip_code={item.zip_code}
+                  area={item.area}
+                  city={item.city.name}
+                  is_rental={item.is_rental}
+                  id={item.id}
+                />
+              ))
+            : "No properties match the filter"
+          : listing.length > 0
           ? listing.map((item: PropertyTypes) => (
               <ListingCard
                 key={item.id}
@@ -87,7 +106,7 @@ export default function Home() {
                 id={item.id}
               />
             ))
-          : "No properties"}
+          : "No properties available"}
       </ListingGrid>
     </div>
   );
