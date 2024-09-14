@@ -1,11 +1,18 @@
 import styled from "styled-components";
-import Button from "./Button";
+import Button from "../Button";
 import { Link } from "react-router-dom";
-import Selector from "./Selector";
-import ChosenOption from "./ChosenOption";
+import Selector from "../Selector";
+import ChosenOption from "../ChosenOption";
+import { useEffect } from "react";
+import RegionFilter from "./RegionFilter";
 
 export interface ButtonTypes {
   buttonType: string;
+}
+
+export interface RegionsTypes {
+  id: number;
+  name: string;
 }
 
 const FilterSectionWrapper = styled.section`
@@ -45,23 +52,53 @@ const ButtonsSection = styled.div`
   gap: 16px;
 `;
 
-export default function FilterSection() {
+export default function FilterSection({
+  filterOptions,
+  setFilterOptions,
+  regions,
+  setRegions,
+  regionsSelected,
+  setRegionsSelected,
+}) {
+  useEffect(() => {
+    const fetchRegions = async () => {
+      const response = await fetch(
+        "https://api.real-estate-manager.redberryinternship.ge/api/regions",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      setRegions(data);
+    };
+    fetchRegions();
+  }, []);
+
   return (
     <FilterSectionWrapper>
       <FilterLeftSection>
         <FilterLeftSectionUp>
-          <Selector />
+          <RegionFilter
+            regions={regions}
+            regionsSelected={regionsSelected}
+            setRegionsSelected={setRegionsSelected}
+          />
           <Selector />
           <Selector />
           <Selector />
         </FilterLeftSectionUp>
-        <FilterLeftSectionDown>
-          <ChosenOption />
-          <ChosenOption />
-          <ChosenOption />
-          <ChosenOption />
-          <ClearButton>გასუფთავება</ClearButton>
-        </FilterLeftSectionDown>
+        {filterOptions.length ? (
+          <FilterLeftSectionDown>
+            <ChosenOption />
+            <ChosenOption />
+            <ChosenOption />
+            <ChosenOption />
+            <ClearButton>გასუფთავება</ClearButton>
+          </FilterLeftSectionDown>
+        ) : null}
       </FilterLeftSection>
       <ButtonsSection>
         <Link to="/add_listing">

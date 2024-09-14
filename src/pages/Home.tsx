@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import FilterSection from "../components/FilterSection";
+import FilterSection from "../components/filter/FilterSection";
 import ListingCard from "../components/ListingCard";
 import { useEffect, useState } from "react";
 import { AgentTypes } from "./ItemPage";
@@ -34,6 +34,14 @@ const ListingGrid = styled.section`
 
 export default function Home() {
   const [listing, setListing] = useState([]);
+  const [filterOptions, setFilterOptions] = useState([]);
+  const [regions, setRegions] = useState();
+  const [regionsSelected, setRegionsSelected] = useState<
+    number[] | undefined
+  >();
+
+  console.log(regionsSelected);
+  console.log(listing);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,9 +61,18 @@ export default function Home() {
 
   return (
     <div>
-      <FilterSection />
+      <FilterSection
+        filterOptions={filterOptions}
+        setFilterOptions={setFilterOptions}
+        regions={regions}
+        setRegions={setRegions}
+        regionsSelected={regionsSelected}
+        setRegionsSelected={setRegionsSelected}
+      />
       <ListingGrid>
-        {listing.length
+        {regionsSelected?.length
+          ? "filtered properties"
+          : listing.length
           ? listing.map((item: PropertyTypes) => (
               <ListingCard
                 key={item.id}
