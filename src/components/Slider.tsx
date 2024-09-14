@@ -3,10 +3,9 @@ import "swiper/css";
 import ListingCard from "./ListingCard";
 import { PropertyTypes } from "../pages/Home";
 import styled from "styled-components";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import { A11y, Navigation } from "swiper/modules";
+import SlidePrevButton from "./SlidePrevButton";
+import SlideNextButton from "./SlideNextButton";
+import "../generalStyles.css";
 
 const SliderWrapper = styled.div`
   padding-bottom: 228px;
@@ -23,14 +22,9 @@ export default function Slider({ listing }: { listing: PropertyTypes[] }) {
   return (
     <SliderWrapper>
       <SliderTitle>ბინები მსგავს ლოკაციაზე</SliderTitle>
-      <Swiper
-        modules={[Navigation, A11y]}
-        spaceBetween={50}
-        slidesPerView={2}
-        navigation
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
-      >
+
+      <Swiper spaceBetween={50} slidesPerView={4} navigation loop={true}>
+        <SlidePrevButton />
         {listing.map((item: PropertyTypes) => (
           <SwiperSlide key={item.id}>
             <ListingCard
@@ -42,9 +36,11 @@ export default function Slider({ listing }: { listing: PropertyTypes[] }) {
               zip_code={item.zip_code}
               city={item.city.name}
               is_rental={item.is_rental}
+              area={item.area}
             />
           </SwiperSlide>
         ))}
+        <SlideNextButton />
       </Swiper>
     </SliderWrapper>
   );

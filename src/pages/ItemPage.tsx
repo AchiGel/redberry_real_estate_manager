@@ -83,8 +83,6 @@ export default function ItemPage() {
 
   const [listing, setListing] = useState([]);
 
-  console.log(listingPage);
-
   useEffect(() => {
     const fetchListingPage = async () => {
       const response = await fetch(

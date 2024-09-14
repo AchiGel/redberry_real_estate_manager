@@ -18,6 +18,7 @@ const ListingCardLayout = styled.div`
 
 const ListingCoverImg = styled.img`
   height: 307px;
+  width: 100%;
   object-fit: cover;
 `;
 
@@ -106,7 +107,7 @@ export const IsRental = styled.div<{
 
 export default function ListingCard(props: PropertyTypes) {
   return (
-    <Link to={`${props.id}`}>
+    <Link to={`/${props.id}`}>
       <ListingCardLayout>
         <IsRental left="23px" top="23px" fontSize="12px">
           {props.is_rental ? "ქირავდება" : "იყიდება"}

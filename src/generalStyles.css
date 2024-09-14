@@ -13,3 +13,7 @@ button {
   text-decoration: none;
   font-family: "FiraGo";
 }
+
+.swiper {
+  overflow: unset !important;
+}
