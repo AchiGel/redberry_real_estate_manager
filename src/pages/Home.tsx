@@ -35,6 +35,12 @@ const ListingGrid = styled.section`
   gap: 20px;
 `;
 
+const WarningMessage = styled.p`
+  color: rgba(2, 21, 38, 0.8);
+  font-size: 20px;
+  font-weight: 400;
+`;
+
 export default function Home() {
   const [listing, setListing] = useState<PropertyTypes[]>([]);
   const [filterOptions, setFilterOptions] = useState<PropertyTypes[]>([]);
@@ -118,7 +124,9 @@ export default function Home() {
             />
           ))
         ) : (
-          <p>No properties match the filter</p>
+          <WarningMessage>
+            აღნიშნული მონაცემებით განცხადება არ იძებნება
+          </WarningMessage>
         )}
       </ListingGrid>
     </div>
