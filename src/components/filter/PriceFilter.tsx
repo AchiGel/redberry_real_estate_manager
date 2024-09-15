@@ -7,6 +7,7 @@ import {
   FilterWrapper,
   SelectButton,
 } from "./RegionFilter";
+import { useState } from "react";
 
 const PriceInputsContainer = styled.div`
   display: flex;
@@ -41,6 +42,20 @@ const PriceListTitle = styled.h3`
   font-weight: 500;
 `;
 
+const HiddenCheckbox = styled.input`
+  display: none;
+`;
+
+const PriceLabel = styled.label`
+  cursor: pointer;
+  font-size: 14px;
+  color: #021526;
+  margin: 5px 0;
+  &:hover {
+    font-weight: bold;
+  }
+`;
+
 export default function PriceFilter({
   priceClicked,
   setPriceClicked,
@@ -55,6 +70,25 @@ export default function PriceFilter({
   setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const prices = [50000, 100000, 150000, 200000, 300000];
+
+  const [selectedPrices, setSelectedPrices] = useState<
+    [number | null, number | null]
+  >([null, null]);
+
+  const handlePriceFromSelect = (value: number) => {
+    console.log(`Selected price from: ${value}`);
+    setSelectedPrices((prev) => [value, prev[1]]);
+  };
+
+  const handlePriceToSelect = (value: number) => {
+    console.log(`Selected price from: ${value}`);
+    setSelectedPrices((prev) => [prev[0], value]);
+  };
+
+  const handlePriceRange = () => {
+    console.log(selectedPrices);
+    setPriceClicked(false);
+  };
 
   return (
     <FilterWrapper>
@@ -80,23 +114,23 @@ export default function PriceFilter({
             <PriceList>
               <PriceListTitle>მინ. ფასი</PriceListTitle>
               {prices.map((el) => (
-                <label>
-                  <input type="checkbox" />
+                <PriceLabel key={el} onClick={() => handlePriceFromSelect(el)}>
+                  <HiddenCheckbox type="checkbox" />
                   {el}
-                </label>
+                </PriceLabel>
               ))}
             </PriceList>
             <PriceList>
               <PriceListTitle>მაქს. ფასი</PriceListTitle>
               {prices.map((el) => (
-                <label>
-                  <input type="checkbox" />
+                <PriceLabel key={el} onClick={() => handlePriceToSelect(el)}>
+                  <HiddenCheckbox type="checkbox" />
                   {el}
-                </label>
+                </PriceLabel>
               ))}
             </PriceList>
           </PriceListContainer>
-          <SelectButton>არჩევა</SelectButton>
+          <SelectButton onClick={handlePriceRange}>არჩევა</SelectButton>
         </FilterList>
       ) : null}
     </FilterWrapper>
