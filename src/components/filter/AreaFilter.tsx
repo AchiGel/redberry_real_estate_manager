@@ -1,9 +1,21 @@
+import { useState } from "react";
 import {
   ButtonArrow,
   FilterButton,
   FilterList,
+  FilterListTitle,
   FilterWrapper,
+  SelectButton,
 } from "./RegionFilter";
+import {
+  HiddenCheckbox,
+  PriceInput,
+  PriceInputsContainer,
+  PriceLabel,
+  PriceList,
+  PriceListContainer,
+  PriceListTitle,
+} from "./PriceFilter";
 
 export default function AreaFilter({
   areaClicked,
@@ -18,6 +30,27 @@ export default function AreaFilter({
   setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const areas = [30, 50, 70, 100, 150];
+
+  const [selectedAreas, setSelectedAreas] = useState<
+    [number | null, number | null]
+  >([null, null]);
+
+  const handleAreaFromSelect = (value: number) => {
+    console.log(`Selected Area from: ${value}`);
+    setSelectedAreas((prev) => [value, prev[1]]);
+  };
+
+  const handleAreaToSelect = (value: number) => {
+    console.log(`Selected price from: ${value}`);
+    setSelectedAreas((prev) => [prev[0], value]);
+  };
+
+  const handleAreaRange = () => {
+    console.log(selectedAreas);
+    setAreaClicked(false);
+  };
+
   return (
     <FilterWrapper>
       <FilterButton
@@ -31,7 +64,36 @@ export default function AreaFilter({
       >
         ფართობი <ButtonArrow direction={areaClicked} />
       </FilterButton>
-      {areaClicked ? <FilterList>Area filter</FilterList> : null}
+      {areaClicked ? (
+        <FilterList>
+          <FilterListTitle>ფასის მიხედვით</FilterListTitle>
+          <PriceInputsContainer>
+            <PriceInput placeholder="დან" type="number" />
+            <PriceInput placeholder="მდე" type="number" />
+          </PriceInputsContainer>
+          <PriceListContainer>
+            <PriceList>
+              <PriceListTitle>მინ. მ²</PriceListTitle>
+              {areas.map((el) => (
+                <PriceLabel key={el} onClick={() => handleAreaFromSelect(el)}>
+                  <HiddenCheckbox type="checkbox" />
+                  {el + " მ²"}
+                </PriceLabel>
+              ))}
+            </PriceList>
+            <PriceList>
+              <PriceListTitle>მაქს. მ²</PriceListTitle>
+              {areas.map((el) => (
+                <PriceLabel key={el} onClick={() => handleAreaToSelect(el)}>
+                  <HiddenCheckbox type="checkbox" />
+                  {el + " მ²"}
+                </PriceLabel>
+              ))}
+            </PriceList>
+          </PriceListContainer>
+          <SelectButton onClick={handleAreaRange}>არჩევა</SelectButton>
+        </FilterList>
+      ) : null}
     </FilterWrapper>
   );
 }

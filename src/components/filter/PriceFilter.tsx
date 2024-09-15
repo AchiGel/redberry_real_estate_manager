@@ -9,13 +9,13 @@ import {
 } from "./RegionFilter";
 import { useState } from "react";
 
-const PriceInputsContainer = styled.div`
+export const PriceInputsContainer = styled.div`
   display: flex;
   gap: 15px;
   margin-bottom: 24px;
 `;
 
-const PriceInput = styled.input`
+export const PriceInput = styled.input`
   color: rgba(2, 21, 38, 0.4);
   font-size: 14px;
   font-weight: 400;
@@ -25,28 +25,28 @@ const PriceInput = styled.input`
   padding: 10px;
 `;
 
-const PriceListContainer = styled.div`
+export const PriceListContainer = styled.div`
   display: flex;
   gap: 24px;
 `;
 
-const PriceList = styled.div`
+export const PriceList = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 32px;
 `;
 
-const PriceListTitle = styled.h3`
+export const PriceListTitle = styled.h3`
   color: #021526;
   font-size: 14px;
   font-weight: 500;
 `;
 
-const HiddenCheckbox = styled.input`
+export const HiddenCheckbox = styled.input`
   display: none;
 `;
 
-const PriceLabel = styled.label`
+export const PriceLabel = styled.label`
   cursor: pointer;
   font-size: 14px;
   color: #021526;
@@ -116,7 +116,7 @@ export default function PriceFilter({
               {prices.map((el) => (
                 <PriceLabel key={el} onClick={() => handlePriceFromSelect(el)}>
                   <HiddenCheckbox type="checkbox" />
-                  {el}
+                  {el + " ₾"}
                 </PriceLabel>
               ))}
             </PriceList>
@@ -125,7 +125,7 @@ export default function PriceFilter({
               {prices.map((el) => (
                 <PriceLabel key={el} onClick={() => handlePriceToSelect(el)}>
                   <HiddenCheckbox type="checkbox" />
-                  {el}
+                  {el + " ₾"}
                 </PriceLabel>
               ))}
             </PriceList>
