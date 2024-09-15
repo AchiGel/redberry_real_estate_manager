@@ -1,4 +1,9 @@
-import { ButtonArrow, FilterButton, FilterWrapper } from "./RegionFilter";
+import {
+  ButtonArrow,
+  FilterButton,
+  FilterList,
+  FilterWrapper,
+} from "./RegionFilter";
 
 export default function AreaFilter({
   areaClicked,
@@ -26,6 +31,7 @@ export default function AreaFilter({
       >
         ფართობი <ButtonArrow direction={areaClicked} />
       </FilterButton>
+      {areaClicked ? <FilterList>Area filter</FilterList> : null}
     </FilterWrapper>
   );
 }

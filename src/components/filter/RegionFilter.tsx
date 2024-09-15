@@ -33,7 +33,7 @@ export const ButtonArrow = styled.span<{ direction: boolean }>`
   transform: ${(props) => (props.direction ? "none" : "rotate(180deg)")};
 `;
 
-const RegionsList = styled.div`
+export const FilterList = styled.div`
   position: absolute;
   z-index: 1;
   top: 51px;
@@ -47,7 +47,7 @@ const RegionsList = styled.div`
   align-items: flex-start;
 `;
 
-const RegionsListTitle = styled.h2`
+export const FilterListTitle = styled.h2`
   color: #021526;
   font-size: 16px;
   font-weight: 500;
@@ -61,7 +61,7 @@ const RegionsGrid = styled.div`
   margin-bottom: 32px;
 `;
 
-const SelectButton = styled.button`
+export const SelectButton = styled.button`
   border: none;
   outline: none;
   color: #fff;
@@ -135,8 +135,8 @@ export default function RegionFilter({
         რეგიონი <ButtonArrow direction={regionClicked} />
       </FilterButton>
       {regionClicked ? (
-        <RegionsList>
-          <RegionsListTitle>რეგიონის მიხედვით</RegionsListTitle>
+        <FilterList>
+          <FilterListTitle>რეგიონის მიხედვით</FilterListTitle>
           <RegionsGrid>
             {regions?.length
               ? regions.map((el) => (
@@ -154,7 +154,7 @@ export default function RegionFilter({
               : null}
           </RegionsGrid>
           <SelectButton onClick={handleSelectRegions}>არჩევა</SelectButton>
-        </RegionsList>
+        </FilterList>
       ) : null}
     </FilterWrapper>
   );

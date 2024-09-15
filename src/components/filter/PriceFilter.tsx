@@ -1,15 +1,44 @@
 import styled from "styled-components";
-import { ButtonArrow, FilterButton, FilterWrapper } from "./RegionFilter";
+import {
+  ButtonArrow,
+  FilterButton,
+  FilterList,
+  FilterListTitle,
+  FilterWrapper,
+  SelectButton,
+} from "./RegionFilter";
 
-const PriceFilterLayout = styled.div`
-  position: absolute;
-  z-index: 1;
-  top: 51px;
-  border-radius: 10px;
-  border: 1px solid #dbdbdb;
-  background: #fff;
-  box-shadow: 5px 5px 12px 0px rgba(2, 21, 38, 0.08);
-  padding: 24px;
+const PriceInputsContainer = styled.div`
+  display: flex;
+  gap: 15px;
+  margin-bottom: 24px;
+`;
+
+const PriceInput = styled.input`
+  color: rgba(2, 21, 38, 0.4);
+  font-size: 14px;
+  font-weight: 400;
+  outline: none;
+  border-radius: 6px;
+  border: 1px solid #808a93;
+  padding: 10px;
+`;
+
+const PriceListContainer = styled.div`
+  display: flex;
+  gap: 24px;
+`;
+
+const PriceList = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32px;
+`;
+
+const PriceListTitle = styled.h3`
+  color: #021526;
+  font-size: 14px;
+  font-weight: 500;
 `;
 
 export default function PriceFilter({
@@ -25,6 +54,8 @@ export default function PriceFilter({
   setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const prices = [50000, 100000, 150000, 200000, 300000];
+
   return (
     <FilterWrapper>
       <FilterButton
@@ -39,7 +70,34 @@ export default function PriceFilter({
         საფასო კატეგორია <ButtonArrow direction={priceClicked} />
       </FilterButton>
       {priceClicked ? (
-        <PriceFilterLayout>price filter</PriceFilterLayout>
+        <FilterList>
+          <FilterListTitle>ფასის მიხედვით</FilterListTitle>
+          <PriceInputsContainer>
+            <PriceInput placeholder="დან" type="number" />
+            <PriceInput placeholder="მდე" type="number" />
+          </PriceInputsContainer>
+          <PriceListContainer>
+            <PriceList>
+              <PriceListTitle>მინ. ფასი</PriceListTitle>
+              {prices.map((el) => (
+                <label>
+                  <input type="checkbox" />
+                  {el}
+                </label>
+              ))}
+            </PriceList>
+            <PriceList>
+              <PriceListTitle>მაქს. ფასი</PriceListTitle>
+              {prices.map((el) => (
+                <label>
+                  <input type="checkbox" />
+                  {el}
+                </label>
+              ))}
+            </PriceList>
+          </PriceListContainer>
+          <SelectButton>არჩევა</SelectButton>
+        </FilterList>
       ) : null}
     </FilterWrapper>
   );

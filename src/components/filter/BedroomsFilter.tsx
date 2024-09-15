@@ -1,4 +1,9 @@
-import { ButtonArrow, FilterButton, FilterWrapper } from "./RegionFilter";
+import {
+  ButtonArrow,
+  FilterButton,
+  FilterList,
+  FilterWrapper,
+} from "./RegionFilter";
 
 export default function BedroomsFilter({
   bedroomsClicked,
@@ -18,14 +23,15 @@ export default function BedroomsFilter({
       <FilterButton
         direction={bedroomsClicked}
         onClick={() => {
-          setAreaClicked(!bedroomsClicked);
+          setBedroomsClicked(!bedroomsClicked);
           setRegionClicked(false);
           setPriceClicked(false);
-          setBedroomsClicked(false);
+          setAreaClicked(false);
         }}
       >
         საძინებლების რაოდენობა <ButtonArrow direction={bedroomsClicked} />
       </FilterButton>
+      {bedroomsClicked ? <FilterList>Bedrooms filter</FilterList> : null}
     </FilterWrapper>
   );
 }
