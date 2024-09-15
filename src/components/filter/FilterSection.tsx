@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import Button from "../Button";
 import { Link } from "react-router-dom";
-import Selector from "../Selector";
 import ChosenOption from "../ChosenOption";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import RegionFilter from "./RegionFilter";
 import { PropertyTypes } from "../../pages/Home";
+import PriceFilter from "./PriceFilter";
+import AreaFilter from "./AreaFilter";
+import BedroomsFilter from "./BedroomsFilter";
 
 export interface ButtonTypes {
   buttonType: string;
@@ -72,6 +74,11 @@ export default function FilterSection({
   setRegionsSelected,
   listing,
 }: FilterSectionProps) {
+  const [regionClicked, setRegionClicked] = useState(false);
+  const [priceClicked, setPriceClicked] = useState(false);
+  const [areaClicked, setAreaClicked] = useState(false);
+  const [bedroomsClicked, setBedroomsClicked] = useState(false);
+
   useEffect(() => {
     const fetchRegions = async () => {
       const response = await fetch(
@@ -99,10 +106,36 @@ export default function FilterSection({
             setRegionsSelected={setRegionsSelected}
             setFilteredOptions={setFilterOptions}
             listing={listing}
+            regionClicked={regionClicked}
+            setRegionClicked={setRegionClicked}
+            priceClicked={priceClicked}
+            setPriceClicked={setPriceClicked}
+            areaClicked={areaClicked}
+            setAreaClicked={setAreaClicked}
+            bedroomsClicked={bedroomsClicked}
+            setBedroomsClicked={setBedroomsClicked}
           />
-          <Selector />
-          <Selector />
-          <Selector />
+          <PriceFilter
+            priceClicked={priceClicked}
+            setPriceClicked={setPriceClicked}
+            setRegionClicked={setRegionClicked}
+            setAreaClicked={setAreaClicked}
+            setBedroomsClicked={setBedroomsClicked}
+          />
+          <AreaFilter
+            areaClicked={areaClicked}
+            setAreaClicked={setAreaClicked}
+            setPriceClicked={setPriceClicked}
+            setRegionClicked={setRegionClicked}
+            setBedroomsClicked={setBedroomsClicked}
+          />
+          <BedroomsFilter
+            bedroomsClicked={bedroomsClicked}
+            setBedroomsClicked={setBedroomsClicked}
+            setPriceClicked={setPriceClicked}
+            setRegionClicked={setRegionClicked}
+            setAreaClicked={setAreaClicked}
+          />
         </FilterLeftSectionUp>
         {filterOptions.length ? (
           <FilterLeftSectionDown>

@@ -3,11 +3,11 @@ import { RegionsTypes } from "./FilterSection";
 import styled from "styled-components";
 import { PropertyTypes } from "../../pages/Home";
 
-const RegionsWrapper = styled.div`
+export const FilterWrapper = styled.div`
   position: relative;
 `;
 
-const RegionsFilterButton = styled.button<{ direction: boolean }>`
+export const FilterButton = styled.button<{ direction: boolean }>`
   transition: all 0.4s ease;
   border: none;
   outline: none;
@@ -22,7 +22,7 @@ const RegionsFilterButton = styled.button<{ direction: boolean }>`
   }
 `;
 
-const ButtonArrow = styled.span<{ direction: boolean }>`
+export const ButtonArrow = styled.span<{ direction: boolean }>`
   background-image: url("./listingicons/button-icon.svg");
   background-repeat: no-repeat;
   background-size: 100%;
@@ -79,19 +79,28 @@ export default function RegionFilter({
   setFilteredOptions,
   listing,
   regionsSelected,
+  regionClicked,
+  setRegionClicked,
+  setPriceClicked,
+  setAreaClicked,
+  setBedroomsClicked,
 }: {
   regions: RegionsTypes[] | undefined;
   regionsSelected: number[];
   setRegionsSelected: React.Dispatch<React.SetStateAction<number[]>>;
   setFilteredOptions: React.Dispatch<React.SetStateAction<typeof listing>>;
   listing: PropertyTypes[];
+  regionClicked: boolean;
+  setRegionClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  setPriceClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [regionsClicked, setRegionsClicked] = useState(false);
   const [tempRegionsSelected, setTempRegionsSelected] = useState<number[]>([]);
 
   const handleSelectRegions = () => {
     setRegionsSelected(tempRegionsSelected);
-    setRegionsClicked(false);
+    setRegionClicked(false);
   };
 
   useEffect(() => {
@@ -113,14 +122,19 @@ export default function RegionFilter({
   };
 
   return (
-    <RegionsWrapper>
-      <RegionsFilterButton
-        direction={regionsClicked}
-        onClick={() => setRegionsClicked(!regionsClicked)}
+    <FilterWrapper>
+      <FilterButton
+        direction={regionClicked}
+        onClick={() => {
+          setRegionClicked(!regionClicked);
+          setPriceClicked(false);
+          setAreaClicked(false);
+          setBedroomsClicked(false);
+        }}
       >
-        რეგიონი <ButtonArrow direction={regionsClicked} />
-      </RegionsFilterButton>
-      {regionsClicked ? (
+        რეგიონი <ButtonArrow direction={regionClicked} />
+      </FilterButton>
+      {regionClicked ? (
         <RegionsList>
           <RegionsListTitle>რეგიონის მიხედვით</RegionsListTitle>
           <RegionsGrid>
@@ -142,6 +156,6 @@ export default function RegionFilter({
           <SelectButton onClick={handleSelectRegions}>არჩევა</SelectButton>
         </RegionsList>
       ) : null}
-    </RegionsWrapper>
+    </FilterWrapper>
   );
 }
