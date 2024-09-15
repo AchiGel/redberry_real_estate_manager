@@ -21,6 +21,7 @@ export interface PropertyTypes {
   bedrooms: number;
   zip_code: number;
   city: {
+    id: number;
     name: string;
   };
   is_rental: number;
@@ -42,8 +43,8 @@ export default function Home() {
     number[] | undefined
   >();
 
-  console.log(regionsSelected);
-  console.log(listing);
+  // console.log(regionsSelected);
+  // console.log(listing);
   console.log(filterOptions);
 
   useEffect(() => {
@@ -62,6 +63,17 @@ export default function Home() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (regionsSelected && regionsSelected.length > 0) {
+      const filtered = listing.filter((property) =>
+        regionsSelected.includes(property.city.id)
+      );
+      setFilterOptions(filtered);
+    } else {
+      setFilterOptions([]);
+    }
+  }, [regionsSelected, listing]);
+
   return (
     <div>
       <FilterSection
@@ -74,39 +86,40 @@ export default function Home() {
         listing={listing}
       />
       <ListingGrid>
-        {regionsSelected
-          ? filterOptions.length > 0
-            ? filterOptions.map((item: PropertyTypes) => (
-                <ListingCard
-                  key={item.id}
-                  image={item.image}
-                  price={item.price}
-                  address={item.address}
-                  bedrooms={item.bedrooms}
-                  zip_code={item.zip_code}
-                  area={item.area}
-                  city={item.city.name}
-                  is_rental={item.is_rental}
-                  id={item.id}
-                />
-              ))
-            : "No properties match the filter"
-          : listing.length > 0
-          ? listing.map((item: PropertyTypes) => (
-              <ListingCard
-                key={item.id}
-                image={item.image}
-                price={item.price}
-                address={item.address}
-                bedrooms={item.bedrooms}
-                zip_code={item.zip_code}
-                area={item.area}
-                city={item.city.name}
-                is_rental={item.is_rental}
-                id={item.id}
-              />
-            ))
-          : "No properties available"}
+        {filterOptions.length === 0 &&
+        (!regionsSelected || regionsSelected.length === 0) ? (
+          listing.map((item: PropertyTypes) => (
+            <ListingCard
+              key={item.id}
+              image={item.image}
+              price={item.price}
+              address={item.address}
+              bedrooms={item.bedrooms}
+              zip_code={item.zip_code}
+              area={item.area}
+              city={item.city.name}
+              is_rental={item.is_rental}
+              id={item.id}
+            />
+          ))
+        ) : filterOptions.length > 0 ? (
+          filterOptions.map((item: PropertyTypes) => (
+            <ListingCard
+              key={item.id}
+              image={item.image}
+              price={item.price}
+              address={item.address}
+              bedrooms={item.bedrooms}
+              zip_code={item.zip_code}
+              area={item.area}
+              city={item.city.name}
+              is_rental={item.is_rental}
+              id={item.id}
+            />
+          ))
+        ) : (
+          <p>No properties match the filter</p>
+        )}
       </ListingGrid>
     </div>
   );
