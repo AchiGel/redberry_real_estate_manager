@@ -24,8 +24,11 @@ interface FilterSectionProps {
   regions: RegionsTypes[] | undefined;
   setRegions: React.Dispatch<React.SetStateAction<RegionsTypes[] | undefined>>;
   regionsSelected: number[] | undefined;
-  setRegionsSelected: React.Dispatch<React.SetStateAction<number[]>>;
+  setRegionsSelected: React.Dispatch<
+    React.SetStateAction<number[] | undefined>
+  >;
   listing: PropertyTypes[];
+  setSelectedBedrooms: React.Dispatch<React.SetStateAction<number | "">>;
 }
 
 const FilterSectionWrapper = styled.section`
@@ -73,6 +76,7 @@ export default function FilterSection({
   regionsSelected,
   setRegionsSelected,
   listing,
+  setSelectedBedrooms,
 }: FilterSectionProps) {
   const [regionClicked, setRegionClicked] = useState(false);
   const [priceClicked, setPriceClicked] = useState(false);
@@ -135,14 +139,15 @@ export default function FilterSection({
             setPriceClicked={setPriceClicked}
             setRegionClicked={setRegionClicked}
             setAreaClicked={setAreaClicked}
+            setSelectedBedrooms={setSelectedBedrooms}
           />
         </FilterLeftSectionUp>
         {filterOptions.length ? (
           <FilterLeftSectionDown>
-            <ChosenOption />
-            <ChosenOption />
-            <ChosenOption />
-            <ChosenOption />
+            {regionsSelected?.map((region) => (
+              <ChosenOption key={region} title={region} />
+            ))}
+
             <ClearButton>გასუფთავება</ClearButton>
           </FilterLeftSectionDown>
         ) : null}

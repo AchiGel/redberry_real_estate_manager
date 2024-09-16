@@ -44,14 +44,18 @@ const WarningMessage = styled.p`
 export default function Home() {
   const [listing, setListing] = useState<PropertyTypes[]>([]);
   const [filterOptions, setFilterOptions] = useState<PropertyTypes[]>([]);
+
   const [regions, setRegions] = useState<RegionsTypes[] | undefined>();
   const [regionsSelected, setRegionsSelected] = useState<
     number[] | undefined
   >();
 
-  // console.log(regionsSelected);
+  const [selectedBedrooms, setSelectedBedrooms] = useState<number | "">("");
+
+  // console.log(regions);
   // console.log(listing);
-  console.log(filterOptions);
+  // console.log(filterOptions);
+  // console.log(typeof selectedBedrooms);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,15 +74,23 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (regionsSelected && regionsSelected.length > 0) {
-      const filtered = listing.filter((property) =>
-        regionsSelected.includes(property.city.region.id)
-      );
-      setFilterOptions(filtered);
-    } else {
-      setFilterOptions([]);
+    if (!regionsSelected?.length && selectedBedrooms === "") {
+      return;
     }
-  }, [regionsSelected, listing]);
+
+    const filtered = listing.filter((property) => {
+      const regionMatches = regionsSelected?.length
+        ? regionsSelected.includes(property.city.region.id)
+        : true;
+
+      const bedroomsMatch =
+        selectedBedrooms !== "" ? property.bedrooms === selectedBedrooms : true;
+
+      return regionMatches && bedroomsMatch;
+    });
+
+    setFilterOptions(filtered);
+  }, [regionsSelected, listing, selectedBedrooms]);
 
   return (
     <div>
@@ -90,6 +102,8 @@ export default function Home() {
         regionsSelected={regionsSelected}
         setRegionsSelected={setRegionsSelected}
         listing={listing}
+        selectedBedrooms={selectedBedrooms}
+        setSelectedBedrooms={setSelectedBedrooms}
       />
       <ListingGrid>
         {filterOptions.length === 0 &&

@@ -15,23 +15,26 @@ export default function BedroomsFilter({
   setBedroomsClicked,
   setPriceClicked,
   setRegionClicked,
+  setSelectedBedrooms,
 }: {
   bedroomsClicked: boolean;
   setPriceClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setRegionClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedBedrooms: React.Dispatch<React.SetStateAction<number | "">>;
 }) {
-  const [selectedBedrooms, setSelectedBedrooms] = useState<number | "">("");
+  const [tempBedrooms, setTempBedrooms] = useState<number | "">("");
 
   const handleBedroomsSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value === "" ? "" : Number(e.target.value);
 
-    setSelectedBedrooms(value);
+    setTempBedrooms(value);
   };
 
   const handleBedrooms = () => {
-    console.log(selectedBedrooms);
+    setSelectedBedrooms(tempBedrooms);
+    setTempBedrooms("");
     setBedroomsClicked(false);
   };
 
@@ -56,7 +59,7 @@ export default function BedroomsFilter({
               style={{ width: "20%" }}
               type="number"
               placeholder="2"
-              value={selectedBedrooms}
+              value={tempBedrooms}
               onChange={handleBedroomsSelect}
             />
           </PriceInputsContainer>

@@ -86,8 +86,10 @@ export default function RegionFilter({
   setBedroomsClicked,
 }: {
   regions: RegionsTypes[] | undefined;
-  regionsSelected: number[];
-  setRegionsSelected: React.Dispatch<React.SetStateAction<number[]>>;
+  regionsSelected: number[] | undefined;
+  setRegionsSelected: React.Dispatch<
+    React.SetStateAction<number[] | undefined>
+  >;
   setFilteredOptions: React.Dispatch<React.SetStateAction<typeof listing>>;
   listing: PropertyTypes[];
   regionClicked: boolean;
