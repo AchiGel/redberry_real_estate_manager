@@ -102,6 +102,7 @@ export default function RegionFilter({
 
   const handleSelectRegions = () => {
     setRegionsSelected(tempRegionsSelected);
+    setTempRegionsSelected([]);
     setRegionClicked(false);
   };
 

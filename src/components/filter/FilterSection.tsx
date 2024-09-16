@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "../Button";
 import { Link } from "react-router-dom";
-import ChosenOption from "../ChosenOption";
+import ChosenOption from "./ChosenOption";
 import { useEffect, useState } from "react";
 import RegionFilter from "./RegionFilter";
 import { PropertyTypes } from "../../pages/Home";
@@ -98,7 +98,11 @@ export default function FilterSection({
       setRegions(data);
     };
     fetchRegions();
-  }, []);
+  }, [setRegions]);
+
+  const handleRemoveRegion = (region: number) => {
+    setRegionsSelected((prev) => prev?.filter((r) => r !== region));
+  };
 
   return (
     <FilterSectionWrapper>
@@ -145,10 +149,16 @@ export default function FilterSection({
         {filterOptions.length ? (
           <FilterLeftSectionDown>
             {regionsSelected?.map((region) => (
-              <ChosenOption key={region} title={region} />
+              <ChosenOption
+                key={region}
+                name={region}
+                removeRegion={handleRemoveRegion}
+              />
             ))}
 
-            <ClearButton>გასუფთავება</ClearButton>
+            <ClearButton onClick={() => setRegionsSelected([])}>
+              გასუფთავება
+            </ClearButton>
           </FilterLeftSectionDown>
         ) : null}
       </FilterLeftSection>
