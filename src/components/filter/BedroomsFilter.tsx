@@ -38,7 +38,7 @@ export default function BedroomsFilter({
   return (
     <FilterWrapper>
       <FilterButton
-        direction={bedroomsClicked}
+        $direction={bedroomsClicked}
         onClick={() => {
           setBedroomsClicked(!bedroomsClicked);
           setRegionClicked(false);
@@ -46,7 +46,7 @@ export default function BedroomsFilter({
           setAreaClicked(false);
         }}
       >
-        საძინებლების რაოდენობა <ButtonArrow direction={bedroomsClicked} />
+        საძინებლების რაოდენობა <ButtonArrow $direction={bedroomsClicked} />
       </FilterButton>
       {bedroomsClicked ? (
         <FilterList>

@@ -67,7 +67,7 @@ export const ListingAddress = styled.h3<{ fontSize: string }>`
   }
 `;
 
-export const DownSectionInfos = styled.p<{ icon: string; fontSize: string }>`
+export const DownSectionInfos = styled.p<{ $icon: string; fontSize: string }>`
   color: rgba(2, 21, 38, 0.7);
   font-size: ${(props) => props.fontSize};
   font-weight: 400;
@@ -75,7 +75,7 @@ export const DownSectionInfos = styled.p<{ icon: string; fontSize: string }>`
   padding-left: 20px;
   &::before {
     content: "";
-    background-image: url(${(props) => props.icon});
+    background-image: url(${(props) => props.$icon});
     background-size: contain;
     background-repeat: no-repeat;
     position: absolute;
@@ -89,14 +89,14 @@ export const DownSectionInfos = styled.p<{ icon: string; fontSize: string }>`
 
 export const IsRental = styled.div<{
   fontSize: string;
-  left: string;
-  top: string;
+  $left: string;
+  $top: string;
 }>`
   border-radius: 15px;
   background: rgba(2, 21, 38, 0.5);
   position: absolute;
-  left: ${(props) => props.left};
-  top: ${(props) => props.top};
+  left: ${(props) => props.$left};
+  top: ${(props) => props.$top};
   padding: 6px 12px;
   color: #fff;
   text-align: center;
@@ -109,7 +109,7 @@ export default function ListingCard(props: PropertyTypes) {
   return (
     <Link to={`/${props.id}`}>
       <ListingCardLayout>
-        <IsRental left="23px" top="23px" fontSize="12px">
+        <IsRental $left="23px" $top="23px" fontSize="12px">
           {props.is_rental ? "ქირავდება" : "იყიდება"}
         </IsRental>
         <ListingCoverImg src={props.image} />
@@ -125,13 +125,13 @@ export default function ListingCard(props: PropertyTypes) {
             </ListingAddress>
           </ListingCardInfoUp>
           <ListingCardInfoDown>
-            <DownSectionInfos icon="./listingicons/bed.svg" fontSize="16px">
+            <DownSectionInfos $icon="./listingicons/bed.svg" fontSize="16px">
               {props.bedrooms}
             </DownSectionInfos>
-            <DownSectionInfos icon="./listingicons/Vector.svg" fontSize="16px">
+            <DownSectionInfos $icon="./listingicons/Vector.svg" fontSize="16px">
               {props.area + " მ²"}
             </DownSectionInfos>
-            <DownSectionInfos icon="./listingicons/post.svg" fontSize="16px">
+            <DownSectionInfos $icon="./listingicons/post.svg" fontSize="16px">
               {props.zip_code}
             </DownSectionInfos>
           </ListingCardInfoDown>

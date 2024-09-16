@@ -93,7 +93,7 @@ export default function PriceFilter({
   return (
     <FilterWrapper>
       <FilterButton
-        direction={priceClicked}
+        $direction={priceClicked}
         onClick={() => {
           setPriceClicked(!priceClicked);
           setRegionClicked(false);
@@ -101,7 +101,7 @@ export default function PriceFilter({
           setBedroomsClicked(false);
         }}
       >
-        საფასო კატეგორია <ButtonArrow direction={priceClicked} />
+        საფასო კატეგორია <ButtonArrow $direction={priceClicked} />
       </FilterButton>
       {priceClicked ? (
         <FilterList>

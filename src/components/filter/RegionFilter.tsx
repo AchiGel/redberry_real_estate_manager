@@ -7,7 +7,7 @@ export const FilterWrapper = styled.div`
   position: relative;
 `;
 
-export const FilterButton = styled.button<{ direction: boolean }>`
+export const FilterButton = styled.button<{ $direction?: boolean }>`
   transition: all 0.4s ease;
   border: none;
   outline: none;
@@ -15,14 +15,14 @@ export const FilterButton = styled.button<{ direction: boolean }>`
   display: flex;
   align-items: center;
   border-radius: 6px;
-  background-color: ${(props) => (props.direction ? "#F3F3F3" : "#fff")};
+  background-color: ${(props) => (props.$direction ? "#F3F3F3" : "#fff")};
   &:hover {
     background-color: #f3f3f3;
     cursor: pointer;
   }
 `;
 
-export const ButtonArrow = styled.span<{ direction: boolean }>`
+export const ButtonArrow = styled.span<{ $direction: boolean }>`
   background-image: url("./listingicons/button-icon.svg");
   background-repeat: no-repeat;
   background-size: 100%;
@@ -30,7 +30,7 @@ export const ButtonArrow = styled.span<{ direction: boolean }>`
   width: 14px;
   height: 14px;
   display: block;
-  transform: ${(props) => (props.direction ? "none" : "rotate(180deg)")};
+  transform: ${(props) => (props.$direction ? "none" : "rotate(180deg)")};
 `;
 
 export const FilterList = styled.div`
@@ -124,7 +124,7 @@ export default function RegionFilter({
   return (
     <FilterWrapper>
       <FilterButton
-        direction={regionClicked}
+        $direction={regionClicked}
         onClick={() => {
           setRegionClicked(!regionClicked);
           setPriceClicked(false);
@@ -132,7 +132,7 @@ export default function RegionFilter({
           setBedroomsClicked(false);
         }}
       >
-        რეგიონი <ButtonArrow direction={regionClicked} />
+        რეგიონი <ButtonArrow $direction={regionClicked} />
       </FilterButton>
       {regionClicked ? (
         <FilterList>

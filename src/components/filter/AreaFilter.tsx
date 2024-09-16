@@ -54,7 +54,7 @@ export default function AreaFilter({
   return (
     <FilterWrapper>
       <FilterButton
-        direction={areaClicked}
+        $direction={areaClicked}
         onClick={() => {
           setAreaClicked(!areaClicked);
           setRegionClicked(false);
@@ -62,7 +62,7 @@ export default function AreaFilter({
           setBedroomsClicked(false);
         }}
       >
-        ფართობი <ButtonArrow direction={areaClicked} />
+        ფართობი <ButtonArrow $direction={areaClicked} />
       </FilterButton>
       {areaClicked ? (
         <FilterList>
