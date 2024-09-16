@@ -72,7 +72,7 @@ export default function Home() {
   useEffect(() => {
     if (regionsSelected && regionsSelected.length > 0) {
       const filtered = listing.filter((property) =>
-        regionsSelected.includes(property.city.id)
+        regionsSelected.includes(property.city.region.id)
       );
       setFilterOptions(filtered);
     } else {

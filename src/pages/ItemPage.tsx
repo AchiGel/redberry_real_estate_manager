@@ -139,7 +139,7 @@ export default function ItemPage() {
       </Link>
       <ListingPageLayout>
         <ListingPageLayoutLeft>
-          <IsRental left="40px" top="40px" fontSize="20px">
+          <IsRental $left="40px" $top="40px" fontSize="20px">
             {listingPage.is_rental ? "ქირავდება" : "იყიდება"}
           </IsRental>
           <ListingPageCover src={listingPage.image} alt={listingPage.image} />
@@ -160,14 +160,14 @@ export default function ItemPage() {
               </ListingAddress>
               <DownSectionInfos
                 fontSize="24px"
-                icon="./listingicons/Vector.svg"
+                $icon="./listingicons/Vector.svg"
               >
                 ფართი {listingPage.area + " მ²"}
               </DownSectionInfos>
-              <DownSectionInfos fontSize="24px" icon="./listingicons/bed.svg">
+              <DownSectionInfos fontSize="24px" $icon="./listingicons/bed.svg">
                 საძინებელი {listingPage.bedrooms}
               </DownSectionInfos>
-              <DownSectionInfos fontSize="24px" icon="./listingicons/post.svg">
+              <DownSectionInfos fontSize="24px" $icon="./listingicons/post.svg">
                 საფოსტო ინდექსი {listingPage.zip_code}
               </DownSectionInfos>
             </DetailsFlex>
