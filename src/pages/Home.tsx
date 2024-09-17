@@ -63,13 +63,18 @@ export default function Home() {
     [number | null, number | null]
   >([null, null]);
 
+  const [selectedAreas, setSelectedAreas] = useState<
+    [number | null, number | null]
+  >([null, null]);
+
   const [selectedBedrooms, setSelectedBedrooms] = useState<number | "">("");
 
   // console.log("regionsSelected", regionsSelected);
   // console.log(listing);
   // console.log("filterOptions", filterOptions);
   // console.log("selectedBedrooms", selectedBedrooms);
-  console.log("selectedPrices", selectedPrices);
+  // console.log("selectedPrices", selectedPrices);
+  console.log("selectedAreas", selectedAreas);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,7 +97,9 @@ export default function Home() {
       !regionsSelected?.length &&
       selectedBedrooms === "" &&
       !selectedPrices[0] &&
-      !selectedPrices[1]
+      !selectedPrices[1] &&
+      !selectedAreas[0] &&
+      !selectedAreas[1]
     ) {
       return;
     }
@@ -113,13 +120,25 @@ export default function Home() {
             property.price <= selectedPrices[1]
           : true;
 
-      return regionMatches && bedroomsMatch && priceMatch;
+      const areasMatch =
+        selectedAreas[0] !== null && selectedAreas[1] !== null
+          ? selectedAreas[0] <= property.area &&
+            property.area <= selectedAreas[1]
+          : true;
+
+      return regionMatches && bedroomsMatch && priceMatch && areasMatch;
     });
 
     console.log("filtered", filtered);
 
     setFilterOptions(filtered);
-  }, [regionsSelected, listing, selectedBedrooms, selectedPrices]);
+  }, [
+    regionsSelected,
+    listing,
+    selectedBedrooms,
+    selectedPrices,
+    selectedAreas,
+  ]);
 
   return (
     <div>
@@ -135,6 +154,8 @@ export default function Home() {
         setSelectedBedrooms={setSelectedBedrooms}
         selectedPrices={selectedPrices}
         setSelectedPrices={setSelectedPrices}
+        selectedAreas={selectedAreas}
+        setSelectedAreas={setSelectedAreas}
       />
       <ListingGrid>
         {filterOptions.length === 0 &&

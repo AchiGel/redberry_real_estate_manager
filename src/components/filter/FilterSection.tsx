@@ -34,6 +34,10 @@ interface FilterSectionProps {
   setSelectedPrices: React.Dispatch<
     React.SetStateAction<[number | null, number | null]>
   >;
+  selectedAreas: [number | null, number | null];
+  setSelectedAreas: React.Dispatch<
+    React.SetStateAction<[number | null, number | null]>
+  >;
 }
 
 const FilterSectionWrapper = styled.section`
@@ -85,6 +89,8 @@ export default function FilterSection({
   setSelectedBedrooms,
   selectedPrices,
   setSelectedPrices,
+  selectedAreas,
+  setSelectedAreas,
 }: FilterSectionProps) {
   const [regionClicked, setRegionClicked] = useState(false);
   const [priceClicked, setPriceClicked] = useState(false);
@@ -121,6 +127,10 @@ export default function FilterSection({
     setSelectedPrices([null, null]);
   };
 
+  const handleRemoveAreas = () => {
+    setSelectedAreas([null, null]);
+  };
+
   return (
     <FilterSectionWrapper>
       <FilterLeftSection>
@@ -151,6 +161,7 @@ export default function FilterSection({
             setPriceClicked={setPriceClicked}
             setRegionClicked={setRegionClicked}
             setBedroomsClicked={setBedroomsClicked}
+            setSelectedAreas={setSelectedAreas}
           />
           <BedroomsFilter
             bedroomsClicked={bedroomsClicked}
@@ -177,10 +188,16 @@ export default function FilterSection({
                 removeBedrooms={handleRemoveBedrooms}
               />
             )}
-            {(selectedPrices[0] !== 0 || selectedPrices[1] !== 0) && (
+            {selectedPrices[0] !== 0 && selectedPrices[1] !== 0 && (
               <ChosenOption
                 selectedPrices={selectedPrices}
                 removePrices={handleRemovePrices}
+              />
+            )}
+            {selectedAreas[0] !== 0 && selectedAreas[1] !== 0 && (
+              <ChosenOption
+                selectedAreas={selectedAreas}
+                removeAreas={handleRemoveAreas}
               />
             )}
             <ClearButton
@@ -188,6 +205,7 @@ export default function FilterSection({
                 setRegionsSelected([]);
                 setSelectedBedrooms("");
                 setSelectedPrices([null, null]);
+                setSelectedAreas([null, null]);
               }}
             >
               გასუფთავება

@@ -23,31 +23,34 @@ export default function AreaFilter({
   setBedroomsClicked,
   setPriceClicked,
   setRegionClicked,
+  setSelectedAreas,
 }: {
   areaClicked: boolean;
   setPriceClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setRegionClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedAreas: React.Dispatch<
+    React.SetStateAction<[number | null, number | null]>
+  >;
 }) {
   const areas = [30, 50, 70, 100, 150];
 
-  const [selectedAreas, setSelectedAreas] = useState<
-    [number | null, number | null]
-  >([null, null]);
+  const [tempAreas, setTempAreas] = useState<[number | null, number | null]>([
+    null,
+    null,
+  ]);
 
   const handleAreaFromSelect = (value: number) => {
-    console.log(`Selected Area from: ${value}`);
-    setSelectedAreas((prev) => [value, prev[1]]);
+    setTempAreas((prev) => [value, prev[1]]);
   };
 
   const handleAreaToSelect = (value: number) => {
-    console.log(`Selected price from: ${value}`);
-    setSelectedAreas((prev) => [prev[0], value]);
+    setTempAreas((prev) => [prev[0], value]);
   };
 
   const handleAreaRange = () => {
-    console.log(selectedAreas);
+    setSelectedAreas(tempAreas);
     setAreaClicked(false);
   };
 

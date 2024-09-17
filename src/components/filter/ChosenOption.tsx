@@ -36,6 +36,8 @@ export default function ChosenOption({
   removeBedrooms,
   selectedPrices,
   removePrices,
+  selectedAreas,
+  removeAreas,
 }: {
   id?: number;
   name?: string;
@@ -44,6 +46,8 @@ export default function ChosenOption({
   removeBedrooms?: (bedroom: number | "") => void;
   selectedPrices: [number | null, number | null];
   removePrices?: () => void;
+  selectedAreas: [number | null, number | null];
+  removeAreas: () => void;
 }) {
   const handleClick = () => {
     if (id && removeRegion) {
@@ -52,6 +56,8 @@ export default function ChosenOption({
       removeBedrooms("");
     } else if (removePrices && selectedPrices) {
       removePrices();
+    } else if (removeAreas && selectedAreas) {
+      removeAreas();
     }
   };
 
@@ -66,9 +72,21 @@ export default function ChosenOption({
     return null;
   };
 
+  const getAreasLabel = () => {
+    if (
+      selectedAreas &&
+      selectedAreas[0] !== null &&
+      selectedAreas[1] !== null
+    ) {
+      return `${selectedAreas[0]} მ² - ${selectedAreas[1]} მ²`;
+    }
+  };
+
   return (
     <ChosenOptionCard>
-      <OptionLabel>{name || selectedBedrooms || getPriceLabel()}</OptionLabel>
+      <OptionLabel>
+        {name || selectedBedrooms || getPriceLabel() || getAreasLabel()}
+      </OptionLabel>
       <CloseButton onClick={handleClick} />
     </ChosenOptionCard>
   );
