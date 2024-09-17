@@ -6,6 +6,9 @@ import { Outlet } from "react-router-dom";
 
 const Wrapper = styled.main`
   padding-inline: 162px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 function App() {
