@@ -31,16 +31,28 @@ const CloseButton = styled.button`
 export default function ChosenOption({
   id,
   name,
+  selectedBedrooms,
   removeRegion,
+  removeBedrooms,
 }: {
-  id: number;
-  name: string;
-  removeRegion: (id: number) => void;
+  id?: number;
+  name?: string;
+  selectedBedrooms?: number | "";
+  removeRegion?: (id: number) => void;
+  removeBedrooms?: (bedroom: number | "") => void;
 }) {
+  const handleClick = () => {
+    if (id && removeRegion) {
+      removeRegion(id);
+    } else if (selectedBedrooms !== undefined && removeBedrooms) {
+      removeBedrooms("");
+    }
+  };
+
   return (
     <ChosenOptionCard>
-      <OptionLabel>{name}</OptionLabel>
-      <CloseButton onClick={() => removeRegion(id)} />
+      <OptionLabel>{name || selectedBedrooms}</OptionLabel>
+      <CloseButton onClick={handleClick} />
     </ChosenOptionCard>
   );
 }

@@ -28,6 +28,7 @@ interface FilterSectionProps {
     React.SetStateAction<RegionsTypes[] | undefined>
   >;
   listing: PropertyTypes[];
+  selectedBedrooms: number | "";
   setSelectedBedrooms: React.Dispatch<React.SetStateAction<number | "">>;
 }
 
@@ -76,6 +77,7 @@ export default function FilterSection({
   regionsSelected,
   setRegionsSelected,
   listing,
+  selectedBedrooms,
   setSelectedBedrooms,
 }: FilterSectionProps) {
   const [regionClicked, setRegionClicked] = useState(false);
@@ -102,6 +104,11 @@ export default function FilterSection({
 
   const handleRemoveRegion = (id: number) => {
     setRegionsSelected((prev) => prev?.filter((r) => r.id !== id));
+  };
+
+  const handleRemoveBedrooms = () => {
+    setSelectedBedrooms("");
+    setFilterOptions([]);
   };
 
   return (
@@ -153,8 +160,18 @@ export default function FilterSection({
                 removeRegion={handleRemoveRegion}
               />
             ))}
-
-            <ClearButton onClick={() => setRegionsSelected([])}>
+            {selectedBedrooms !== "" && (
+              <ChosenOption
+                selectedBedrooms={selectedBedrooms}
+                removeBedrooms={handleRemoveBedrooms}
+              />
+            )}
+            <ClearButton
+              onClick={() => {
+                setRegionsSelected([]);
+                setSelectedBedrooms("");
+              }}
+            >
               გასუფთავება
             </ClearButton>
           </FilterLeftSectionDown>

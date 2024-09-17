@@ -56,10 +56,10 @@ export default function Home() {
 
   const [selectedBedrooms, setSelectedBedrooms] = useState<number | "">("");
 
-  console.log("regionsSelected", regionsSelected);
+  // console.log("regionsSelected", regionsSelected);
   // console.log(listing);
   console.log("filterOptions", filterOptions);
-  // console.log(typeof selectedBedrooms);
+  // console.log("selectedBedrooms", selectedBedrooms);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -110,6 +110,7 @@ export default function Home() {
         regionsSelected={regionsSelected}
         setRegionsSelected={setRegionsSelected}
         listing={listing}
+        selectedBedrooms={selectedBedrooms}
         setSelectedBedrooms={setSelectedBedrooms}
       />
       <ListingGrid>
