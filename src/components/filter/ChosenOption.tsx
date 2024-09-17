@@ -34,24 +34,41 @@ export default function ChosenOption({
   selectedBedrooms,
   removeRegion,
   removeBedrooms,
+  selectedPrices,
+  removePrices,
 }: {
   id?: number;
   name?: string;
   selectedBedrooms?: number | "";
   removeRegion?: (id: number) => void;
   removeBedrooms?: (bedroom: number | "") => void;
+  selectedPrices: [number | null, number | null];
+  removePrices?: () => void;
 }) {
   const handleClick = () => {
     if (id && removeRegion) {
       removeRegion(id);
     } else if (selectedBedrooms !== undefined && removeBedrooms) {
       removeBedrooms("");
+    } else if (removePrices && selectedPrices) {
+      removePrices();
     }
+  };
+
+  const getPriceLabel = () => {
+    if (
+      selectedPrices &&
+      selectedPrices[0] !== null &&
+      selectedPrices[1] !== null
+    ) {
+      return `${selectedPrices[0]} ₾ - ${selectedPrices[1]} ₾`;
+    }
+    return null;
   };
 
   return (
     <ChosenOptionCard>
-      <OptionLabel>{name || selectedBedrooms}</OptionLabel>
+      <OptionLabel>{name || selectedBedrooms || getPriceLabel()}</OptionLabel>
       <CloseButton onClick={handleClick} />
     </ChosenOptionCard>
   );

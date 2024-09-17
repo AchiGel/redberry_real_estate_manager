@@ -23,6 +23,11 @@ export interface PropertyTypes {
   city: {
     id: number;
     name: string;
+    region: {
+      id: number;
+      name: string;
+    };
+    region_id: number;
   };
   is_rental: number;
   created_at: string;
@@ -54,12 +59,17 @@ export default function Home() {
     | undefined
   >();
 
+  const [selectedPrices, setSelectedPrices] = useState<
+    [number | null, number | null]
+  >([null, null]);
+
   const [selectedBedrooms, setSelectedBedrooms] = useState<number | "">("");
 
   // console.log("regionsSelected", regionsSelected);
   // console.log(listing);
-  console.log("filterOptions", filterOptions);
+  // console.log("filterOptions", filterOptions);
   // console.log("selectedBedrooms", selectedBedrooms);
+  console.log("selectedPrices", selectedPrices);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,7 +88,12 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!regionsSelected?.length && selectedBedrooms === "") {
+    if (
+      !regionsSelected?.length &&
+      selectedBedrooms === "" &&
+      !selectedPrices[0] &&
+      !selectedPrices[1]
+    ) {
       return;
     }
 
@@ -92,13 +107,19 @@ export default function Home() {
       const bedroomsMatch =
         selectedBedrooms !== "" ? property.bedrooms === selectedBedrooms : true;
 
-      return regionMatches && bedroomsMatch;
+      const priceMatch =
+        selectedPrices[0] !== null && selectedPrices[1] !== null
+          ? selectedPrices[0] <= property.price &&
+            property.price <= selectedPrices[1]
+          : true;
+
+      return regionMatches && bedroomsMatch && priceMatch;
     });
 
     console.log("filtered", filtered);
 
     setFilterOptions(filtered);
-  }, [regionsSelected, listing, selectedBedrooms]);
+  }, [regionsSelected, listing, selectedBedrooms, selectedPrices]);
 
   return (
     <div>
@@ -112,6 +133,8 @@ export default function Home() {
         listing={listing}
         selectedBedrooms={selectedBedrooms}
         setSelectedBedrooms={setSelectedBedrooms}
+        selectedPrices={selectedPrices}
+        setSelectedPrices={setSelectedPrices}
       />
       <ListingGrid>
         {filterOptions.length === 0 &&

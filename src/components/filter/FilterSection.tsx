@@ -30,6 +30,10 @@ interface FilterSectionProps {
   listing: PropertyTypes[];
   selectedBedrooms: number | "";
   setSelectedBedrooms: React.Dispatch<React.SetStateAction<number | "">>;
+  selectedPrices: [number | null, number | null];
+  setSelectedPrices: React.Dispatch<
+    React.SetStateAction<[number | null, number | null]>
+  >;
 }
 
 const FilterSectionWrapper = styled.section`
@@ -79,6 +83,8 @@ export default function FilterSection({
   listing,
   selectedBedrooms,
   setSelectedBedrooms,
+  selectedPrices,
+  setSelectedPrices,
 }: FilterSectionProps) {
   const [regionClicked, setRegionClicked] = useState(false);
   const [priceClicked, setPriceClicked] = useState(false);
@@ -111,6 +117,10 @@ export default function FilterSection({
     setFilterOptions([]);
   };
 
+  const handleRemovePrices = () => {
+    setSelectedPrices([null, null]);
+  };
+
   return (
     <FilterSectionWrapper>
       <FilterLeftSection>
@@ -133,6 +143,7 @@ export default function FilterSection({
             setRegionClicked={setRegionClicked}
             setAreaClicked={setAreaClicked}
             setBedroomsClicked={setBedroomsClicked}
+            setSelectedPrices={setSelectedPrices}
           />
           <AreaFilter
             areaClicked={areaClicked}
@@ -166,10 +177,17 @@ export default function FilterSection({
                 removeBedrooms={handleRemoveBedrooms}
               />
             )}
+            {(selectedPrices[0] !== 0 || selectedPrices[1] !== 0) && (
+              <ChosenOption
+                selectedPrices={selectedPrices}
+                removePrices={handleRemovePrices}
+              />
+            )}
             <ClearButton
               onClick={() => {
                 setRegionsSelected([]);
                 setSelectedBedrooms("");
+                setSelectedPrices([null, null]);
               }}
             >
               გასუფთავება

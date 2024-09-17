@@ -62,31 +62,34 @@ export default function PriceFilter({
   setRegionClicked,
   setAreaClicked,
   setBedroomsClicked,
+  setSelectedPrices,
 }: {
   priceClicked: boolean;
   setPriceClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setRegionClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedPrices: React.Dispatch<
+    React.SetStateAction<[number | null, number | null]>
+  >;
 }) {
   const prices = [50000, 100000, 150000, 200000, 300000];
 
-  const [selectedPrices, setSelectedPrices] = useState<
-    [number | null, number | null]
-  >([null, null]);
+  const [tempPrices, setTempPrices] = useState<[number | null, number | null]>([
+    null,
+    null,
+  ]);
 
   const handlePriceFromSelect = (value: number) => {
-    console.log(`Selected price from: ${value}`);
-    setSelectedPrices((prev) => [value, prev[1]]);
+    setTempPrices((prev) => [value, prev[1]]);
   };
 
   const handlePriceToSelect = (value: number) => {
-    console.log(`Selected price from: ${value}`);
-    setSelectedPrices((prev) => [prev[0], value]);
+    setTempPrices((prev) => [prev[0], value]);
   };
 
   const handlePriceRange = () => {
-    console.log(selectedPrices);
+    setSelectedPrices(tempPrices);
     setPriceClicked(false);
   };
 
