@@ -1,6 +1,17 @@
 import styled from "styled-components";
-import { PropertyTypes } from "../pages/Home";
 import { Link } from "react-router-dom";
+
+interface ListingCardProps {
+  image: string;
+  price: number;
+  address: string;
+  bedrooms: number;
+  zip_code: number;
+  area: number;
+  city: string;
+  is_rental: number;
+  id: number;
+}
 
 const ListingCardLayout = styled.div`
   position: relative;
@@ -105,7 +116,7 @@ export const IsRental = styled.div<{
   letter-spacing: 0.48px;
 `;
 
-export default function ListingCard(props: PropertyTypes) {
+export default function ListingCard(props: ListingCardProps) {
   return (
     <Link to={`/${props.id}`}>
       <ListingCardLayout>

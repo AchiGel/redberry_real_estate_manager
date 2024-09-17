@@ -1,5 +1,17 @@
 import styled from "styled-components";
 
+interface ChosenOptionProps {
+  id?: number;
+  name?: string;
+  selectedBedrooms?: number | "";
+  selectedPrices?: [number | null, number | null];
+  selectedAreas?: [number | null, number | null];
+  removeRegion?: (id: number) => void;
+  removeBedrooms?: (bedroom: string) => void;
+  removePrices?: () => void;
+  removeAreas?: () => void;
+}
+
 const ChosenOptionCard = styled.div`
   display: flex;
   align-items: center;
@@ -38,17 +50,7 @@ export default function ChosenOption({
   removePrices,
   selectedAreas,
   removeAreas,
-}: {
-  id?: number;
-  name?: string;
-  selectedBedrooms?: number | "";
-  removeRegion?: (id: number) => void;
-  removeBedrooms?: (bedroom: number | "") => void;
-  selectedPrices: [number | null, number | null];
-  removePrices?: () => void;
-  selectedAreas: [number | null, number | null];
-  removeAreas: () => void;
-}) {
+}: ChosenOptionProps) {
   const handleClick = () => {
     if (id && removeRegion) {
       removeRegion(id);

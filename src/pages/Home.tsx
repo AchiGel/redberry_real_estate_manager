@@ -74,7 +74,7 @@ export default function Home() {
   // console.log("filterOptions", filterOptions);
   // console.log("selectedBedrooms", selectedBedrooms);
   // console.log("selectedPrices", selectedPrices);
-  console.log("selectedAreas", selectedAreas);
+  // console.log("selectedAreas", selectedAreas);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -129,7 +129,7 @@ export default function Home() {
       return regionMatches && bedroomsMatch && priceMatch && areasMatch;
     });
 
-    console.log("filtered", filtered);
+    // console.log("filtered", filtered);
 
     setFilterOptions(filtered);
   }, [
