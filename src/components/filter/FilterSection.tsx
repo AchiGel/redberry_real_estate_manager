@@ -23,9 +23,9 @@ interface FilterSectionProps {
   setFilterOptions: React.Dispatch<React.SetStateAction<PropertyTypes[]>>;
   regions: RegionsTypes[] | undefined;
   setRegions: React.Dispatch<React.SetStateAction<RegionsTypes[] | undefined>>;
-  regionsSelected: number[] | undefined;
+  regionsSelected: RegionsTypes[] | undefined;
   setRegionsSelected: React.Dispatch<
-    React.SetStateAction<number[] | undefined>
+    React.SetStateAction<RegionsTypes[] | undefined>
   >;
   listing: PropertyTypes[];
   setSelectedBedrooms: React.Dispatch<React.SetStateAction<number | "">>;
@@ -100,8 +100,8 @@ export default function FilterSection({
     fetchRegions();
   }, [setRegions]);
 
-  const handleRemoveRegion = (region: number) => {
-    setRegionsSelected((prev) => prev?.filter((r) => r !== region));
+  const handleRemoveRegion = (id: number) => {
+    setRegionsSelected((prev) => prev?.filter((r) => r.id !== id));
   };
 
   return (
@@ -116,11 +116,8 @@ export default function FilterSection({
             listing={listing}
             regionClicked={regionClicked}
             setRegionClicked={setRegionClicked}
-            priceClicked={priceClicked}
             setPriceClicked={setPriceClicked}
-            areaClicked={areaClicked}
             setAreaClicked={setAreaClicked}
-            bedroomsClicked={bedroomsClicked}
             setBedroomsClicked={setBedroomsClicked}
           />
           <PriceFilter
@@ -150,8 +147,9 @@ export default function FilterSection({
           <FilterLeftSectionDown>
             {regionsSelected?.map((region) => (
               <ChosenOption
-                key={region}
-                name={region}
+                id={region.id}
+                key={region.id}
+                name={region.name}
                 removeRegion={handleRemoveRegion}
               />
             ))}

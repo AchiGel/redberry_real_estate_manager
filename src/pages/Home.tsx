@@ -47,14 +47,18 @@ export default function Home() {
 
   const [regions, setRegions] = useState<RegionsTypes[] | undefined>();
   const [regionsSelected, setRegionsSelected] = useState<
-    number[] | undefined
+    | {
+        id: number;
+        name: string;
+      }[]
+    | undefined
   >();
 
   const [selectedBedrooms, setSelectedBedrooms] = useState<number | "">("");
 
-  // console.log(regions);
+  console.log("regionsSelected", regionsSelected);
   // console.log(listing);
-  // console.log(filterOptions);
+  console.log("filterOptions", filterOptions);
   // console.log(typeof selectedBedrooms);
 
   useEffect(() => {
@@ -80,7 +84,9 @@ export default function Home() {
 
     const filtered = listing.filter((property) => {
       const regionMatches = regionsSelected?.length
-        ? regionsSelected.includes(property.city.region.id)
+        ? regionsSelected.some(
+            (region) => region.id === property.city.region.id
+          )
         : true;
 
       const bedroomsMatch =
@@ -88,6 +94,8 @@ export default function Home() {
 
       return regionMatches && bedroomsMatch;
     });
+
+    console.log("filtered", filtered);
 
     setFilterOptions(filtered);
   }, [regionsSelected, listing, selectedBedrooms]);
@@ -102,7 +110,6 @@ export default function Home() {
         regionsSelected={regionsSelected}
         setRegionsSelected={setRegionsSelected}
         listing={listing}
-        selectedBedrooms={selectedBedrooms}
         setSelectedBedrooms={setSelectedBedrooms}
       />
       <ListingGrid>

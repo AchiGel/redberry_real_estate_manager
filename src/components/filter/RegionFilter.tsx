@@ -3,6 +3,11 @@ import { RegionsTypes } from "./FilterSection";
 import styled from "styled-components";
 import { PropertyTypes } from "../../pages/Home";
 
+interface TempRegion {
+  id: number;
+  name: string;
+}
+
 export const FilterWrapper = styled.div`
   position: relative;
 `;
@@ -86,9 +91,9 @@ export default function RegionFilter({
   setBedroomsClicked,
 }: {
   regions: RegionsTypes[] | undefined;
-  regionsSelected: number[] | undefined;
+  regionsSelected: RegionsTypes[] | undefined;
   setRegionsSelected: React.Dispatch<
-    React.SetStateAction<number[] | undefined>
+    React.SetStateAction<RegionsTypes[] | undefined>
   >;
   setFilteredOptions: React.Dispatch<React.SetStateAction<typeof listing>>;
   listing: PropertyTypes[];
@@ -98,7 +103,11 @@ export default function RegionFilter({
   setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [tempRegionsSelected, setTempRegionsSelected] = useState<number[]>([]);
+  const [tempRegionsSelected, setTempRegionsSelected] = useState<TempRegion[]>(
+    []
+  );
+
+  console.log("tempRegionsSelected", tempRegionsSelected);
 
   const handleSelectRegions = () => {
     setRegionsSelected(tempRegionsSelected);
@@ -111,15 +120,15 @@ export default function RegionFilter({
 
     setFilteredOptions(
       listing.filter((el: PropertyTypes) =>
-        regionsSelected.includes(el.city.region.id)
+        regionsSelected.some((region) => region.id === el.city.region.id)
       )
     );
   }, [regionsSelected, setFilteredOptions, listing]);
 
-  const handleRegionChange = (region: number) => {
+  const handleRegionChange = (region: TempRegion) => {
     setTempRegionsSelected((prevSelected) =>
-      prevSelected.includes(region)
-        ? prevSelected.filter((r) => r !== region)
+      prevSelected.some((r) => r.id === region.id)
+        ? prevSelected.filter((r) => r.id !== region.id)
         : [...prevSelected, region]
     );
   };
@@ -148,8 +157,10 @@ export default function RegionFilter({
                       id={el.name}
                       value={el.name}
                       type="checkbox"
-                      checked={tempRegionsSelected.includes(el.id)}
-                      onChange={() => handleRegionChange(el.id)}
+                      checked={tempRegionsSelected.some((r) => r.id === el.id)}
+                      onChange={() =>
+                        handleRegionChange({ id: el.id, name: el.name })
+                      }
                     />
                     <label htmlFor={el.name}>{el.name}</label>
                   </div>
