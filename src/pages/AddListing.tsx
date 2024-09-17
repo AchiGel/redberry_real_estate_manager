@@ -13,6 +13,7 @@ const AddListingFormWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   max-width: 1211px;
+  align-self: center;
 `;
 
 export default function AddListing() {
