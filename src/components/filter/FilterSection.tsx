@@ -188,13 +188,13 @@ export default function FilterSection({
                 removeBedrooms={handleRemoveBedrooms}
               />
             )}
-            {selectedPrices[0] !== 0 && selectedPrices[1] !== 0 && (
+            {selectedPrices[0] !== null && selectedPrices[1] !== null && (
               <ChosenOption
                 selectedPrices={selectedPrices}
                 removePrices={handleRemovePrices}
               />
             )}
-            {selectedAreas[0] !== 0 && selectedAreas[1] !== 0 && (
+            {selectedAreas[0] !== null && selectedAreas[1] !== null && (
               <ChosenOption
                 selectedAreas={selectedAreas}
                 removeAreas={handleRemoveAreas}
