@@ -1,10 +1,16 @@
 import styled from "styled-components";
 
-const InputFieldLayout = styled.div`
+export const InputFieldLayout = styled.div<{ $gridArea: string }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 5px;
+  grid-area: ${(props) =>
+    props.$gridArea === "1"
+      ? "3 / 1 / 3 / 3"
+      : props.$gridArea === "2"
+      ? "4 / 1 / 4 / 3"
+      : "auto"};
 `;
 
 export const InputLabel = styled.label`
@@ -24,13 +30,15 @@ export default function InputFields({
   type,
   label,
   id,
+  $gridArea,
 }: {
   type: string;
   label: string;
   id: string;
+  $gridArea: string;
 }) {
   return (
-    <InputFieldLayout>
+    <InputFieldLayout $gridArea={$gridArea}>
       <InputLabel htmlFor={id}>{label}</InputLabel>
       <InputBox id={id} type={type} />
     </InputFieldLayout>
