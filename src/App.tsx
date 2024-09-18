@@ -9,6 +9,7 @@ const Wrapper = styled.main`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  margin-bottom: 90px;
 `;
 
 function App() {

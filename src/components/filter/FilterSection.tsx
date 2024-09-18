@@ -9,6 +9,9 @@ import PriceFilter from "./PriceFilter";
 import AreaFilter from "./AreaFilter";
 import BedroomsFilter from "./BedroomsFilter";
 
+export const API_REGIONS =
+  "https://api.real-estate-manager.redberryinternship.ge/api/regions";
+
 export interface ButtonTypes {
   buttonType: string;
 }
@@ -99,15 +102,12 @@ export default function FilterSection({
 
   useEffect(() => {
     const fetchRegions = async () => {
-      const response = await fetch(
-        "https://api.real-estate-manager.redberryinternship.ge/api/regions",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(API_REGIONS, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
       setRegions(data);
     };

@@ -1,9 +1,18 @@
-import { InputsBoxesTitles } from "./AddListingForm";
+import Select from "react-select";
+import { AgentsTypes, InputsBoxesTitles } from "./AddListingForm";
+import { FormSectionGrid, FormSectionWrapper } from "./FormAddress";
 
-export default function Agent() {
+export default function Agent({ agents }: { agents: AgentsTypes[] }) {
+  const agentsOptions = agents.map((agent) => ({
+    value: agent.id,
+    label: agent.name + " " + agent.surname,
+  }));
   return (
-    <div>
+    <FormSectionWrapper>
       <InputsBoxesTitles>აგენტი</InputsBoxesTitles>
-    </div>
+      <FormSectionGrid>
+        <Select placeholder="აირჩიე" options={agentsOptions} />
+      </FormSectionGrid>
+    </FormSectionWrapper>
   );
 }
