@@ -18,7 +18,7 @@ const API_CITIES =
 const API_AGENTS =
   "https://api.real-estate-manager.redberryinternship.ge/api/agents";
 
-const ButtonsBox = styled.div`
+export const ButtonsBox = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;

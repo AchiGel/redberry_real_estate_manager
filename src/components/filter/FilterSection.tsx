@@ -8,12 +8,14 @@ import { PropertyTypes } from "../../pages/Home";
 import PriceFilter from "./PriceFilter";
 import AreaFilter from "./AreaFilter";
 import BedroomsFilter from "./BedroomsFilter";
+import AddAgentModal from "../modals/AddAgentModal";
 
 export const API_REGIONS =
   "https://api.real-estate-manager.redberryinternship.ge/api/regions";
 
 export interface ButtonTypes {
   buttonType: string;
+  onClick: () => void;
 }
 
 export interface RegionsTypes {
@@ -99,6 +101,7 @@ export default function FilterSection({
   const [priceClicked, setPriceClicked] = useState(false);
   const [areaClicked, setAreaClicked] = useState(false);
   const [bedroomsClicked, setBedroomsClicked] = useState(false);
+  const [addAgentClicked, setAddAgentClicked] = useState(false);
 
   useEffect(() => {
     const fetchRegions = async () => {
@@ -217,8 +220,17 @@ export default function FilterSection({
         <Link to="/add_listing">
           <Button buttonType="ლისტინგის დამატება" />
         </Link>
-        <Button buttonType="აგენტის დამატება" />
+        <Button
+          buttonType="აგენტის დამატება"
+          onClick={() => setAddAgentClicked(true)}
+        ></Button>
       </ButtonsSection>
+      {addAgentClicked && (
+        <AddAgentModal
+          setAgentClicked={setAddAgentClicked}
+          agentClicked={addAgentClicked}
+        />
+      )}
     </FilterSectionWrapper>
   );
 }

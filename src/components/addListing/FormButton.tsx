@@ -32,9 +32,15 @@ const FormBtn = styled.button<{ $btnStyle: string }>`
 export default function FormButton({
   $btnStyle,
   btnText,
+  onClick,
 }: {
   $btnStyle: string;
   btnText: string;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
-  return <FormBtn $btnStyle={$btnStyle}>{btnText}</FormBtn>;
+  return (
+    <FormBtn onClick={onClick} $btnStyle={$btnStyle}>
+      {btnText}
+    </FormBtn>
+  );
 }

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import AddListingForm from "../components/addListing/AddListingForm";
 
-const AddListingFormTiTle = styled.h2`
+export const AddListingFormTiTle = styled.h2`
   color: #021526;
   font-size: 32px;
   font-weight: 500;

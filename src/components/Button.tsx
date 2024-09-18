@@ -35,11 +35,11 @@ const AddButton = styled.button<{ $buttoncolor: string }>`
   }
 `;
 
-export default function Button(props: ButtonTypes) {
+export default function Button({ buttonType, onClick }: ButtonTypes) {
   return (
-    <AddButton $buttoncolor={props.buttonType}>
-      <PlusIcon $iconcolor={props.buttonType} src="./plus.svg" alt="plus" />
-      {props.buttonType}
+    <AddButton $buttoncolor={buttonType} onClick={onClick}>
+      <PlusIcon $iconcolor={buttonType} src="./plus.svg" alt="plus" />
+      {buttonType}
     </AddButton>
   );
 }
