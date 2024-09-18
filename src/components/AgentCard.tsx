@@ -7,6 +7,7 @@ const AgentCardLayout = styled.div`
   border-radius: 8px;
   border: 1px solid #dbdbdb;
   width: 80%;
+  margin-bottom: 20px;
 `;
 
 const AgentImageAndName = styled.div`

@@ -15,7 +15,7 @@ interface AgentModalProps {
   setAgentClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ModalLayer = styled.div`
+export const ModalLayer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -29,7 +29,7 @@ const ModalLayer = styled.div`
   justify-content: center;
 `;
 
-const AgentModalLayout = styled.div`
+export const AgentModalLayout = styled.div`
   width: 50%;
   padding: 87px 105px;
   background-color: #fff;

@@ -11,6 +11,8 @@ import {
 } from "../components/ListingCard";
 import AgentCard from "../components/AgentCard";
 import Slider from "../components/Slider";
+import DeleteListingButton from "../components/modals/DeleteListingButton";
+import DeleteListingModal from "../components/modals/DeleteListingModal";
 
 export interface AgentTypes {
   avatar: string;
@@ -73,6 +75,7 @@ const ListingPageCover = styled.img`
 const ListingPageLayoutRight = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   flex: 0 1 40%;
 `;
 
@@ -82,6 +85,8 @@ export default function ItemPage() {
   const [listingPage, setListingPage] = useState<PropertyTypes>();
 
   const [listing, setListing] = useState([]);
+
+  const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchListingPage = async () => {
@@ -180,9 +185,13 @@ export default function ItemPage() {
             email={listingPage.agent.email}
             phone={listingPage.agent.phone}
           />
+          <DeleteListingButton setDeleteClicked={setDeleteClicked} />
         </ListingPageLayoutRight>
       </ListingPageLayout>
       <Slider listing={listing} />
+      {deleteClicked && (
+        <DeleteListingModal setDeleteClicked={setDeleteClicked} />
+      )}
     </div>
   );
 }
