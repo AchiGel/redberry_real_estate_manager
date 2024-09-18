@@ -57,10 +57,10 @@ export default function AgentCard(props: AgentTypes) {
         </AgentFlex>
       </AgentImageAndName>
       <AgentInfo>
-        <DownSectionInfos icon="./listingicons/envelope.svg" fontSize="14px">
+        <DownSectionInfos $icon="./listingicons/envelope.svg" fontSize="14px">
           {props.email}
         </DownSectionInfos>
-        <DownSectionInfos icon="./listingicons/phone.svg" fontSize="14px">
+        <DownSectionInfos $icon="./listingicons/phone.svg" fontSize="14px">
           {props.phone}
         </DownSectionInfos>
       </AgentInfo>

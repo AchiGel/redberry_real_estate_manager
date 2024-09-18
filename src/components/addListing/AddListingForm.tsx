@@ -88,7 +88,7 @@ export default function AddListingForm() {
 
   // console.log("regions", regions);
   // console.log("cities", cities);
-  console.log("agents", agents);
+  // console.log("agents", agents);
 
   return (
     <AddListingFormLayout>
