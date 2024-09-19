@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { InputsBoxesTitles } from "./AddListingForm";
+import { FormDataTypes } from "../../generalTypes.interface";
 
 const IsRentalLayout = styled.div`
   display: flex;
@@ -20,13 +21,40 @@ const Label = styled.label`
   font-weight: 400;
 `;
 
-export default function IsRental() {
+export default function IsRental({
+  formData,
+  onInputChange,
+}: {
+  formData: FormDataTypes;
+  onInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+}) {
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value === "იყიდება" ? "0" : "1";
+    onInputChange({
+      ...e,
+      target: {
+        ...e.target,
+        name: "is_rental",
+        value: value,
+      },
+    });
+  };
+
   return (
     <IsRentalLayout>
       <InputsBoxesTitles>გარიგების ტიპი</InputsBoxesTitles>
       <RadioBox>
         <label>
-          <input id="forSale" type="radio" name="transaction" value="იყიდება" />
+          <input
+            id="forSale"
+            type="radio"
+            name="transaction"
+            value="იყიდება"
+            checked={formData.is_rental === "0"}
+            onChange={handleRadioChange}
+          />
           <Label htmlFor="forSale">იყიდება</Label>
         </label>
         <label>
@@ -35,6 +63,8 @@ export default function IsRental() {
             type="radio"
             name="transaction"
             value="ქირავდება"
+            checked={formData.is_rental === "1"}
+            onChange={handleRadioChange}
           />
           <Label htmlFor="forRent">ქირავდება</Label>
         </label>

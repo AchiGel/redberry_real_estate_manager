@@ -3,13 +3,8 @@ import FormButton from "./FormButton";
 import FormInputsBox from "./FormInputsBox";
 import { useEffect, useState } from "react";
 import { API_REGIONS } from "../filter/FilterSection";
-import { token } from "../../pages/Home";
-
-const API_CITIES =
-  "https://api.real-estate-manager.redberryinternship.ge/api/cities";
-
-const API_AGENTS =
-  "https://api.real-estate-manager.redberryinternship.ge/api/agents";
+import { API_AGENTS, API_CITIES, API_URL, token } from "../../pages/Home";
+import { FormDataTypes } from "../../generalTypes.interface";
 
 export const ButtonsBox = styled.div`
   display: flex;
@@ -36,6 +31,18 @@ export default function AddListingForm() {
   const [regions, setRegions] = useState([]);
   const [cities, setCities] = useState([]);
   const [agents, setAgents] = useState([]);
+  const [formData, setFormData] = useState<FormDataTypes>({
+    price: null,
+    zip_code: "",
+    description: "",
+    area: null,
+    city_id: null,
+    address: "",
+    agent_id: null,
+    bedrooms: null,
+    is_rental: null,
+    image: null,
+  });
 
   useEffect(() => {
     const fetchRegions = async () => {
@@ -79,16 +86,76 @@ export default function AddListingForm() {
     fetchAgents();
   }, []);
 
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const formDataListing = new FormData();
+    formDataListing.append("address", formData.address);
+    formDataListing.append("image", formData.image);
+    formDataListing.append("region_id", formData.region_id);
+    formDataListing.append("description", formData.description);
+    formDataListing.append("city_id", formData.city_id);
+    formDataListing.append("zip_code", formData.zip_code);
+    formDataListing.append("price", formData.price);
+    formDataListing.append("area", formData.area);
+    formDataListing.append("bedrooms", formData.bedrooms);
+    formDataListing.append("is_rental", formData.is_rental);
+    formDataListing.append("agent_id", formData.agent_id);
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formDataListing,
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP error ${response.status}: ${errorText}`);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+
+    setFormData({
+      price: null,
+      zip_code: "",
+      description: "",
+      area: null,
+      city_id: null,
+      address: "",
+      agent_id: null,
+      bedrooms: null,
+      is_rental: null,
+      image: null,
+    });
+  };
+
   // console.log("regions", regions);
   // console.log("cities", cities);
   // console.log("agents", agents);
 
   return (
-    <AddListingFormLayout>
-      <FormInputsBox regions={regions} cities={cities} agents={agents} />
+    <AddListingFormLayout onSubmit={handleFormSubmit}>
+      <FormInputsBox
+        regions={regions}
+        cities={cities}
+        agents={agents}
+        formData={formData}
+        setFormData={setFormData}
+        onInputChange={handleInputChange}
+      />
       <ButtonsBox>
         <FormButton $btnStyle="cancel" btnText="გაუქმება" />
-        <FormButton $btnStyle="add" btnText="დაამატე ლისტინგი" />
+        <FormButton $btnStyle="add" btnText="დაამატე ლისტინგი" type="submit" />
       </ButtonsBox>
     </AddListingFormLayout>
   );

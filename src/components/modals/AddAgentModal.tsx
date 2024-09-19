@@ -220,7 +220,11 @@ export default function AddAgentModal({
               </FormSectionGrid>
               <InputFieldLayout>
                 <InputLabel>ატვირთეთ ფოტო *</InputLabel>
-                <ImageUpload required setAgentForm={setAgentForm} />
+                <ImageUpload
+                  required
+                  setAgentForm={setAgentForm}
+                  formType="agent"
+                />
               </InputFieldLayout>
               <ButtonsBox>
                 <FormButton

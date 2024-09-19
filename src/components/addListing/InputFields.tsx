@@ -39,14 +39,20 @@ export default function InputFields({
   pattern,
   validationError,
   setValidationError,
+  value,
+  onChange,
 }: InputFieldsProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
-    setAgentForm((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
+    if (onChange) {
+      onChange(e);
+    } else {
+      setAgentForm((prevState) => ({
+        ...prevState,
+        [id]: value,
+      }));
+    }
 
     if (validateField(value)) {
       setValidationError((prevErrors: { [key: string]: string }) => {
@@ -70,7 +76,7 @@ export default function InputFields({
         id={id}
         type={type}
         onChange={handleChange}
-        value={agentForm && agentForm[id] ? agentForm[id] : ""}
+        value={onChange ? value : agentForm?.[id] ?? ""}
         minLength={minLength}
         required={required}
         pattern={pattern}

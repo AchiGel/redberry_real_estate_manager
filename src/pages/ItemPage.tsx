@@ -2,7 +2,7 @@ import styled from "styled-components";
 import ArrowButton from "../components/ArrowButton";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { token } from "./Home";
+import { API_URL, token } from "./Home";
 import {
   DownSectionInfos,
   IsRental,
@@ -111,16 +111,13 @@ export default function ItemPage() {
 
     const fetchListings = async () => {
       try {
-        const response = await fetch(
-          "https://api.real-estate-manager.redberryinternship.ge/api/real-estates",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(API_URL, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         const data = await response.json();
 
         const filtered = data.filter(

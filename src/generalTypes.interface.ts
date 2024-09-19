@@ -11,6 +11,7 @@ export interface AgentTypes {
   surname: string;
   email: string;
   phone: string;
+  id?: number;
 }
 
 // Agent Form Interfaces
@@ -30,6 +31,8 @@ export interface InputFieldsProps {
   setValidationError: React.Dispatch<
     React.SetStateAction<{ [key: string]: string }>
   >;
+  value?: string | number | null;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 // Region and City Interfaces
@@ -166,4 +169,18 @@ export interface ChosenOptionProps {
   removeBedrooms?: (bedroom: string) => void;
   removePrices?: () => void;
   removeAreas?: () => void;
+}
+
+export interface FormDataTypes {
+  price: string | null;
+  zip_code: string;
+  description: string;
+  area: string | null;
+  city_id: number | null;
+  address: string;
+  agent_id: number | null;
+  bedrooms: number | null;
+  is_rental: string | null;
+  image: File | null;
+  region_id?: number | null;
 }

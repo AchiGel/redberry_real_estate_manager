@@ -6,8 +6,14 @@ import { PropertyTypes, RegionsTypes } from "../generalTypes.interface";
 
 export const token = "9cfd9147-04a6-47c4-8eba-407452441d23";
 
-const API_URL =
+export const API_URL =
   "https://api.real-estate-manager.redberryinternship.ge/api/real-estates";
+
+export const API_CITIES =
+  "https://api.real-estate-manager.redberryinternship.ge/api/cities";
+
+export const API_AGENTS =
+  "https://api.real-estate-manager.redberryinternship.ge/api/agents";
 
 const ListingGrid = styled.section`
   display: grid;

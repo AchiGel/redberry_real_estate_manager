@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { AgentFormTypes } from "../modals/AddAgentModal";
+import { FormDataTypes } from "../../generalTypes.interface";
 
 const ImageUploadLabel = styled.label`
   display: inline-block;
@@ -24,19 +25,30 @@ const ImageUloadImput = styled.input`
 
 export default function ImageUpload({
   setAgentForm,
+  setFormData,
   required,
+  formType,
 }: {
-  setAgentForm: React.Dispatch<React.SetStateAction<AgentFormTypes>>;
+  setAgentForm?: React.Dispatch<React.SetStateAction<AgentFormTypes>>;
+  setFormData?: React.Dispatch<React.SetStateAction<FormDataTypes>>;
   required: boolean;
+  formType: string;
 }) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
 
-      setAgentForm((prevForm) => ({
-        ...prevForm,
-        avatar: file,
-      }));
+      if (formType === "agent" && setAgentForm) {
+        setAgentForm((prevForm) => ({
+          ...prevForm,
+          avatar: file,
+        }));
+      } else if (formType === "listing" && setFormData) {
+        setFormData((prevForm) => ({
+          ...prevForm,
+          image: file,
+        }));
+      }
     }
   };
   return (

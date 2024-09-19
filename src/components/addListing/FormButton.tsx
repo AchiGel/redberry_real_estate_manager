@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
+interface FormButton {
+  $btnStyle: string;
+  btnText: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: "button" | "submit" | "reset" | undefined;
+}
+
 const FormBtn = styled.button<{ $btnStyle: string }>`
   border: none;
   outline: none;
@@ -33,13 +40,10 @@ export default function FormButton({
   $btnStyle,
   btnText,
   onClick,
-}: {
-  $btnStyle: string;
-  btnText: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-}) {
+  type,
+}: FormButton) {
   return (
-    <FormBtn onClick={onClick} $btnStyle={$btnStyle}>
+    <FormBtn type={type} onClick={onClick} $btnStyle={$btnStyle}>
       {btnText}
     </FormBtn>
   );
