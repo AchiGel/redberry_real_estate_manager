@@ -13,8 +13,10 @@ const DeleteListingModalTitle = styled.h2`
 
 export default function DeleteListingModal({
   setDeleteClicked,
+  handleDelete,
 }: {
   setDeleteClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  handleDelete: () => void;
 }) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -40,7 +42,11 @@ export default function DeleteListingModal({
               btnText="გაუქმება"
               onClick={handleModalClose}
             />
-            <FormButton $btnStyle="add" btnText="დადასტურება" />
+            <FormButton
+              $btnStyle="add"
+              btnText="დადასტურება"
+              onClick={handleDelete}
+            />
           </ButtonsBox>
         </div>
       </AgentModalLayout>

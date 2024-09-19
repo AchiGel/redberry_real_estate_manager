@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import ArrowButton from "../components/ArrowButton";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { PropertyTypes, token } from "./Home";
 import {
@@ -82,6 +82,8 @@ const ListingPageLayoutRight = styled.div`
 export default function ItemPage() {
   const { id } = useParams<{ id: string }>();
 
+  const navigate = useNavigate();
+
   const [listingPage, setListingPage] = useState<PropertyTypes>();
 
   const [filteredListing, setFilteredListing] = useState([]);
@@ -155,6 +157,29 @@ export default function ItemPage() {
     return `${day}/${month}/${year}`;
   };
 
+  const handleListingDelete = async () => {
+    try {
+      const response = await fetch(
+        `https://api.real-estate-manager.redberryinternship.ge/api/real-estates/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        navigate("/");
+      } else {
+        console.error("Failed to delete the listing");
+      }
+    } catch (error) {
+      console.error("Error deleting listing:", error);
+    }
+  };
+
   return (
     <div>
       <Link to="/">
@@ -208,7 +233,10 @@ export default function ItemPage() {
       </ListingPageLayout>
       <Slider listing={filteredListing} />
       {deleteClicked && (
-        <DeleteListingModal setDeleteClicked={setDeleteClicked} />
+        <DeleteListingModal
+          setDeleteClicked={setDeleteClicked}
+          handleDelete={handleListingDelete}
+        />
       )}
     </div>
   );
