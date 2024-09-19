@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { AgentFormTypes } from "../modals/AddAgentModal";
 
 export const InputFieldLayout = styled.div<{ $gridArea: string }>`
   display: flex;
@@ -31,16 +32,68 @@ export default function InputFields({
   label,
   id,
   $gridArea,
+  agentForm,
+  setAgentForm,
+  required,
+  minLength,
+  pattern,
+  validationError,
+  setValidationError,
 }: {
   type: string;
   label: string;
   id: string;
-  $gridArea: string;
+  $gridArea?: string;
+  agentForm: AgentFormTypes;
+  setAgentForm: React.Dispatch<React.SetStateAction<AgentFormTypes>>;
+  required: boolean;
+  minLength?: number;
+  pattern?: string;
+  validationError: string | undefined;
+  setValidationError: React.Dispatch<
+    React.SetStateAction<{ [key: string]: string }>
+  >;
 }) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    setAgentForm((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+
+    if (validateField(value)) {
+      setValidationError((prevErrors: { [key: string]: string }) => {
+        const { [id]: _, ...rest } = prevErrors;
+        return rest;
+      });
+    }
+  };
+
+  const validateField = (value: string) => {
+    if (required && !value) return false;
+    if (minLength && value.length < minLength) return false;
+    if (pattern && !new RegExp(pattern).test(value)) return false;
+    return true;
+  };
+
   return (
     <InputFieldLayout $gridArea={$gridArea}>
       <InputLabel htmlFor={id}>{label}</InputLabel>
-      <InputBox id={id} type={type} />
+      <InputBox
+        id={id}
+        type={type}
+        onChange={handleChange}
+        value={agentForm && agentForm[id] ? agentForm[id] : ""}
+        minLength={minLength}
+        required={required}
+        pattern={pattern}
+      />
+      {validationError && (
+        <p style={{ color: "red", fontSize: "12px", margin: 0 }}>
+          {validationError}
+        </p>
+      )}
     </InputFieldLayout>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { AddListingFormTiTle } from "../../pages/AddListing";
 import FormButton from "../addListing/FormButton";
@@ -9,10 +9,19 @@ import InputFields, {
   InputLabel,
 } from "../addListing/InputFields";
 import ImageUpload from "../addListing/ImageUpload";
+import { token } from "../../pages/Home";
 
 interface AgentModalProps {
   agentClicked: boolean;
   setAgentClicked: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface AgentFormTypes {
+  name: string;
+  surname: string;
+  email: string;
+  phone: string;
+  avatar: Blob | File | null;
 }
 
 export const ModalLayer = styled.div`
@@ -50,6 +59,23 @@ export default function AddAgentModal({
   agentClicked,
   setAgentClicked,
 }: AgentModalProps) {
+  const [agentForm, setAgentForm] = useState<AgentFormTypes>({
+    name: "",
+    surname: "",
+    email: "",
+    phone: "",
+    avatar: null,
+  });
+
+  const [errors, setErrors] = useState<{
+    name?: string;
+    surname?: string;
+    email?: string;
+    phone?: string;
+  }>({});
+
+  const [success, setSuccess] = useState(false);
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -63,36 +89,156 @@ export default function AddAgentModal({
     setAgentClicked(!agentClicked);
   };
 
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.currentTarget === e.target) {
+      setAgentClicked(false);
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (agentForm.name.length < 2) {
+      newErrors.name = "მინიმუმ 2 სიმბოლო";
+    }
+
+    if (!agentForm.surname) {
+      newErrors.surname = "მინიმუმ 2 სიმბოლო";
+    }
+
+    if (!/\S+@\S+\.\S+/.test(agentForm.email)) {
+      newErrors.email = "უნდა მთავრდებოდეს @redberry.ge-თ";
+    }
+
+    if (!agentForm.phone.match(/^5\d{8}$/)) {
+      newErrors.phone = "უნდა იყოს ფორმატის 5XXXXXXXX";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    const formData = new FormData();
+    formData.append("name", agentForm.name);
+    formData.append("surname", agentForm.surname);
+    formData.append("email", agentForm.email);
+    formData.append("phone", agentForm.phone);
+
+    if (agentForm.avatar) {
+      formData.append("avatar", agentForm.avatar);
+    } else {
+      console.error("Avatar is not selected or invalid");
+    }
+
+    try {
+      const response = await fetch(
+        "https://api.real-estate-manager.redberryinternship.ge/api/agents",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP error ${response.status}: ${errorText}`);
+      }
+
+      if (response.status === 201) {
+        setSuccess(true);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
   return (
-    <ModalLayer>
-      <AgentModalLayout>
-        <AddListingFormTiTle>აგენტის დამატება</AddListingFormTiTle>
-        <AgentInputsFlexbox>
-          <FormSectionGrid>
-            <InputFields type="text" id="name" label="სახელი *" />
-            <InputFields type="text" id="surname" label="გვარი *" />
-          </FormSectionGrid>
-          <FormSectionGrid>
-            <InputFields type="email" id="email" label="ელ.ფოსტა *" />
-            <InputFields
-              type="number"
-              id="phoneNumber"
-              label="ტელეფონის ნომერი *"
-            />
-          </FormSectionGrid>
-          <InputFieldLayout>
-            <InputLabel>ატვირთეთ ფოტო *</InputLabel>
-            <ImageUpload />
-          </InputFieldLayout>
-          <ButtonsBox>
-            <FormButton
-              $btnStyle="cancel"
-              btnText="გაუქმება"
-              onClick={handleModalClose}
-            />
-            <FormButton $btnStyle="add" btnText="დაამატე აგენტი" />
-          </ButtonsBox>
-        </AgentInputsFlexbox>
+    <ModalLayer onClick={handleOverlayClick}>
+      <AgentModalLayout onClick={(e) => e.stopPropagation()}>
+        {success ? (
+          <AddListingFormTiTle style={{ color: "green" }}>
+            აგენტი წარმატებით დაემატა
+          </AddListingFormTiTle>
+        ) : (
+          <>
+            <AddListingFormTiTle>აგენტის დამატება</AddListingFormTiTle>
+            <AgentInputsFlexbox>
+              <FormSectionGrid>
+                <InputFields
+                  type="text"
+                  id="name"
+                  label="სახელი *"
+                  agentForm={agentForm}
+                  setAgentForm={setAgentForm}
+                  minLength={2}
+                  required={true}
+                  validationError={errors.name}
+                  setValidationError={setErrors}
+                />
+                <InputFields
+                  type="text"
+                  id="surname"
+                  label="გვარი *"
+                  agentForm={agentForm}
+                  setAgentForm={setAgentForm}
+                  minLength={2}
+                  required={true}
+                  validationError={errors.surname}
+                  setValidationError={setErrors}
+                />
+              </FormSectionGrid>
+              <FormSectionGrid>
+                <InputFields
+                  type="text"
+                  id="email"
+                  label="ელ.ფოსტა *"
+                  agentForm={agentForm}
+                  setAgentForm={setAgentForm}
+                  required
+                  validationError={errors.email}
+                  setValidationError={setErrors}
+                />
+                <InputFields
+                  type="text"
+                  id="phone"
+                  label="ტელეფონის ნომერი *"
+                  agentForm={agentForm}
+                  setAgentForm={setAgentForm}
+                  pattern="5\d{8}"
+                  required
+                  validationError={errors.phone}
+                  setValidationError={setErrors}
+                />
+              </FormSectionGrid>
+              <InputFieldLayout>
+                <InputLabel>ატვირთეთ ფოტო *</InputLabel>
+                <ImageUpload required setAgentForm={setAgentForm} />
+              </InputFieldLayout>
+              <ButtonsBox>
+                <FormButton
+                  $btnStyle="cancel"
+                  btnText="გაუქმება"
+                  onClick={handleModalClose}
+                />
+                <FormButton
+                  $btnStyle="add"
+                  btnText="დაამატე აგენტი"
+                  onClick={(e) => {
+                    handleSubmit(e);
+                  }}
+                />
+              </ButtonsBox>
+            </AgentInputsFlexbox>
+          </>
+        )}
       </AgentModalLayout>
     </ModalLayer>
   );

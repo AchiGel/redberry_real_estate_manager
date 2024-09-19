@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { AgentFormTypes } from "../modals/AddAgentModal";
 
 const ImageUploadLabel = styled.label`
   display: inline-block;
@@ -21,11 +22,33 @@ const ImageUloadImput = styled.input`
   display: none;
 `;
 
-export default function ImageUpload() {
+export default function ImageUpload({
+  setAgentForm,
+  required,
+}: {
+  setAgentForm: React.Dispatch<React.SetStateAction<AgentFormTypes>>;
+  required: boolean;
+}) {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+
+      setAgentForm((prevForm) => ({
+        ...prevForm,
+        avatar: file,
+      }));
+    }
+  };
   return (
     <>
       <ImageUploadLabel htmlFor="image"></ImageUploadLabel>
-      <ImageUloadImput id="image" />
+      <ImageUloadImput
+        id="image"
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        required={required}
+      />
     </>
   );
 }
