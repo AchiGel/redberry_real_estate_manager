@@ -78,6 +78,20 @@ export const SelectButton = styled.button`
   align-self: flex-end;
 `;
 
+const RegionCheckBoxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const RegionCheckBox = styled.input`
+  width: 20px;
+  height: 20px;
+  &:checked {
+    background-color: green;
+  }
+`;
+
 export default function RegionFilter({
   regions,
   setRegionsSelected,
@@ -152,8 +166,8 @@ export default function RegionFilter({
           <RegionsGrid>
             {regions?.length
               ? regions.map((el) => (
-                  <div key={el.id}>
-                    <input
+                  <RegionCheckBoxContainer key={el.id}>
+                    <RegionCheckBox
                       id={el.name}
                       value={el.name}
                       type="checkbox"
@@ -163,7 +177,7 @@ export default function RegionFilter({
                       }
                     />
                     <label htmlFor={el.name}>{el.name}</label>
-                  </div>
+                  </RegionCheckBoxContainer>
                 ))
               : null}
           </RegionsGrid>

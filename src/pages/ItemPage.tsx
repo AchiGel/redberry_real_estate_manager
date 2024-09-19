@@ -84,45 +84,63 @@ export default function ItemPage() {
 
   const [listingPage, setListingPage] = useState<PropertyTypes>();
 
-  const [listing, setListing] = useState([]);
+  const [filteredListing, setFilteredListing] = useState([]);
 
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchListingPage = async () => {
-      const response = await fetch(
-        `https://api.real-estate-manager.redberryinternship.ge/api/real-estates/${id}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      setListingPage(data);
+      try {
+        const response = await fetch(
+          `https://api.real-estate-manager.redberryinternship.ge/api/real-estates/${id}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        setListingPage(data);
+      } catch (error) {
+        console.error("Error fetching listing page:", error);
+      }
     };
 
-    if (id) fetchListingPage();
-
-    const fetchListing = async () => {
-      const response = await fetch(
-        "https://api.real-estate-manager.redberryinternship.ge/api/real-estates",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      setListing(data);
-    };
-
-    fetchListing();
+    fetchListingPage();
   }, [id]);
+
+  useEffect(() => {
+    if (!listingPage) return;
+
+    const fetchListings = async () => {
+      try {
+        const response = await fetch(
+          "https://api.real-estate-manager.redberryinternship.ge/api/real-estates",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+
+        const filtered = data.filter(
+          (property: PropertyTypes) =>
+            property.city.region_id === listingPage.city.region_id
+        );
+
+        setFilteredListing(filtered);
+      } catch (error) {
+        console.error("Error fetching listings:", error);
+      }
+    };
+
+    fetchListings();
+  }, [listingPage]);
 
   if (!listingPage) {
     return <div>Loading...</div>;
@@ -188,7 +206,7 @@ export default function ItemPage() {
           <DeleteListingButton setDeleteClicked={setDeleteClicked} />
         </ListingPageLayoutRight>
       </ListingPageLayout>
-      <Slider listing={listing} />
+      <Slider listing={filteredListing} />
       {deleteClicked && (
         <DeleteListingModal setDeleteClicked={setDeleteClicked} />
       )}
