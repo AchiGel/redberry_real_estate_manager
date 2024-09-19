@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { RegionsTypes } from "./FilterSection";
 import styled from "styled-components";
-import { PropertyTypes } from "../../pages/Home";
+import { PropertyTypes, RegionFilterProps } from "../../generalTypes.interface";
 
 interface TempRegion {
   id: number;
@@ -103,20 +102,7 @@ export default function RegionFilter({
   setPriceClicked,
   setAreaClicked,
   setBedroomsClicked,
-}: {
-  regions: RegionsTypes[] | undefined;
-  regionsSelected: RegionsTypes[] | undefined;
-  setRegionsSelected: React.Dispatch<
-    React.SetStateAction<RegionsTypes[] | undefined>
-  >;
-  setFilteredOptions: React.Dispatch<React.SetStateAction<typeof listing>>;
-  listing: PropertyTypes[];
-  regionClicked: boolean;
-  setRegionClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setPriceClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+}: RegionFilterProps) {
   const [tempRegionsSelected, setTempRegionsSelected] = useState<TempRegion[]>(
     []
   );

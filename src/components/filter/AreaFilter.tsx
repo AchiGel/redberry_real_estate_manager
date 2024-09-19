@@ -16,6 +16,7 @@ import {
   PriceListContainer,
   PriceListTitle,
 } from "./PriceFilter";
+import { AreaFilterProps } from "../../generalTypes.interface";
 
 export default function AreaFilter({
   areaClicked,
@@ -24,16 +25,7 @@ export default function AreaFilter({
   setPriceClicked,
   setRegionClicked,
   setSelectedAreas,
-}: {
-  areaClicked: boolean;
-  setPriceClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setRegionClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedAreas: React.Dispatch<
-    React.SetStateAction<[number | null, number | null]>
-  >;
-}) {
+}: AreaFilterProps) {
   const areas = [30, 50, 70, 100, 150];
 
   const [tempAreas, setTempAreas] = useState<[number | null, number | null]>([

@@ -1,16 +1,5 @@
 import styled from "styled-components";
-
-interface ChosenOptionProps {
-  id?: number;
-  name?: string;
-  selectedBedrooms?: number | "";
-  selectedPrices?: [number | null, number | null];
-  selectedAreas?: [number | null, number | null];
-  removeRegion?: (id: number) => void;
-  removeBedrooms?: (bedroom: string) => void;
-  removePrices?: () => void;
-  removeAreas?: () => void;
-}
+import { ChosenOptionProps } from "../../generalTypes.interface";
 
 const ChosenOptionCard = styled.div`
   display: flex;

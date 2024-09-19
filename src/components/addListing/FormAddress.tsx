@@ -3,17 +3,7 @@ import { InputsBoxesTitles } from "./AddListingForm";
 import InputFields from "./InputFields";
 import Select from "react-select";
 import { useState } from "react";
-
-export interface RegionsType {
-  id: number;
-  name: string;
-}
-
-export interface CitiesType {
-  id: number;
-  name: string;
-  region_id: number;
-}
+import { CitiesType, RegionsType } from "../../generalTypes.interface";
 
 export const FormSectionWrapper = styled.div`
   display: flex;

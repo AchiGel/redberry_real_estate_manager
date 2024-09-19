@@ -8,6 +8,7 @@ import {
   SelectButton,
 } from "./RegionFilter";
 import { useState } from "react";
+import { PriceFilterProps } from "../../generalTypes.interface";
 
 export const PriceInputsContainer = styled.div`
   display: flex;
@@ -63,16 +64,7 @@ export default function PriceFilter({
   setAreaClicked,
   setBedroomsClicked,
   setSelectedPrices,
-}: {
-  priceClicked: boolean;
-  setPriceClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setRegionClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedPrices: React.Dispatch<
-    React.SetStateAction<[number | null, number | null]>
-  >;
-}) {
+}: PriceFilterProps) {
   const prices = [50000, 100000, 150000, 200000, 300000];
 
   const [tempPrices, setTempPrices] = useState<[number | null, number | null]>([

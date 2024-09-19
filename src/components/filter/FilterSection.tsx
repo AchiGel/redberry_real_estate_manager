@@ -4,46 +4,14 @@ import { Link } from "react-router-dom";
 import ChosenOption from "./ChosenOption";
 import { useEffect, useState } from "react";
 import RegionFilter from "./RegionFilter";
-import { PropertyTypes } from "../../pages/Home";
 import PriceFilter from "./PriceFilter";
 import AreaFilter from "./AreaFilter";
 import BedroomsFilter from "./BedroomsFilter";
 import AddAgentModal from "../modals/AddAgentModal";
+import { FilterSectionProps } from "../../generalTypes.interface";
 
 export const API_REGIONS =
   "https://api.real-estate-manager.redberryinternship.ge/api/regions";
-
-export interface ButtonTypes {
-  buttonType: string;
-  onClick: () => void;
-}
-
-export interface RegionsTypes {
-  id: number;
-  name: string;
-}
-
-interface FilterSectionProps {
-  filterOptions: PropertyTypes[];
-  setFilterOptions: React.Dispatch<React.SetStateAction<PropertyTypes[]>>;
-  regions: RegionsTypes[] | undefined;
-  setRegions: React.Dispatch<React.SetStateAction<RegionsTypes[] | undefined>>;
-  regionsSelected: RegionsTypes[] | undefined;
-  setRegionsSelected: React.Dispatch<
-    React.SetStateAction<RegionsTypes[] | undefined>
-  >;
-  listing: PropertyTypes[];
-  selectedBedrooms: number | "";
-  setSelectedBedrooms: React.Dispatch<React.SetStateAction<number | "">>;
-  selectedPrices: [number | null, number | null];
-  setSelectedPrices: React.Dispatch<
-    React.SetStateAction<[number | null, number | null]>
-  >;
-  selectedAreas: [number | null, number | null];
-  setSelectedAreas: React.Dispatch<
-    React.SetStateAction<[number | null, number | null]>
-  >;
-}
 
 const FilterSectionWrapper = styled.section`
   display: flex;

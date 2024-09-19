@@ -5,13 +5,6 @@ import { useEffect, useState } from "react";
 import { API_REGIONS } from "../filter/FilterSection";
 import { token } from "../../pages/Home";
 
-export interface AgentsTypes {
-  avatar: string;
-  id: number;
-  name: string;
-  surname: string;
-}
-
 const API_CITIES =
   "https://api.real-estate-manager.redberryinternship.ge/api/cities";
 

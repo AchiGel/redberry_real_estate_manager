@@ -1,38 +1,13 @@
 import styled from "styled-components";
-import FilterSection, {
-  RegionsTypes,
-} from "../components/filter/FilterSection";
+import FilterSection from "../components/filter/FilterSection";
 import ListingCard from "../components/ListingCard";
 import { useEffect, useState } from "react";
-import { AgentTypes } from "./ItemPage";
+import { PropertyTypes, RegionsTypes } from "../generalTypes.interface";
 
 export const token = "9cfd9147-04a6-47c4-8eba-407452441d23";
 
 const API_URL =
   "https://api.real-estate-manager.redberryinternship.ge/api/real-estates";
-
-export interface PropertyTypes {
-  agent: AgentTypes;
-  address: string;
-  image: string;
-  price: number;
-  id: number;
-  area: number;
-  bedrooms: number;
-  zip_code: number;
-  city: {
-    id: number;
-    name: string;
-    region: {
-      id: number;
-      name: string;
-    };
-    region_id: number;
-  };
-  is_rental: number;
-  created_at: string;
-  description: string;
-}
 
 const ListingGrid = styled.section`
   display: grid;

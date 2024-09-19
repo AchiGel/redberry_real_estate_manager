@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ButtonTypes } from "./filter/FilterSection";
+import { ButtonTypes } from "../generalTypes.interface";
 
 const PlusIcon = styled.img<{ $iconcolor: string }>`
   filter: ${(props) =>

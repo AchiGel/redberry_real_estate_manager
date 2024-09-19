@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { DownSectionInfos } from "./ListingCard";
-import { AgentTypes } from "../pages/ItemPage";
+import { AgentTypes } from "../generalTypes.interface";
 
 const AgentCardLayout = styled.div`
   padding: 24px 20px;

@@ -1,17 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
-interface ListingCardProps {
-  image: string;
-  price: number;
-  address: string;
-  bedrooms: number;
-  zip_code: number;
-  area: number;
-  city: string;
-  is_rental: number;
-  id: number;
-}
+import { ListingCardProps } from "../generalTypes.interface";
 
 const ListingCardLayout = styled.div`
   position: relative;

@@ -1,11 +1,11 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import ListingCard from "./ListingCard";
-import { PropertyTypes } from "../pages/Home";
 import styled from "styled-components";
 import SlidePrevButton from "./SlidePrevButton";
 import SlideNextButton from "./SlideNextButton";
 import "../generalStyles.css";
+import { PropertyTypes } from "../generalTypes.interface";
 
 const SliderWrapper = styled.div`
   padding-bottom: 228px;

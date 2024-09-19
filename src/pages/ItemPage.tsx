@@ -2,7 +2,7 @@ import styled from "styled-components";
 import ArrowButton from "../components/ArrowButton";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { PropertyTypes, token } from "./Home";
+import { token } from "./Home";
 import {
   DownSectionInfos,
   IsRental,
@@ -13,14 +13,7 @@ import AgentCard from "../components/AgentCard";
 import Slider from "../components/Slider";
 import DeleteListingButton from "../components/modals/DeleteListingButton";
 import DeleteListingModal from "../components/modals/DeleteListingModal";
-
-export interface AgentTypes {
-  avatar: string;
-  name: string;
-  surname: string;
-  email: string;
-  phone: string;
-}
+import { PropertyTypes } from "../generalTypes.interface";
 
 const ListingPageLayout = styled.section`
   display: flex;

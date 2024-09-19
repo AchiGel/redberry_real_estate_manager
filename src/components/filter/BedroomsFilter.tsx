@@ -8,6 +8,7 @@ import {
   FilterWrapper,
   SelectButton,
 } from "./RegionFilter";
+import { BedroomFilterProps } from "../../generalTypes.interface";
 
 export default function BedroomsFilter({
   bedroomsClicked,
@@ -16,14 +17,7 @@ export default function BedroomsFilter({
   setPriceClicked,
   setRegionClicked,
   setSelectedBedrooms,
-}: {
-  bedroomsClicked: boolean;
-  setPriceClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setRegionClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedBedrooms: React.Dispatch<React.SetStateAction<number | "">>;
-}) {
+}: BedroomFilterProps) {
   const [tempBedrooms, setTempBedrooms] = useState<number | "">("");
 
   const handleBedroomsSelect = (e: React.ChangeEvent<HTMLInputElement>) => {

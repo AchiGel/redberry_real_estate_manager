@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { AgentFormTypes } from "../modals/AddAgentModal";
+import { InputFieldsProps } from "../../generalTypes.interface";
 
 export const InputFieldLayout = styled.div<{ $gridArea: string }>`
   display: flex;
@@ -39,21 +39,7 @@ export default function InputFields({
   pattern,
   validationError,
   setValidationError,
-}: {
-  type: string;
-  label: string;
-  id: string;
-  $gridArea?: string;
-  agentForm: AgentFormTypes;
-  setAgentForm: React.Dispatch<React.SetStateAction<AgentFormTypes>>;
-  required: boolean;
-  minLength?: number;
-  pattern?: string;
-  validationError: string | undefined;
-  setValidationError: React.Dispatch<
-    React.SetStateAction<{ [key: string]: string }>
-  >;
-}) {
+}: InputFieldsProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
