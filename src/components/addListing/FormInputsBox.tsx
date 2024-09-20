@@ -7,6 +7,7 @@ import {
   AgentTypes,
   CitiesType,
   FormDataTypes,
+  ListingErrorsTypes,
   RegionsType,
 } from "../../generalTypes.interface";
 import React from "react";
@@ -24,6 +25,8 @@ export default function FormInputsBox({
   formData,
   onInputChange,
   setFormData,
+  listingErrors,
+  setListingErrors,
 }: {
   regions: RegionsType[];
   cities: CitiesType[];
@@ -33,19 +36,39 @@ export default function FormInputsBox({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
   setFormData: React.Dispatch<React.SetStateAction<FormDataTypes>>;
+  listingErrors: ListingErrorsTypes;
+  setListingErrors: React.Dispatch<React.SetStateAction<ListingErrorsTypes>>;
 }) {
   return (
     <InputsBox>
-      <IsRental formData={formData} onInputChange={onInputChange} />
+      <IsRental
+        formData={formData}
+        onInputChange={onInputChange}
+        listingErrors={listingErrors}
+        setListingErrors={setListingErrors}
+      />
       <FormAddress
         formData={formData}
         onInputChange={onInputChange}
         regions={regions}
         cities={cities}
         setFormData={setFormData}
+        listingErrors={listingErrors}
+        setListingErrors={setListingErrors}
       />
-      <PropertyDetails formData={formData} setFormData={setFormData} />
-      <Agent formData={formData} setFormData={setFormData} agents={agents} />
+      <PropertyDetails
+        formData={formData}
+        setFormData={setFormData}
+        listingErrors={listingErrors}
+        setListingErrors={setListingErrors}
+      />
+      <Agent
+        formData={formData}
+        setFormData={setFormData}
+        agents={agents}
+        listingErrors={listingErrors}
+        setListingErrors={setListingErrors}
+      />
     </InputsBox>
   );
 }

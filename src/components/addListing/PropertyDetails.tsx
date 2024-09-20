@@ -1,9 +1,16 @@
 import styled from "styled-components";
 import { InputsBoxesTitles } from "./AddListingForm";
 import { FormSectionGrid, FormSectionWrapper } from "./FormAddress";
-import InputFields, { InputFieldLayout, InputLabel } from "./InputFields";
+import InputFields, {
+  ErrorMessage,
+  InputFieldLayout,
+  InputLabel,
+} from "./InputFields";
 import ImageUpload from "./ImageUpload";
-import { FormDataTypes } from "../../generalTypes.interface";
+import {
+  FormDataTypes,
+  ListingErrorsTypes,
+} from "../../generalTypes.interface";
 
 const TextAreaDescr = styled.textarea`
   padding: 10px;
@@ -17,10 +24,36 @@ const TextAreaDescr = styled.textarea`
 export default function PropertyDetails({
   formData,
   setFormData,
+  listingErrors,
+  setListingErrors,
 }: {
   formData: FormDataTypes;
   setFormData: React.Dispatch<React.SetStateAction<FormDataTypes>>;
+  listingErrors: ListingErrorsTypes;
+  setListingErrors: React.Dispatch<React.SetStateAction<ListingErrorsTypes>>;
 }) {
+  const validateDescription = (value: string) => {
+    if (!value) return false;
+    if (value.trim().split(" ").length < 5) return false;
+    return true;
+  };
+
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      description: value,
+    }));
+
+    const error = validateDescription(value);
+    setListingErrors((prevErrors) => ({
+      ...prevErrors,
+      description: error,
+    }));
+  };
+
   return (
     <FormSectionWrapper>
       <InputsBoxesTitles>ბინის დეტალები</InputsBoxesTitles>
@@ -37,6 +70,8 @@ export default function PropertyDetails({
               price: e.target.value,
             }))
           }
+          listingErrors={listingErrors.price}
+          setListingErrors={setListingErrors}
         />
         <InputFields
           $gridArea=""
@@ -50,6 +85,8 @@ export default function PropertyDetails({
               area: e.target.value,
             }))
           }
+          listingErrors={listingErrors.area}
+          setListingErrors={setListingErrors}
         />
         <InputFields
           $gridArea=""
@@ -63,18 +100,18 @@ export default function PropertyDetails({
               bedrooms: e.target.value,
             }))
           }
+          listingErrors={listingErrors.bedrooms}
+          setListingErrors={setListingErrors}
         />
         <InputFieldLayout $gridArea="1">
           <InputLabel>აღწერა *</InputLabel>
           <TextAreaDescr
             value={formData.description}
-            onChange={(e) =>
-              setFormData((prevState) => ({
-                ...prevState,
-                description: e.target.value,
-              }))
-            }
+            onChange={handleDescriptionChange}
           />
+          {listingErrors.description && (
+            <ErrorMessage>{listingErrors.description}</ErrorMessage>
+          )}
         </InputFieldLayout>
         <InputFieldLayout $gridArea="2">
           <InputLabel>ატვირთეთ ფოტო *</InputLabel>

@@ -27,12 +27,14 @@ export interface InputFieldsProps {
   required: boolean;
   minLength?: number;
   pattern?: string;
-  validationError: string | undefined;
+  $validationError: string | undefined;
   setValidationError: React.Dispatch<
     React.SetStateAction<{ [key: string]: string }>
   >;
   value?: string | number | null;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  listingErrors?: ListingErrorsTypes;
+  setListingErrors?: React.Dispatch<React.SetStateAction<ListingErrorsTypes>>;
 }
 
 // Region and City Interfaces
@@ -172,15 +174,29 @@ export interface ChosenOptionProps {
 }
 
 export interface FormDataTypes {
-  price: string | null;
+  price: number | null;
   zip_code: string;
   description: string;
-  area: string | null;
+  area: number | null;
   city_id: number | null;
   address: string;
   agent_id: number | null;
   bedrooms: number | null;
-  is_rental: string | null;
-  image: File | null;
+  is_rental: number | null;
+  image: Blob | File | null;
   region_id?: number | null;
+}
+
+export interface ListingErrorsTypes {
+  address: string | undefined;
+  agent_id: string | undefined;
+  area: string | undefined;
+  bedrooms: string | undefined;
+  city_id: string | undefined;
+  description: string | undefined;
+  image: string | undefined;
+  is_rental: string | undefined;
+  price: string | undefined;
+  region_id: string | undefined;
+  zip_code: string | undefined;
 }

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { AgentFormTypes } from "../modals/AddAgentModal";
 import { FormDataTypes } from "../../generalTypes.interface";
+import { ErrorMessage } from "./InputFields";
 
 const ImageUploadLabel = styled.label`
   display: inline-block;
@@ -28,15 +29,31 @@ export default function ImageUpload({
   setFormData,
   required,
   formType,
+  $validationError,
+  setValidationError,
 }: {
   setAgentForm?: React.Dispatch<React.SetStateAction<AgentFormTypes>>;
   setFormData?: React.Dispatch<React.SetStateAction<FormDataTypes>>;
   required: boolean;
   formType: string;
+  $validationError: string | undefined;
+  setValidationError: React.Dispatch<
+    React.SetStateAction<{ [key: string]: string }>
+  >;
 }) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+
+      console.log("selected image", file);
+
+      if (formType === "agent" && validateField(file)) {
+        setValidationError((prevErrors: { [key: string]: string }) => {
+          const { avatar, ...rest } = prevErrors;
+          return rest;
+        });
+      }
 
       if (formType === "agent" && setAgentForm) {
         setAgentForm((prevForm) => ({
@@ -51,6 +68,16 @@ export default function ImageUpload({
       }
     }
   };
+
+  const validateField = (file: File | null): boolean => {
+    if (required && !file) {
+      setValidationError((prev) => ({ ...prev, avatar: "სავალდებულო" }));
+      return false;
+    }
+
+    return true;
+  };
+
   return (
     <>
       <ImageUploadLabel htmlFor="image"></ImageUploadLabel>
@@ -61,6 +88,7 @@ export default function ImageUpload({
         onChange={handleFileChange}
         required={required}
       />
+      {$validationError ? <ErrorMessage>სავალდებულო</ErrorMessage> : null}
     </>
   );
 }

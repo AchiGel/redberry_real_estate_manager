@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { InputsBoxesTitles } from "./AddListingForm";
-import { FormDataTypes } from "../../generalTypes.interface";
+import {
+  FormDataTypes,
+  ListingErrorsTypes,
+} from "../../generalTypes.interface";
+import { ErrorMessage } from "./InputFields";
 
 const IsRentalLayout = styled.div`
   display: flex;
@@ -24,14 +28,24 @@ const Label = styled.label`
 export default function IsRental({
   formData,
   onInputChange,
+  listingErrors,
+  setListingErrors,
 }: {
   formData: FormDataTypes;
   onInputChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
+  listingErrors: ListingErrorsTypes;
+  setListingErrors: React.Dispatch<React.SetStateAction<ListingErrorsTypes>>;
 }) {
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value === "იყიდება" ? "0" : "1";
+    const value = e.target.value === "იყიდება" ? 0 : 1;
+
+    setListingErrors((prevErrors) => ({
+      ...prevErrors,
+      is_rental: undefined,
+    }));
+
     onInputChange({
       ...e,
       target: {
@@ -52,7 +66,7 @@ export default function IsRental({
             type="radio"
             name="transaction"
             value="იყიდება"
-            checked={formData.is_rental === "0"}
+            checked={formData.is_rental === 0}
             onChange={handleRadioChange}
           />
           <Label htmlFor="forSale">იყიდება</Label>
@@ -63,12 +77,15 @@ export default function IsRental({
             type="radio"
             name="transaction"
             value="ქირავდება"
-            checked={formData.is_rental === "1"}
+            checked={formData.is_rental === 1}
             onChange={handleRadioChange}
           />
           <Label htmlFor="forRent">ქირავდება</Label>
         </label>
       </RadioBox>
+      {listingErrors.is_rental && (
+        <ErrorMessage>{listingErrors.is_rental}</ErrorMessage>
+      )}
     </IsRentalLayout>
   );
 }

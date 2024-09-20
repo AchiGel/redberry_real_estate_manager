@@ -72,6 +72,8 @@ export default function AddAgentModal({
     surname?: string;
     email?: string;
     phone?: string;
+    avatar?: string;
+    numeric?: string;
   }>({});
 
   const [success, setSuccess] = useState(false);
@@ -98,20 +100,32 @@ export default function AddAgentModal({
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
 
-    if (agentForm.name.length < 2) {
+    if (!agentForm.name) {
+      newErrors.name = "სავალდებულო";
+    } else if (agentForm.name.length < 2) {
       newErrors.name = "მინიმუმ 2 სიმბოლო";
     }
 
     if (!agentForm.surname) {
+      newErrors.surname = "სავალდებულო";
+    } else if (agentForm.surname.length < 2) {
       newErrors.surname = "მინიმუმ 2 სიმბოლო";
     }
 
-    if (!/\S+@\S+\.\S+/.test(agentForm.email)) {
+    if (!agentForm.email) {
+      newErrors.email = "სავალდებულო";
+    } else if (!/\S+@\S+\.\S+/.test(agentForm.email)) {
       newErrors.email = "უნდა მთავრდებოდეს @redberry.ge-თ";
     }
 
-    if (!agentForm.phone.match(/^5\d{8}$/)) {
+    if (!agentForm.phone) {
+      newErrors.phone = "სავალდებულო";
+    } else if (!agentForm.phone.match(/^5\d{8}$/)) {
       newErrors.phone = "უნდა იყოს ფორმატის 5XXXXXXXX";
+    }
+
+    if (!agentForm.avatar) {
+      newErrors.avatar = "სავალდებულო";
     }
 
     setErrors(newErrors);
@@ -180,7 +194,7 @@ export default function AddAgentModal({
                   setAgentForm={setAgentForm}
                   minLength={2}
                   required={true}
-                  validationError={errors.name}
+                  $validationError={errors.name}
                   setValidationError={setErrors}
                 />
                 <InputFields
@@ -191,7 +205,7 @@ export default function AddAgentModal({
                   setAgentForm={setAgentForm}
                   minLength={2}
                   required={true}
-                  validationError={errors.surname}
+                  $validationError={errors.surname}
                   setValidationError={setErrors}
                 />
               </FormSectionGrid>
@@ -203,7 +217,7 @@ export default function AddAgentModal({
                   agentForm={agentForm}
                   setAgentForm={setAgentForm}
                   required
-                  validationError={errors.email}
+                  $validationError={errors.email}
                   setValidationError={setErrors}
                 />
                 <InputFields
@@ -214,16 +228,18 @@ export default function AddAgentModal({
                   setAgentForm={setAgentForm}
                   pattern="5\d{8}"
                   required
-                  validationError={errors.phone}
+                  $validationError={errors.phone}
                   setValidationError={setErrors}
                 />
               </FormSectionGrid>
               <InputFieldLayout>
                 <InputLabel>ატვირთეთ ფოტო *</InputLabel>
                 <ImageUpload
-                  required
+                  required={true}
                   setAgentForm={setAgentForm}
                   formType="agent"
+                  $validationError={errors.avatar}
+                  setValidationError={setErrors}
                 />
               </InputFieldLayout>
               <ButtonsBox>

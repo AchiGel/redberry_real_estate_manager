@@ -20,11 +20,18 @@ export const InputLabel = styled.label`
   font-weight: 500;
 `;
 
-const InputBox = styled.input`
+const InputBox = styled.input<{ $validationError: string }>`
   padding: 10px;
   border-radius: 6px;
-  border: 1px solid #808a93;
+  border: ${(props) =>
+    props.$validationError ? "1px solid #F93B1D" : "1px solid #808a93"};
   width: 100%;
+`;
+
+export const ErrorMessage = styled.p`
+  color: #f93b1d;
+  font-size: "14px";
+  margin: 0;
 `;
 
 export default function InputFields({
@@ -37,10 +44,12 @@ export default function InputFields({
   required,
   minLength,
   pattern,
-  validationError,
+  $validationError,
   setValidationError,
   value,
   onChange,
+  listingErrors,
+  setListingErrors,
 }: InputFieldsProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -60,12 +69,25 @@ export default function InputFields({
         return rest;
       });
     }
+    if (validateListingFields(value)) {
+      console.log(listingErrors);
+      setListingErrors((prevErrors: { [key: string]: string }) => {
+        const { [id]: _, ...rest } = prevErrors;
+        return rest;
+      });
+    }
   };
 
   const validateField = (value: string) => {
     if (required && !value) return false;
     if (minLength && value.length < minLength) return false;
     if (pattern && !new RegExp(pattern).test(value)) return false;
+    return true;
+  };
+
+  const validateListingFields = (value: string) => {
+    if (required && !value) return false;
+    if (minLength && value.length < minLength) return false;
     return true;
   };
 
@@ -80,12 +102,10 @@ export default function InputFields({
         minLength={minLength}
         required={required}
         pattern={pattern}
+        $validationError={$validationError}
       />
-      {validationError && (
-        <p style={{ color: "red", fontSize: "12px", margin: 0 }}>
-          {validationError}
-        </p>
-      )}
+      {$validationError && <ErrorMessage>{$validationError}</ErrorMessage>}
+      {listingErrors && <ErrorMessage>{listingErrors}</ErrorMessage>}
     </InputFieldLayout>
   );
 }
