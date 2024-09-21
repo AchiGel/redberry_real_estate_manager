@@ -26,7 +26,7 @@ export interface InputFieldsProps {
   pattern?: string;
   $validationError: string | undefined | { [key: string]: string | undefined };
   setErrors: React.Dispatch<
-    React.SetStateAction<AgentErrors | { [key: string]: string | undefined }>
+    React.SetStateAction<AgentErrors | Record<string, string | undefined>>
   >;
   value?: string | number | null;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -34,7 +34,7 @@ export interface InputFieldsProps {
   setListingErrors: React.Dispatch<
     React.SetStateAction<
       | ListingErrorsTypes
-      | { [key: string]: string | undefined }
+      | Record<string, string | undefined>
       | string
       | undefined
     >
@@ -246,13 +246,13 @@ export interface FormInputBoxTypes {
   setFormData: React.Dispatch<React.SetStateAction<FormDataTypes>>;
   listingErrors:
     | ListingErrorsTypes
-    | { [key: string]: string | undefined }
+    | Record<string, string | undefined>
     | string
     | undefined;
   setListingErrors: React.Dispatch<
     React.SetStateAction<
       | ListingErrorsTypes
-      | { [key: string]: string | undefined }
+      | Record<string, string | undefined>
       | string
       | undefined
     >

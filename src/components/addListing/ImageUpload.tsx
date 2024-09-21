@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import styled from "styled-components";
 import { AgentFormTypes } from "../modals/AddAgentModal";
 import { FormDataTypes } from "../../generalTypes.interface";
