@@ -8,6 +8,9 @@ import {
   FormDataTypes,
   ListingErrorsTypes,
 } from "../../generalTypes.interface";
+import { AgentModalLayout, ModalLayer } from "../modals/AddAgentModal";
+import { AddListingFormTiTle } from "../../pages/AddListing";
+import { useNavigate } from "react-router-dom";
 
 export const ButtonsBox = styled.div`
   display: flex;
@@ -61,6 +64,16 @@ export default function AddListingForm() {
     region_id: "",
     zip_code: "",
   });
+
+  const [success, setSuccess] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.currentTarget === e.target) {
+      navigate("/");
+    }
+  };
 
   useEffect(() => {
     const fetchRegions = async () => {
@@ -191,13 +204,11 @@ export default function AddListingForm() {
 
     setListingErrors(newErrors);
 
-    return Object.keys(newErrors).length === 0;
+    return Object.values(newErrors).every((value) => value === undefined);
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // console.log(listingErrors);
 
     if (!validateForm()) return;
 
@@ -214,8 +225,6 @@ export default function AddListingForm() {
     formDataListing.append("is_rental", formData.is_rental?.toString() || "");
     formDataListing.append("agent_id", formData.agent_id?.toString() || "");
 
-    console.log("success");
-
     try {
       const response = await fetch(API_URL, {
         method: "POST",
@@ -224,7 +233,13 @@ export default function AddListingForm() {
         },
         body: formDataListing,
       });
-      console.log(response);
+      if (!response.ok) {
+        throw new Error(await response.text());
+      }
+
+      if (response.status === 201) {
+        setSuccess(true);
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -249,21 +264,36 @@ export default function AddListingForm() {
   // console.log("agents", agents);
 
   return (
-    <AddListingFormLayout onSubmit={handleFormSubmit}>
-      <FormInputsBox
-        regions={regions}
-        cities={cities}
-        agents={agents}
-        formData={formData}
-        setFormData={setFormData}
-        onInputChange={handleInputChange}
-        listingErrors={listingErrors}
-        setListingErrors={setListingErrors}
-      />
-      <ButtonsBox>
-        <FormButton $btnStyle="cancel" btnText="გაუქმება" type="reset" />
-        <FormButton $btnStyle="add" btnText="დაამატე ლისტინგი" type="submit" />
-      </ButtonsBox>
-    </AddListingFormLayout>
+    <>
+      {success && (
+        <ModalLayer onClick={handleOverlayClick}>
+          <AgentModalLayout onClick={(e) => e.stopPropagation()}>
+            <AddListingFormTiTle style={{ color: "green" }}>
+              ლისტინგი წარმატებით დაემატა
+            </AddListingFormTiTle>
+          </AgentModalLayout>
+        </ModalLayer>
+      )}
+      <AddListingFormLayout onSubmit={handleFormSubmit}>
+        <FormInputsBox
+          regions={regions}
+          cities={cities}
+          agents={agents}
+          formData={formData}
+          setFormData={setFormData}
+          onInputChange={handleInputChange}
+          listingErrors={listingErrors}
+          setListingErrors={setListingErrors}
+        />
+        <ButtonsBox>
+          <FormButton $btnStyle="cancel" btnText="გაუქმება" type="reset" />
+          <FormButton
+            $btnStyle="add"
+            btnText="დაამატე ლისტინგი"
+            type="submit"
+          />
+        </ButtonsBox>
+      </AddListingFormLayout>
+    </>
   );
 }

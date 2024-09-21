@@ -119,8 +119,6 @@ export default function Home() {
     selectedAreas,
   ]);
 
-  console.log(filterOptions);
-
   return (
     <div>
       <FilterSection
