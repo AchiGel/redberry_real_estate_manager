@@ -3,12 +3,7 @@ import { InputsBoxesTitles } from "./AddListingForm";
 import InputFields, { ErrorMessage } from "./InputFields";
 import Select from "react-select";
 import { useState } from "react";
-import {
-  CitiesType,
-  FormDataTypes,
-  ListingErrorsTypes,
-  RegionsType,
-} from "../../generalTypes.interface";
+import { FormAddressProps } from "../../generalTypes.interface";
 
 export const FormSectionWrapper = styled.div`
   display: flex;
@@ -18,7 +13,7 @@ export const FormSectionWrapper = styled.div`
 
 export const FormSectionGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 364px);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 `;
 
@@ -30,17 +25,7 @@ export default function FormAddress({
   setFormData,
   listingErrors,
   setListingErrors,
-}: {
-  regions: RegionsType[];
-  cities: CitiesType[];
-  formData: FormDataTypes;
-  onInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => void;
-  setFormData: React.Dispatch<React.SetStateAction<FormDataTypes>>;
-  listingErrors: ListingErrorsTypes;
-  setListingErrors: React.Dispatch<React.SetStateAction<ListingErrorsTypes>>;
-}) {
+}: FormAddressProps) {
   const [selectedRegion, setSelectedRegion] = useState<number | null>(
     formData.region_id || null
   );
@@ -62,13 +47,11 @@ export default function FormAddress({
   );
 
   const validateRegion = (value: number | null) => {
-    if (!value) return false;
-    return true;
+    return value !== null ? "" : "სავალდებულო";
   };
 
   const validateCity = (value: number | null) => {
-    if (!value) return false;
-    return true;
+    return value !== null ? "" : "სავალდებულო";
   };
 
   const handleRegionChange = (
@@ -129,7 +112,7 @@ export default function FormAddress({
               address: e.target.value,
             }))
           }
-          listingErrors={listingErrors.address}
+          listingError={listingErrors.address}
           setListingErrors={setListingErrors}
         />
         <InputFields
@@ -143,7 +126,7 @@ export default function FormAddress({
               zip_code: e.target.value,
             }))
           }
-          listingErrors={listingErrors.zip_code}
+          listingError={listingErrors.zip_code}
           setListingErrors={setListingErrors}
         />
         <div>

@@ -9,6 +9,7 @@ import {
 } from "./RegionFilter";
 import { useState } from "react";
 import { PriceFilterProps } from "../../generalTypes.interface";
+import { ErrorMessage } from "../addListing/InputFields";
 
 export const PriceInputsContainer = styled.div`
   display: flex;
@@ -24,11 +25,19 @@ export const PriceInput = styled.input`
   border-radius: 6px;
   border: 1px solid #808a93;
   padding: 10px;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 export const PriceListContainer = styled.div`
   display: flex;
-  gap: 24px;
+  gap: 35%;
+  width: 100%;
+  justify-content: flex-start;
 `;
 
 export const PriceList = styled.div`
@@ -40,7 +49,7 @@ export const PriceList = styled.div`
 export const PriceListTitle = styled.h3`
   color: #021526;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: bold;
 `;
 
 export const HiddenCheckbox = styled.input`
@@ -72,6 +81,12 @@ export default function PriceFilter({
     null,
   ]);
 
+  const [inputTempPrices, setInputTempPrices] = useState<
+    [number | null, number | null]
+  >([null, null]);
+
+  const [errorMessage, setErrorMessage] = useState(false);
+
   const handlePriceFromSelect = (value: number) => {
     setTempPrices((prev) => [value, prev[1]]);
   };
@@ -81,8 +96,45 @@ export default function PriceFilter({
   };
 
   const handlePriceRange = () => {
-    setSelectedPrices(tempPrices);
+    if (tempPrices[0] !== null && tempPrices[1] !== null) {
+      if (tempPrices[1] < tempPrices[0]) {
+        setErrorMessage(true);
+        return;
+      } else {
+        setSelectedPrices(tempPrices);
+        setInputTempPrices([null, null]);
+        setTempPrices([null, null]);
+        setErrorMessage(false);
+        setPriceClicked(false);
+        return;
+      }
+    }
+
+    if (inputTempPrices[0] === null || inputTempPrices[1] === null) {
+      setErrorMessage(true);
+      return;
+    }
+
+    if (inputTempPrices[1] < inputTempPrices[0]) {
+      setErrorMessage(true);
+      return;
+    }
+
+    setSelectedPrices(inputTempPrices);
+
+    setInputTempPrices([null, null]);
+    setTempPrices([null, null]);
+    setErrorMessage(false);
     setPriceClicked(false);
+  };
+
+  const handleInputChange = (index: number, value: string) => {
+    const parsedValue = value ? Number(value) : null;
+    setInputTempPrices((prev) => {
+      const newValues = [...prev];
+      newValues[index] = parsedValue;
+      return newValues;
+    });
   };
 
   return (
@@ -102,9 +154,37 @@ export default function PriceFilter({
         <FilterList>
           <FilterListTitle>ფასის მიხედვით</FilterListTitle>
           <PriceInputsContainer>
-            <PriceInput placeholder="დან" type="number" />
-            <PriceInput placeholder="მდე" type="number" />
+            <PriceInput
+              placeholder="დან"
+              type="number"
+              value={
+                inputTempPrices[0] !== null ? inputTempPrices[0].toString() : ""
+              }
+              onChange={(e) => handleInputChange(0, e.target.value)}
+            />
+            <PriceInput
+              placeholder="მდე"
+              type="number"
+              value={
+                inputTempPrices[1] !== null ? inputTempPrices[1].toString() : ""
+              }
+              onChange={(e) => handleInputChange(1, e.target.value)}
+            />
           </PriceInputsContainer>
+          {errorMessage && (
+            <div
+              style={{
+                marginTop: "-16px",
+                fontSize: "12px",
+                marginBottom: "10px",
+              }}
+            >
+              <ErrorMessage>
+                ჩაწერეთ ვალიდური მონაცემები (საბოლოო ფასი უნდა აღემატებოდეს
+                საწყისს)
+              </ErrorMessage>
+            </div>
+          )}
           <PriceListContainer>
             <PriceList>
               <PriceListTitle>მინ. ფასი</PriceListTitle>

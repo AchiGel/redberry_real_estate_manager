@@ -25,7 +25,7 @@ export interface AgentFormTypes {
 }
 
 export const ModalLayer = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 10000;
@@ -53,6 +53,7 @@ const AgentInputsFlexbox = styled.form`
   display: flex;
   flex-direction: column;
   gap: 28px;
+  width: 100%;
 `;
 
 export default function AddAgentModal({

@@ -32,6 +32,9 @@ const FilterLeftSectionUp = styled.div`
   border: 1px solid #dbdbdb;
   gap: 24px;
   padding: 6px;
+  @media screen and (max-width: 1367px) {
+    gap: initial;
+  }
 `;
 
 const FilterLeftSectionDown = styled.div`

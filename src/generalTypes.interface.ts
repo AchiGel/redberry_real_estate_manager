@@ -1,10 +1,8 @@
-// Button Interfaces
 export interface ButtonTypes {
   buttonType: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
-// Agent Interfaces
 export interface AgentTypes {
   avatar: string;
   name: string;
@@ -14,27 +12,28 @@ export interface AgentTypes {
   id?: number;
 }
 
-// Agent Form Interfaces
 import { AgentFormTypes } from "./components/modals/AddAgentModal";
 
 export interface InputFieldsProps {
   type: string;
   label: string;
   id: string;
-  $gridArea?: string;
-  agentForm: AgentFormTypes;
+  $gridArea: string;
+  agentForm?: AgentFormTypes;
   setAgentForm: React.Dispatch<React.SetStateAction<AgentFormTypes>>;
   required: boolean;
   minLength?: number;
   pattern?: string;
   $validationError: string | undefined;
   setValidationError: React.Dispatch<
-    React.SetStateAction<{ [key: string]: string }>
+    React.SetStateAction<{ [key: string]: string | undefined }>
   >;
   value?: string | number | null;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  listingErrors?: ListingErrorsTypes;
-  setListingErrors?: React.Dispatch<React.SetStateAction<ListingErrorsTypes>>;
+  listingError?: string | undefined;
+  setListingErrors: React.Dispatch<
+    React.SetStateAction<{ [key: string]: string | undefined }>
+  >;
 }
 
 // Region and City Interfaces
@@ -113,7 +112,6 @@ export interface FilterSectionProps {
   >;
 }
 
-// Filter Interfaces for Area, Bedroom, Price, and Region
 export interface AreaFilterProps {
   areaClicked: boolean;
   setPriceClicked: React.Dispatch<React.SetStateAction<boolean>>;
@@ -184,7 +182,7 @@ export interface FormDataTypes {
   bedrooms: number | null;
   is_rental: number | null;
   image: Blob | File | null;
-  region_id?: number | null;
+  region_id: number | null;
 }
 
 export interface ListingErrorsTypes {
@@ -199,4 +197,20 @@ export interface ListingErrorsTypes {
   price: string | undefined;
   region_id: string | undefined;
   zip_code: string | undefined;
+}
+
+export interface FormAddressProps {
+  regions: RegionsType[];
+  cities: CitiesType[];
+  formData: FormDataTypes;
+  onInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> & {
+      target: { name: string; value: string | number | null };
+    }
+  ) => void;
+  setFormData: React.Dispatch<React.SetStateAction<FormDataTypes>>;
+  listingErrors: { [key: string]: string | undefined };
+  setListingErrors: React.Dispatch<
+    React.SetStateAction<{ [key: string]: string | undefined }>
+  >;
 }

@@ -19,6 +19,9 @@ const ListingGrid = styled.section`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  @media screen and (max-width: 1367px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 const WarningMessage = styled.p`

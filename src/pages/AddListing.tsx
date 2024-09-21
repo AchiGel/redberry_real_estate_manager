@@ -14,6 +14,7 @@ const AddListingFormWrapper = styled.div`
   align-items: center;
   max-width: 1211px;
   align-self: center;
+  width: 63%;
 `;
 
 export default function AddListing() {

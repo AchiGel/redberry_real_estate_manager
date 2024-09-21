@@ -4,6 +4,7 @@ import { useSwiper } from "swiper/react";
 const SlideButtonNext = styled.button`
   border: none;
   outline: none;
+  transition: all 0.4s ease;
   background-color: transparent;
   background-image: url("./listingicons/Icon-Right.svg");
   background-repeat: no-repeat;
@@ -15,6 +16,10 @@ const SlideButtonNext = styled.button`
   top: 50%;
   left: 102%;
   transform: rotate(180deg);
+  &:hover {
+    cursor: pointer;
+    scale: 1.1;
+  }
 `;
 
 export default function SlideNextButton() {

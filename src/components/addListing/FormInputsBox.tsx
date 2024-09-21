@@ -37,7 +37,9 @@ export default function FormInputsBox({
   ) => void;
   setFormData: React.Dispatch<React.SetStateAction<FormDataTypes>>;
   listingErrors: ListingErrorsTypes;
-  setListingErrors: React.Dispatch<React.SetStateAction<ListingErrorsTypes>>;
+  setListingErrors: React.Dispatch<
+    React.SetStateAction<{ [key: string]: string | undefined }>
+  >;
 }) {
   return (
     <InputsBox>

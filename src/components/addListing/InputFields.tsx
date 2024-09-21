@@ -20,7 +20,7 @@ export const InputLabel = styled.label`
   font-weight: 500;
 `;
 
-const InputBox = styled.input<{ $validationError: string }>`
+const InputBox = styled.input<{ $validationError: string | null }>`
   padding: 10px;
   border-radius: 6px;
   border: ${(props) =>
@@ -48,7 +48,7 @@ export default function InputFields({
   setValidationError,
   value,
   onChange,
-  listingErrors,
+  listingError,
   setListingErrors,
 }: InputFieldsProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,14 +64,14 @@ export default function InputFields({
     }
 
     if (validateField(value)) {
-      setValidationError((prevErrors: { [key: string]: string }) => {
+      setValidationError((prevErrors) => {
         const { [id]: _, ...rest } = prevErrors;
         return rest;
       });
     }
     if (validateListingFields(value)) {
-      console.log(listingErrors);
-      setListingErrors((prevErrors: { [key: string]: string }) => {
+      console.log(listingError);
+      setListingErrors((prevErrors) => {
         const { [id]: _, ...rest } = prevErrors;
         return rest;
       });
@@ -105,7 +105,7 @@ export default function InputFields({
         $validationError={$validationError}
       />
       {$validationError && <ErrorMessage>{$validationError}</ErrorMessage>}
-      {listingErrors && <ErrorMessage>{listingErrors}</ErrorMessage>}
+      {listingError && <ErrorMessage>{listingError}</ErrorMessage>}
     </InputFieldLayout>
   );
 }

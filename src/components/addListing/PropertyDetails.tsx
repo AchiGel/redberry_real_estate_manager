@@ -30,7 +30,9 @@ export default function PropertyDetails({
   formData: FormDataTypes;
   setFormData: React.Dispatch<React.SetStateAction<FormDataTypes>>;
   listingErrors: ListingErrorsTypes;
-  setListingErrors: React.Dispatch<React.SetStateAction<ListingErrorsTypes>>;
+  setListingErrors: React.Dispatch<
+    React.SetStateAction<{ [key: string]: string | undefined }>
+  >;
 }) {
   const validateDescription = (value: string) => {
     if (!value) return false;
@@ -70,7 +72,7 @@ export default function PropertyDetails({
               price: e.target.value,
             }))
           }
-          listingErrors={listingErrors.price}
+          listingError={listingErrors.price}
           setListingErrors={setListingErrors}
         />
         <InputFields
@@ -85,7 +87,7 @@ export default function PropertyDetails({
               area: e.target.value,
             }))
           }
-          listingErrors={listingErrors.area}
+          listingError={listingErrors.area}
           setListingErrors={setListingErrors}
         />
         <InputFields
@@ -100,7 +102,7 @@ export default function PropertyDetails({
               bedrooms: e.target.value,
             }))
           }
-          listingErrors={listingErrors.bedrooms}
+          listingError={listingErrors.bedrooms}
           setListingErrors={setListingErrors}
         />
         <InputFieldLayout $gridArea="1">

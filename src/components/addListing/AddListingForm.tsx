@@ -45,9 +45,22 @@ export default function AddListingForm() {
     bedrooms: null,
     is_rental: null,
     image: null,
+    region_id: null,
   });
 
-  const [listingErrors, setListingErrors] = useState<ListingErrorsTypes>({});
+  const [listingErrors, setListingErrors] = useState<ListingErrorsTypes>({
+    address: "",
+    agent_id: "",
+    area: "",
+    bedrooms: "",
+    city_id: "",
+    description: "",
+    image: "",
+    is_rental: "",
+    price: "",
+    region_id: "",
+    zip_code: "",
+  });
 
   useEffect(() => {
     const fetchRegions = async () => {
@@ -99,7 +112,19 @@ export default function AddListingForm() {
   };
 
   const validateForm = () => {
-    const newErrors: { [key: string]: string } = {};
+    const newErrors: ListingErrorsTypes = {
+      address: undefined,
+      agent_id: undefined,
+      area: undefined,
+      bedrooms: undefined,
+      city_id: undefined,
+      description: undefined,
+      image: undefined,
+      is_rental: undefined,
+      price: undefined,
+      region_id: undefined,
+      zip_code: undefined,
+    };
 
     if (!formData.address) {
       newErrors.address = "სავალდებულო";
@@ -130,17 +155,26 @@ export default function AddListingForm() {
     }
     if (!formData.price) {
       newErrors.price = "სავალდებულო";
-    } else if (!formData.price.match(/^\d+$/)) {
+    } else if (
+      formData.price === null ||
+      !formData.price.toString().match(/^\d+$/)
+    ) {
       newErrors.price = "რიცხობრივი";
     }
     if (!formData.area) {
       newErrors.area = "სავალდებულო";
-    } else if (!formData.area.match(/^\d+$/)) {
+    } else if (
+      formData.area === null ||
+      !formData.area.toString().match(/^\d+$/)
+    ) {
       newErrors.area = "რიცხობრივი";
     }
     if (!formData.bedrooms) {
       newErrors.bedrooms = "სავალდებულო";
-    } else if (!formData.bedrooms.match(/^-?\d+$/)) {
+    } else if (
+      formData.bedrooms === null ||
+      !formData.bedrooms.toString().match(/^\d+$/)
+    ) {
       newErrors.bedrooms = "რიცხობრივი და მთელი რიცხვი";
     }
     if (!formData.description) {
@@ -148,7 +182,7 @@ export default function AddListingForm() {
     } else if (formData.description.trim().split(" ").length < 5) {
       newErrors.description = "მინიმუმ 5 სიტყვა";
     }
-    if (!formData.is_rental) {
+    if (formData.is_rental === null) {
       newErrors.is_rental = "სავალდებულო";
     }
     if (!formData.agent_id) {
@@ -169,16 +203,16 @@ export default function AddListingForm() {
 
     const formDataListing = new FormData();
     formDataListing.append("address", formData.address);
-    formDataListing.append("image", formData.image);
-    formDataListing.append("region_id", formData.region_id);
+    formDataListing.append("image", formData.image as Blob);
+    formDataListing.append("region_id", formData.region_id?.toString() || "");
     formDataListing.append("description", formData.description);
-    formDataListing.append("city_id", formData.city_id);
+    formDataListing.append("city_id", formData.city_id?.toString() || "");
     formDataListing.append("zip_code", formData.zip_code);
-    formDataListing.append("price", formData.price);
-    formDataListing.append("area", formData.area);
-    formDataListing.append("bedrooms", formData.bedrooms);
-    formDataListing.append("is_rental", formData.is_rental);
-    formDataListing.append("agent_id", formData.agent_id);
+    formDataListing.append("price", formData.price?.toString() || "");
+    formDataListing.append("area", formData.area?.toString() || "");
+    formDataListing.append("bedrooms", formData.bedrooms?.toString() || "");
+    formDataListing.append("is_rental", formData.is_rental?.toString() || "");
+    formDataListing.append("agent_id", formData.agent_id?.toString() || "");
 
     console.log("success");
 
@@ -206,6 +240,7 @@ export default function AddListingForm() {
       bedrooms: null,
       is_rental: null,
       image: null,
+      region_id: null,
     });
   };
 
