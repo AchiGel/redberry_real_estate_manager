@@ -95,13 +95,6 @@ export default function Home() {
     return regionsValid || bedroomsValid || pricesValid || areasValid;
   });
 
-  console.log("regionsSelected", regionsSelected);
-  console.log("selectedAreas", selectedAreas);
-  console.log("selectedBedrooms", selectedBedrooms);
-  console.log("selectedPrices", selectedPrices);
-  console.log("filteredOptions", filterOptions);
-  console.log("isFiltered", isFiltered);
-
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(API_URL, {
