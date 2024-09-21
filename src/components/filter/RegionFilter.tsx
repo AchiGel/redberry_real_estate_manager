@@ -102,7 +102,6 @@ export default function RegionFilter({
   setPriceClicked,
   setAreaClicked,
   setBedroomsClicked,
-  handleUserInteraction,
 }: RegionFilterProps) {
   const [tempRegionsSelected, setTempRegionsSelected] = useState<TempRegion[]>(
     []
@@ -140,7 +139,6 @@ export default function RegionFilter({
         $direction={regionClicked}
         onClick={() => {
           setRegionClicked(!regionClicked);
-          handleUserInteraction();
           setPriceClicked(false);
           setAreaClicked(false);
           setBedroomsClicked(false);

@@ -104,8 +104,8 @@ export interface FilterSectionProps {
     React.SetStateAction<RegionsTypes[] | undefined>
   >;
   listing: PropertyTypes[];
-  selectedBedrooms: number | "";
-  setSelectedBedrooms: React.Dispatch<React.SetStateAction<number | "">>;
+  selectedBedrooms: number | "" | null;
+  setSelectedBedrooms: React.Dispatch<React.SetStateAction<number | "" | null>>;
   selectedPrices: [number | null, number | null];
   setSelectedPrices: React.Dispatch<
     React.SetStateAction<[number | null, number | null]>
@@ -116,7 +116,7 @@ export interface FilterSectionProps {
   >;
   isFiltered: boolean;
   setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>;
-  handleUserInteraction: () => void;
+  isMounted: boolean;
 }
 
 export interface AreaFilterProps {
@@ -128,7 +128,6 @@ export interface AreaFilterProps {
   setSelectedAreas: React.Dispatch<
     React.SetStateAction<[number | null, number | null]>
   >;
-  handleUserInteraction: () => void;
 }
 
 export interface BedroomFilterProps {
@@ -138,7 +137,6 @@ export interface BedroomFilterProps {
   setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedBedrooms: React.Dispatch<React.SetStateAction<number | "">>;
-  handleUserInteraction: () => void;
 }
 
 export interface PriceFilterProps {
@@ -150,7 +148,6 @@ export interface PriceFilterProps {
   setSelectedPrices: React.Dispatch<
     React.SetStateAction<[number | null, number | null]>
   >;
-  handleUserInteraction: () => void;
 }
 
 export interface RegionFilterProps {
@@ -166,7 +163,6 @@ export interface RegionFilterProps {
   setPriceClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  handleUserInteraction: () => void;
 }
 
 // Chosen Option Interface

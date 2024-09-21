@@ -4,7 +4,7 @@
 import styled from "styled-components";
 import FilterSection from "../components/filter/FilterSection";
 import ListingCard from "../components/ListingCard";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { PropertyTypes, RegionsTypes } from "../generalTypes.interface";
 
 export const token = "9cfd9147-04a6-47c4-8eba-407452441d23";
@@ -62,12 +62,45 @@ export default function Home() {
     return savedAreas ? JSON.parse(savedAreas) : [null, null];
   });
 
-  const [selectedBedrooms, setSelectedBedrooms] = useState<number | "">(() => {
+  const [selectedBedrooms, setSelectedBedrooms] = useState<number | null>(
+    () => {
+      const savedBedrooms = localStorage.getItem("selectedBedrooms");
+      return savedBedrooms !== undefined
+        ? JSON.parse(savedBedrooms)
+        : undefined;
+    }
+  );
+
+  const [isFiltered, setIsFiltered] = useState(() => {
+    const savedRegions = localStorage.getItem("selectedRegions");
     const savedBedrooms = localStorage.getItem("selectedBedrooms");
-    return savedBedrooms !== "" ? parseInt(savedBedrooms) : "";
+    const savedPrices = localStorage.getItem("selectedPrices");
+    const savedAreas = localStorage.getItem("selectedAreas");
+
+    const regionsValid = savedRegions
+      ? JSON.parse(savedRegions).length > 0
+      : false;
+    const bedroomsValid = savedBedrooms
+      ? JSON.parse(savedBedrooms) !== null
+      : false;
+    const pricesValid =
+      savedPrices &&
+      JSON.parse(savedPrices)[0] !== null &&
+      JSON.parse(savedPrices)[1] !== null;
+    const areasValid =
+      savedAreas &&
+      JSON.parse(savedAreas)[0] !== null &&
+      JSON.parse(savedAreas)[1] !== null;
+
+    return regionsValid || bedroomsValid || pricesValid || areasValid;
   });
-  const [isFiltered, setIsFiltered] = useState(false);
-  const isMounted = useRef(false);
+
+  console.log("regionsSelected", regionsSelected);
+  console.log("selectedAreas", selectedAreas);
+  console.log("selectedBedrooms", selectedBedrooms);
+  console.log("selectedPrices", selectedPrices);
+  console.log("filteredOptions", filterOptions);
+  console.log("isFiltered", isFiltered);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,9 +118,6 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const handleUserInteraction = () => {
-    isMounted.current = true;
-  };
   useEffect(() => {
     localStorage.setItem(
       "selectedRegions",
@@ -95,30 +125,24 @@ export default function Home() {
     );
     localStorage.setItem(
       "selectedBedrooms",
-      selectedBedrooms !== "" && selectedBedrooms !== undefined
-        ? selectedBedrooms.toString()
-        : ""
+      selectedBedrooms !== undefined
+        ? JSON.stringify(selectedBedrooms)
+        : undefined
     );
     localStorage.setItem("selectedPrices", JSON.stringify(selectedPrices));
     localStorage.setItem("selectedAreas", JSON.stringify(selectedAreas));
   }, [regionsSelected, selectedAreas, selectedBedrooms, selectedPrices]);
 
   useEffect(() => {
-    if (!isMounted.current) return;
+    const isAnyFilterSet =
+      regionsSelected.length > 0 ||
+      selectedBedrooms !== null ||
+      selectedPrices[0] !== null ||
+      selectedPrices[1] !== null ||
+      selectedAreas[0] !== null ||
+      selectedAreas[1] !== null;
 
-    if (
-      !regionsSelected?.length &&
-      selectedBedrooms === "" &&
-      !selectedPrices[0] &&
-      !selectedPrices[1] &&
-      !selectedAreas[0] &&
-      !selectedAreas[1]
-    ) {
-      setIsFiltered(false);
-      return;
-    } else {
-      setIsFiltered(true);
-    }
+    setIsFiltered(isAnyFilterSet);
 
     const filtered = listing.filter((property) => {
       const regionMatches = regionsSelected?.length
@@ -172,7 +196,6 @@ export default function Home() {
         setSelectedAreas={setSelectedAreas}
         isFiltered={isFiltered}
         setIsFiltered={setIsFiltered}
-        handleUserInteraction={handleUserInteraction}
       />
       <ListingGrid>
         {isFiltered && filterOptions.length === 0 ? (

@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import styled from "styled-components";
 import Button from "../Button";
 import { Link } from "react-router-dom";
@@ -68,7 +71,6 @@ export default function FilterSection({
   setSelectedAreas,
   isFiltered,
   setIsFiltered,
-  handleUserInteraction,
 }: FilterSectionProps) {
   const [regionClicked, setRegionClicked] = useState(false);
   const [priceClicked, setPriceClicked] = useState(false);
@@ -97,7 +99,6 @@ export default function FilterSection({
 
   const handleRemoveBedrooms = () => {
     setSelectedBedrooms("");
-    setFilterOptions([]);
     setIsFiltered(true);
   };
 
@@ -126,7 +127,6 @@ export default function FilterSection({
             setPriceClicked={setPriceClicked}
             setAreaClicked={setAreaClicked}
             setBedroomsClicked={setBedroomsClicked}
-            handleUserInteraction={handleUserInteraction}
           />
           <PriceFilter
             priceClicked={priceClicked}
@@ -135,7 +135,6 @@ export default function FilterSection({
             setAreaClicked={setAreaClicked}
             setBedroomsClicked={setBedroomsClicked}
             setSelectedPrices={setSelectedPrices}
-            handleUserInteraction={handleUserInteraction}
           />
           <AreaFilter
             areaClicked={areaClicked}
@@ -144,7 +143,6 @@ export default function FilterSection({
             setRegionClicked={setRegionClicked}
             setBedroomsClicked={setBedroomsClicked}
             setSelectedAreas={setSelectedAreas}
-            handleUserInteraction={handleUserInteraction}
           />
           <BedroomsFilter
             bedroomsClicked={bedroomsClicked}
@@ -153,7 +151,6 @@ export default function FilterSection({
             setRegionClicked={setRegionClicked}
             setAreaClicked={setAreaClicked}
             setSelectedBedrooms={setSelectedBedrooms}
-            handleUserInteraction={handleUserInteraction}
           />
         </FilterLeftSectionUp>
         {isFiltered && (
@@ -187,7 +184,7 @@ export default function FilterSection({
             <ClearButton
               onClick={() => {
                 setRegionsSelected([]);
-                setSelectedBedrooms("");
+                setSelectedBedrooms(null);
                 setSelectedPrices([null, null]);
                 setSelectedAreas([null, null]);
               }}

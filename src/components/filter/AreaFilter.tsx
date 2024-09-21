@@ -29,7 +29,6 @@ export default function AreaFilter({
   setPriceClicked,
   setRegionClicked,
   setSelectedAreas,
-  handleUserInteraction,
 }: AreaFilterProps) {
   const areas = [30, 50, 70, 100, 150];
 
@@ -100,7 +99,6 @@ export default function AreaFilter({
         $direction={areaClicked}
         onClick={() => {
           setAreaClicked(!areaClicked);
-          handleUserInteraction();
           setRegionClicked(false);
           setPriceClicked(false);
           setBedroomsClicked(false);
