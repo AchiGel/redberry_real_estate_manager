@@ -68,6 +68,7 @@ export default function FilterSection({
   setSelectedAreas,
   isFiltered,
   setIsFiltered,
+  handleUserInteraction,
 }: FilterSectionProps) {
   const [regionClicked, setRegionClicked] = useState(false);
   const [priceClicked, setPriceClicked] = useState(false);
@@ -125,6 +126,7 @@ export default function FilterSection({
             setPriceClicked={setPriceClicked}
             setAreaClicked={setAreaClicked}
             setBedroomsClicked={setBedroomsClicked}
+            handleUserInteraction={handleUserInteraction}
           />
           <PriceFilter
             priceClicked={priceClicked}
@@ -133,6 +135,7 @@ export default function FilterSection({
             setAreaClicked={setAreaClicked}
             setBedroomsClicked={setBedroomsClicked}
             setSelectedPrices={setSelectedPrices}
+            handleUserInteraction={handleUserInteraction}
           />
           <AreaFilter
             areaClicked={areaClicked}
@@ -141,6 +144,7 @@ export default function FilterSection({
             setRegionClicked={setRegionClicked}
             setBedroomsClicked={setBedroomsClicked}
             setSelectedAreas={setSelectedAreas}
+            handleUserInteraction={handleUserInteraction}
           />
           <BedroomsFilter
             bedroomsClicked={bedroomsClicked}
@@ -149,6 +153,7 @@ export default function FilterSection({
             setRegionClicked={setRegionClicked}
             setAreaClicked={setAreaClicked}
             setSelectedBedrooms={setSelectedBedrooms}
+            handleUserInteraction={handleUserInteraction}
           />
         </FilterLeftSectionUp>
         {isFiltered && (

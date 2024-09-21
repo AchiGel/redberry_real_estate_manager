@@ -7,10 +7,7 @@ import InputFields, {
   InputLabel,
 } from "./InputFields";
 import ImageUpload from "./ImageUpload";
-import {
-  FormDataTypes,
-  ListingErrorsTypes,
-} from "../../generalTypes.interface";
+import { PropertyDetailsTypes } from "../../generalTypes.interface";
 
 const TextAreaDescr = styled.textarea`
   padding: 10px;
@@ -26,14 +23,7 @@ export default function PropertyDetails({
   setFormData,
   listingErrors,
   setListingErrors,
-}: {
-  formData: FormDataTypes;
-  setFormData: React.Dispatch<React.SetStateAction<FormDataTypes>>;
-  listingErrors: ListingErrorsTypes;
-  setListingErrors: React.Dispatch<
-    React.SetStateAction<{ [key: string]: string | undefined }>
-  >;
-}) {
+}: PropertyDetailsTypes) {
   const validateDescription = (value: string) => {
     if (!value) return false;
     if (value.trim().split(" ").length < 5) return false;
@@ -72,7 +62,7 @@ export default function PropertyDetails({
               price: e.target.value,
             }))
           }
-          listingError={listingErrors.price}
+          listingError={listingErrors?.price}
           setListingErrors={setListingErrors}
         />
         <InputFields
@@ -87,7 +77,7 @@ export default function PropertyDetails({
               area: e.target.value,
             }))
           }
-          listingError={listingErrors.area}
+          listingError={listingErrors?.area}
           setListingErrors={setListingErrors}
         />
         <InputFields
@@ -102,7 +92,7 @@ export default function PropertyDetails({
               bedrooms: e.target.value,
             }))
           }
-          listingError={listingErrors.bedrooms}
+          listingError={listingErrors?.bedrooms}
           setListingErrors={setListingErrors}
         />
         <InputFieldLayout $gridArea="1">
@@ -111,8 +101,8 @@ export default function PropertyDetails({
             value={formData.description}
             onChange={handleDescriptionChange}
           />
-          {listingErrors.description && (
-            <ErrorMessage>{listingErrors.description}</ErrorMessage>
+          {listingErrors?.description && (
+            <ErrorMessage>{listingErrors?.description}</ErrorMessage>
           )}
         </InputFieldLayout>
         <InputFieldLayout $gridArea="2">

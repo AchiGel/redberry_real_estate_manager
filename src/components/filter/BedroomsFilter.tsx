@@ -17,6 +17,7 @@ export default function BedroomsFilter({
   setPriceClicked,
   setRegionClicked,
   setSelectedBedrooms,
+  handleUserInteraction,
 }: BedroomFilterProps) {
   const [tempBedrooms, setTempBedrooms] = useState<number | "">("");
 
@@ -38,6 +39,7 @@ export default function BedroomsFilter({
         $direction={bedroomsClicked}
         onClick={() => {
           setBedroomsClicked(!bedroomsClicked);
+          handleUserInteraction();
           setRegionClicked(false);
           setPriceClicked(false);
           setAreaClicked(false);

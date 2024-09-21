@@ -10,6 +10,7 @@ import InputFields, {
 } from "../addListing/InputFields";
 import ImageUpload from "../addListing/ImageUpload";
 import { token } from "../../pages/Home";
+import { AgentErrors } from "../../generalTypes.interface";
 
 interface AgentModalProps {
   agentClicked: boolean;
@@ -68,14 +69,9 @@ export default function AddAgentModal({
     avatar: null,
   });
 
-  const [errors, setErrors] = useState<{
-    name?: string;
-    surname?: string;
-    email?: string;
-    phone?: string;
-    avatar?: string;
-    numeric?: string;
-  }>({});
+  const [errors, setErrors] = useState<
+    AgentErrors | { [key: string]: string | undefined }
+  >({});
 
   const [success, setSuccess] = useState(false);
 
@@ -196,7 +192,7 @@ export default function AddAgentModal({
                   minLength={2}
                   required={true}
                   $validationError={errors.name}
-                  setValidationError={setErrors}
+                  setErrors={setErrors}
                 />
                 <InputFields
                   type="text"
@@ -207,7 +203,7 @@ export default function AddAgentModal({
                   minLength={2}
                   required={true}
                   $validationError={errors.surname}
-                  setValidationError={setErrors}
+                  setErrors={setErrors}
                 />
               </FormSectionGrid>
               <FormSectionGrid>
@@ -219,7 +215,7 @@ export default function AddAgentModal({
                   setAgentForm={setAgentForm}
                   required
                   $validationError={errors.email}
-                  setValidationError={setErrors}
+                  setErrors={setErrors}
                 />
                 <InputFields
                   type="text"
@@ -230,7 +226,7 @@ export default function AddAgentModal({
                   pattern="5\d{8}"
                   required
                   $validationError={errors.phone}
-                  setValidationError={setErrors}
+                  setErrors={setErrors}
                 />
               </FormSectionGrid>
               <InputFieldLayout>
@@ -240,7 +236,7 @@ export default function AddAgentModal({
                   setAgentForm={setAgentForm}
                   formType="agent"
                   $validationError={errors.avatar}
-                  setValidationError={setErrors}
+                  setErrors={setErrors}
                 />
               </InputFieldLayout>
               <ButtonsBox>

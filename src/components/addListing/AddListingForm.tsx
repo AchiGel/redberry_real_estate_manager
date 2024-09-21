@@ -51,7 +51,12 @@ export default function AddListingForm() {
     region_id: null,
   });
 
-  const [listingErrors, setListingErrors] = useState<ListingErrorsTypes>({
+  const [listingErrors, setListingErrors] = useState<
+    | ListingErrorsTypes
+    | { [key: string]: string | undefined }
+    | string
+    | undefined
+  >({
     address: "",
     agent_id: "",
     area: "",

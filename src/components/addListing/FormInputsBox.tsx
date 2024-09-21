@@ -3,14 +3,7 @@ import IsRental from "./IsRental";
 import FormAddress from "./FormAddress";
 import PropertyDetails from "./PropertyDetails";
 import Agent from "./Agent";
-import {
-  AgentTypes,
-  CitiesType,
-  FormDataTypes,
-  ListingErrorsTypes,
-  RegionsType,
-} from "../../generalTypes.interface";
-import React from "react";
+import { FormInputBoxTypes } from "../../generalTypes.interface";
 
 const InputsBox = styled.div`
   display: flex;
@@ -27,20 +20,7 @@ export default function FormInputsBox({
   setFormData,
   listingErrors,
   setListingErrors,
-}: {
-  regions: RegionsType[];
-  cities: CitiesType[];
-  agents: AgentTypes[];
-  formData: FormDataTypes;
-  onInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => void;
-  setFormData: React.Dispatch<React.SetStateAction<FormDataTypes>>;
-  listingErrors: ListingErrorsTypes;
-  setListingErrors: React.Dispatch<
-    React.SetStateAction<{ [key: string]: string | undefined }>
-  >;
-}) {
+}: FormInputBoxTypes) {
   return (
     <InputsBox>
       <IsRental

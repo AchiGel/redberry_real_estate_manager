@@ -45,7 +45,7 @@ export default function InputFields({
   minLength,
   pattern,
   $validationError,
-  setValidationError,
+  setErrors,
   value,
   onChange,
   listingError,
@@ -63,14 +63,14 @@ export default function InputFields({
       }));
     }
 
-    if (validateField(value)) {
-      setValidationError((prevErrors) => {
+    if (validateField(value) && agentForm) {
+      setErrors((prevErrors) => {
         const { [id]: _, ...rest } = prevErrors;
         return rest;
       });
     }
-    if (validateListingFields(value)) {
-      console.log(listingError);
+
+    if (validateListingFields(value) && !agentForm) {
       setListingErrors((prevErrors) => {
         const { [id]: _, ...rest } = prevErrors;
         return rest;

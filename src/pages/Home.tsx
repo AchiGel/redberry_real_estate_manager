@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import FilterSection from "../components/filter/FilterSection";
 import ListingCard from "../components/ListingCard";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PropertyTypes, RegionsTypes } from "../generalTypes.interface";
 
 export const token = "9cfd9147-04a6-47c4-8eba-407452441d23";
@@ -33,7 +33,6 @@ const WarningMessage = styled.p`
 export default function Home() {
   const [listing, setListing] = useState<PropertyTypes[]>([]);
   const [filterOptions, setFilterOptions] = useState<PropertyTypes[]>([]);
-
   const [regions, setRegions] = useState<RegionsTypes[] | undefined>();
   const [regionsSelected, setRegionsSelected] = useState<
     | {
@@ -41,18 +40,31 @@ export default function Home() {
         name: string;
       }[]
     | undefined
-  >();
+  >(() => {
+    const savedRegions = localStorage.getItem("selectedRegions");
+    return savedRegions ? JSON.parse(savedRegions) : [];
+  });
 
   const [selectedPrices, setSelectedPrices] = useState<
     [number | null, number | null]
-  >([null, null]);
+  >(() => {
+    const savedPrices = localStorage.getItem("selectedPrices");
+    return savedPrices ? JSON.parse(savedPrices) : [null, null];
+  });
 
   const [selectedAreas, setSelectedAreas] = useState<
     [number | null, number | null]
-  >([null, null]);
+  >(() => {
+    const savedAreas = localStorage.getItem("selectedAreas");
+    return savedAreas ? JSON.parse(savedAreas) : [null, null];
+  });
 
-  const [selectedBedrooms, setSelectedBedrooms] = useState<number | "">("");
+  const [selectedBedrooms, setSelectedBedrooms] = useState<number | "">(() => {
+    const savedBedrooms = localStorage.getItem("selectedBedrooms");
+    return savedBedrooms !== "" ? parseInt(savedBedrooms) : "";
+  });
   const [isFiltered, setIsFiltered] = useState(false);
+  const isMounted = useRef(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,7 +82,27 @@ export default function Home() {
     fetchData();
   }, []);
 
+  const handleUserInteraction = () => {
+    isMounted.current = true;
+  };
   useEffect(() => {
+    localStorage.setItem(
+      "selectedRegions",
+      JSON.stringify(regionsSelected ?? [])
+    );
+    localStorage.setItem(
+      "selectedBedrooms",
+      selectedBedrooms !== "" && selectedBedrooms !== undefined
+        ? selectedBedrooms.toString()
+        : ""
+    );
+    localStorage.setItem("selectedPrices", JSON.stringify(selectedPrices));
+    localStorage.setItem("selectedAreas", JSON.stringify(selectedAreas));
+  }, [regionsSelected, selectedAreas, selectedBedrooms, selectedPrices]);
+
+  useEffect(() => {
+    if (!isMounted.current) return;
+
     if (
       !regionsSelected?.length &&
       selectedBedrooms === "" &&
@@ -137,6 +169,7 @@ export default function Home() {
         setSelectedAreas={setSelectedAreas}
         isFiltered={isFiltered}
         setIsFiltered={setIsFiltered}
+        handleUserInteraction={handleUserInteraction}
       />
       <ListingGrid>
         {isFiltered && filterOptions.length === 0 ? (

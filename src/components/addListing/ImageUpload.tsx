@@ -59,7 +59,9 @@ export default function ImageUpload({
   setValidationError,
 }: {
   setAgentForm?: React.Dispatch<React.SetStateAction<AgentFormTypes>>;
-  setFormData?: React.Dispatch<React.SetStateAction<FormDataTypes>>;
+  setFormData?: (
+    e: React.Dispatch<React.SetStateAction<FormDataTypes>>
+  ) => void | React.Dispatch<React.SetStateAction<FormDataTypes>>;
   required: boolean;
   formType: string;
   $validationError: string | undefined;

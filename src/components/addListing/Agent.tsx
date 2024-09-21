@@ -18,9 +18,9 @@ export default function Agent({
   agents: AgentTypes[];
   formData: FormDataTypes;
   setFormData: React.Dispatch<React.SetStateAction<FormDataTypes>>;
-  listingErrors: ListingErrorsTypes;
+  listingErrors: ListingErrorsTypes | { [key: string]: string | undefined };
   setListingErrors: React.Dispatch<
-    React.SetStateAction<{ [key: string]: string | undefined }>
+    React.SetStateAction<ListingErrorsTypes | string | undefined>
   >;
 }) {
   const agentsOptions = agents.map((agent) => ({

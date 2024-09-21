@@ -73,6 +73,7 @@ export default function PriceFilter({
   setAreaClicked,
   setBedroomsClicked,
   setSelectedPrices,
+  handleUserInteraction,
 }: PriceFilterProps) {
   const prices = [50000, 100000, 150000, 200000, 300000];
 
@@ -143,6 +144,7 @@ export default function PriceFilter({
         $direction={priceClicked}
         onClick={() => {
           setPriceClicked(!priceClicked);
+          handleUserInteraction();
           setRegionClicked(false);
           setAreaClicked(false);
           setBedroomsClicked(false);

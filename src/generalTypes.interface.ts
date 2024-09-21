@@ -24,19 +24,23 @@ export interface InputFieldsProps {
   required: boolean;
   minLength?: number;
   pattern?: string;
-  $validationError: string | undefined;
-  setValidationError: React.Dispatch<
-    React.SetStateAction<{ [key: string]: string | undefined }>
+  $validationError: string | undefined | { [key: string]: string | undefined };
+  setErrors: React.Dispatch<
+    React.SetStateAction<AgentErrors | { [key: string]: string | undefined }>
   >;
   value?: string | number | null;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   listingError?: string | undefined;
   setListingErrors: React.Dispatch<
-    React.SetStateAction<{ [key: string]: string | undefined }>
+    React.SetStateAction<
+      | ListingErrorsTypes
+      | { [key: string]: string | undefined }
+      | string
+      | undefined
+    >
   >;
 }
 
-// Region and City Interfaces
 export interface RegionsTypes {
   id: number;
   name: string;
@@ -112,6 +116,7 @@ export interface FilterSectionProps {
   >;
   isFiltered: boolean;
   setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>;
+  handleUserInteraction: () => void;
 }
 
 export interface AreaFilterProps {
@@ -123,6 +128,7 @@ export interface AreaFilterProps {
   setSelectedAreas: React.Dispatch<
     React.SetStateAction<[number | null, number | null]>
   >;
+  handleUserInteraction: () => void;
 }
 
 export interface BedroomFilterProps {
@@ -132,6 +138,7 @@ export interface BedroomFilterProps {
   setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedBedrooms: React.Dispatch<React.SetStateAction<number | "">>;
+  handleUserInteraction: () => void;
 }
 
 export interface PriceFilterProps {
@@ -143,6 +150,7 @@ export interface PriceFilterProps {
   setSelectedPrices: React.Dispatch<
     React.SetStateAction<[number | null, number | null]>
   >;
+  handleUserInteraction: () => void;
 }
 
 export interface RegionFilterProps {
@@ -158,6 +166,7 @@ export interface RegionFilterProps {
   setPriceClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setAreaClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setBedroomsClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  handleUserInteraction: () => void;
 }
 
 // Chosen Option Interface
@@ -211,8 +220,70 @@ export interface FormAddressProps {
     }
   ) => void;
   setFormData: React.Dispatch<React.SetStateAction<FormDataTypes>>;
-  listingErrors: { [key: string]: string | undefined };
+  listingErrors:
+    | ListingErrorsTypes
+    | { [key: string]: string | undefined }
+    | string
+    | undefined;
   setListingErrors: React.Dispatch<
-    React.SetStateAction<{ [key: string]: string | undefined }>
+    React.SetStateAction<
+      | ListingErrorsTypes
+      | { [key: string]: string | undefined }
+      | string
+      | undefined
+    >
   >;
+}
+
+export interface FormInputBoxTypes {
+  regions: RegionsType[];
+  cities: CitiesType[];
+  agents: AgentTypes[];
+  formData: FormDataTypes;
+  onInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  setFormData: React.Dispatch<React.SetStateAction<FormDataTypes>>;
+  listingErrors:
+    | ListingErrorsTypes
+    | { [key: string]: string | undefined }
+    | string
+    | undefined;
+  setListingErrors: React.Dispatch<
+    React.SetStateAction<
+      | ListingErrorsTypes
+      | { [key: string]: string | undefined }
+      | string
+      | undefined
+    >
+  >;
+}
+
+export interface IsRentalTypes {
+  formData: FormDataTypes;
+  onInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  listingErrors: ListingErrorsTypes;
+
+  setListingErrors: React.Dispatch<React.SetStateAction<ListingErrorsTypes>>;
+}
+
+export interface PropertyDetailsTypes {
+  formData: FormDataTypes;
+  setFormData: (
+    e: React.Dispatch<React.SetStateAction<FormDataTypes>>
+  ) => void | React.Dispatch<React.SetStateAction<FormDataTypes>>;
+  listingErrors: ListingErrorsTypes;
+
+  setListingErrors: React.Dispatch<React.SetStateAction<ListingErrorsTypes>>;
+}
+
+export interface AgentErrors {
+  name?: string;
+  surname?: string;
+  email?: string;
+  phone?: string;
+  avatar?: string;
+  numeric?: string;
 }
