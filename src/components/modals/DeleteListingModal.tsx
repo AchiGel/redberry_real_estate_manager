@@ -29,9 +29,16 @@ export default function DeleteListingModal({
   const handleModalClose = () => {
     setDeleteClicked(false);
   };
+
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.currentTarget === e.target) {
+      setDeleteClicked(false);
+    }
+  };
+
   return (
-    <ModalLayer>
-      <AgentModalLayout>
+    <ModalLayer onClick={handleOverlayClick}>
+      <AgentModalLayout onClick={(e) => e.stopPropagation()}>
         <div>
           <DeleteListingModalTitle>
             გსურთ წაშალოთ ლისტინგი?

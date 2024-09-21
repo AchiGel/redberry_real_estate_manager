@@ -291,7 +291,12 @@ export default function AddListingForm() {
           setListingErrors={setListingErrors}
         />
         <ButtonsBox>
-          <FormButton $btnStyle="cancel" btnText="გაუქმება" type="reset" />
+          <FormButton
+            $btnStyle="cancel"
+            btnText="გაუქმება"
+            type="reset"
+            onClick={() => navigate("/")}
+          />
           <FormButton
             $btnStyle="add"
             btnText="დაამატე ლისტინგი"
