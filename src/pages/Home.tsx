@@ -54,13 +54,6 @@ export default function Home() {
   const [selectedBedrooms, setSelectedBedrooms] = useState<number | "">("");
   const [isFiltered, setIsFiltered] = useState(false);
 
-  // console.log("regionsSelected", regionsSelected);
-  // console.log(listing);
-  console.log("filterOptions", filterOptions);
-  // console.log("selectedBedrooms", selectedBedrooms);
-  // console.log("selectedPrices", selectedPrices);
-  // console.log("selectedAreas", selectedAreas);
-
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(API_URL, {
@@ -117,8 +110,6 @@ export default function Home() {
       return regionMatches && bedroomsMatch && priceMatch && areasMatch;
     });
 
-    // console.log("filtered", filtered);
-
     setFilterOptions(filtered);
   }, [
     regionsSelected,
@@ -127,6 +118,8 @@ export default function Home() {
     selectedPrices,
     selectedAreas,
   ]);
+
+  console.log(filterOptions);
 
   return (
     <div>
@@ -148,22 +141,10 @@ export default function Home() {
         setIsFiltered={setIsFiltered}
       />
       <ListingGrid>
-        {filterOptions.length === 0 &&
-        (!regionsSelected || regionsSelected.length === 0) ? (
-          listing.map((item: PropertyTypes) => (
-            <ListingCard
-              key={item.id}
-              image={item.image}
-              price={item.price}
-              address={item.address}
-              bedrooms={item.bedrooms}
-              zip_code={item.zip_code}
-              area={item.area}
-              city={item.city.name}
-              is_rental={item.is_rental}
-              id={item.id}
-            />
-          ))
+        {isFiltered && filterOptions.length === 0 ? (
+          <WarningMessage>
+            აღნიშნული მონაცემებით განცხადება არ იძებნება
+          </WarningMessage>
         ) : filterOptions.length > 0 ? (
           filterOptions.map((item: PropertyTypes) => (
             <ListingCard
@@ -180,9 +161,20 @@ export default function Home() {
             />
           ))
         ) : (
-          <WarningMessage>
-            აღნიშნული მონაცემებით განცხადება არ იძებნება
-          </WarningMessage>
+          listing.map((item: PropertyTypes) => (
+            <ListingCard
+              key={item.id}
+              image={item.image}
+              price={item.price}
+              address={item.address}
+              bedrooms={item.bedrooms}
+              zip_code={item.zip_code}
+              area={item.area}
+              city={item.city.name}
+              is_rental={item.is_rental}
+              id={item.id}
+            />
+          ))
         )}
       </ListingGrid>
     </div>
