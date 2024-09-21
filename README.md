@@ -1,50 +1,30 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Real Estate Management Platform
 
-Currently, two official plugins are available:
+A Real Estate Management Platform built using modern web technologies. This application allows users to manage real estate listings, apply filters, and navigate between different views.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+-- Manage Listings: Add, update, and view property details. 
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+-- Filters: Filter listings by region, price, bedrooms, and more. 
 
-- Configure the top-level `parserOptions` property like this:
+-- Responsive UI: Built with styled components for a clean and flexible design. 
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+-- Swiper Integration: Smooth image sliders for showcasing property galleries. 
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+-- Routing: Seamless page navigation with React Router.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Tech Stack
+-- React: Fast and modular JavaScript library for building UIs. 
+
+-- TypeScript: Static typing for catching errors early and improving development efficiency. 
+
+-- Styled Components: CSS-in-JS for scoped, maintainable styles. 
+
+-- React Select: Customizable select dropdowns for filtering and inputs. 
+
+-- Swiper: Carousel integration for property images. 
+
+-- React Router: Declarative routing for multi-page navigation.
