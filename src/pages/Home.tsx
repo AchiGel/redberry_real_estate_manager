@@ -52,10 +52,11 @@ export default function Home() {
   >([null, null]);
 
   const [selectedBedrooms, setSelectedBedrooms] = useState<number | "">("");
+  const [isFiltered, setIsFiltered] = useState(false);
 
   // console.log("regionsSelected", regionsSelected);
   // console.log(listing);
-  // console.log("filterOptions", filterOptions);
+  console.log("filterOptions", filterOptions);
   // console.log("selectedBedrooms", selectedBedrooms);
   // console.log("selectedPrices", selectedPrices);
   // console.log("selectedAreas", selectedAreas);
@@ -85,7 +86,10 @@ export default function Home() {
       !selectedAreas[0] &&
       !selectedAreas[1]
     ) {
+      setIsFiltered(false);
       return;
+    } else {
+      setIsFiltered(true);
     }
 
     const filtered = listing.filter((property) => {
@@ -140,6 +144,8 @@ export default function Home() {
         setSelectedPrices={setSelectedPrices}
         selectedAreas={selectedAreas}
         setSelectedAreas={setSelectedAreas}
+        isFiltered={isFiltered}
+        setIsFiltered={setIsFiltered}
       />
       <ListingGrid>
         {filterOptions.length === 0 &&

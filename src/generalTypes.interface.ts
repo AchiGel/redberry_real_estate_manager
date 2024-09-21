@@ -110,6 +110,8 @@ export interface FilterSectionProps {
   setSelectedAreas: React.Dispatch<
     React.SetStateAction<[number | null, number | null]>
   >;
+  isFiltered: boolean;
+  setIsFiltered: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface AreaFilterProps {

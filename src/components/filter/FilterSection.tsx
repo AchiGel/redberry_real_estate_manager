@@ -54,7 +54,6 @@ const ButtonsSection = styled.div`
 `;
 
 export default function FilterSection({
-  filterOptions,
   setFilterOptions,
   regions,
   setRegions,
@@ -67,6 +66,8 @@ export default function FilterSection({
   setSelectedPrices,
   selectedAreas,
   setSelectedAreas,
+  isFiltered,
+  setIsFiltered,
 }: FilterSectionProps) {
   const [regionClicked, setRegionClicked] = useState(false);
   const [priceClicked, setPriceClicked] = useState(false);
@@ -90,19 +91,23 @@ export default function FilterSection({
 
   const handleRemoveRegion = (id: number) => {
     setRegionsSelected((prev) => prev?.filter((r) => r.id !== id));
+    setIsFiltered(true);
   };
 
   const handleRemoveBedrooms = () => {
     setSelectedBedrooms("");
     setFilterOptions([]);
+    setIsFiltered(true);
   };
 
   const handleRemovePrices = () => {
     setSelectedPrices([null, null]);
+    setIsFiltered(true);
   };
 
   const handleRemoveAreas = () => {
     setSelectedAreas([null, null]);
+    setIsFiltered(true);
   };
 
   return (
@@ -146,7 +151,7 @@ export default function FilterSection({
             setSelectedBedrooms={setSelectedBedrooms}
           />
         </FilterLeftSectionUp>
-        {filterOptions.length ? (
+        {isFiltered && (
           <FilterLeftSectionDown>
             {regionsSelected?.map((region) => (
               <ChosenOption
@@ -185,7 +190,7 @@ export default function FilterSection({
               გასუფთავება
             </ClearButton>
           </FilterLeftSectionDown>
-        ) : null}
+        )}
       </FilterLeftSection>
       <ButtonsSection>
         <Link to="/add_listing">
