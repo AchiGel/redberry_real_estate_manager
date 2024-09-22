@@ -51,6 +51,8 @@ export default function AddListingForm() {
     region_id: null,
   });
 
+  console.log(formData);
+
   const [listingErrors, setListingErrors] = useState<
     | ListingErrorsTypes
     | { [key: string]: string | undefined }

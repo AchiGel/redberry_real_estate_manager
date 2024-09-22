@@ -82,34 +82,46 @@ export default function ImageUpload({
     if (files && files.length > 0) {
       const file = files[0];
 
+      console.log("file", file);
+
       if (validateField(file)) {
+        console.log("File is valid 2");
         setImagePrev(file);
-        setErrors((prevErrors) => {
-          const { avatar, ...rest } = prevErrors;
-          return rest;
-        });
+        if (formType === "agent") {
+          setErrors((prevErrors) => {
+            const { avatar, ...rest } = prevErrors;
+            return rest;
+          });
+        }
+
+        console.log(formType);
 
         if (formType === "agent") {
           setAgentForm((prevForm) => ({
             ...prevForm,
             avatar: file,
           }));
-        } else if (formType === "listing" && setFormData) {
+        } else if (formType === "listing") {
+          console.log("hi");
           setFormData((prevForm) => ({
             ...prevForm,
             image: file,
           }));
+        } else {
+          console.log("File validation failed");
         }
       }
     }
   };
 
   const validateField = (file: File | null): boolean => {
+    console.log("Validating file:", file);
+    console.log("Is required:", required);
     if (required && !file) {
       setErrors((prev) => ({ ...prev, avatar: "სავალდებულო" }));
       return false;
     }
-
+    console.log("File is valid");
     return true;
   };
 

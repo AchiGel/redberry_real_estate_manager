@@ -110,7 +110,11 @@ export default function PropertyDetails({
         </InputFieldLayout>
         <InputFieldLayout $gridArea="2">
           <InputLabel>ატვირთეთ ფოტო *</InputLabel>
-          <ImageUpload setFormData={setFormData} formType="listing" />
+          <ImageUpload
+            setFormData={setFormData}
+            formType="listing"
+            required={true}
+          />
         </InputFieldLayout>
       </FormSectionGrid>
     </FormSectionWrapper>
