@@ -33,6 +33,9 @@ const AddButton = styled.button<{ $buttoncolor: string }>`
   &:hover ${PlusIcon} {
     filter: none;
   }
+  @media screen and (max-width: 1027px) {
+    padding: 6px;
+  }
 `;
 
 export default function Button({ buttonType, onClick }: ButtonTypes) {

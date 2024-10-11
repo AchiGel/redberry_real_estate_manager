@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const HeaderWrapper = styled.header`
-  padding-inline: 162px;
+  padding-inline: 8.75%;
   height: 100px;
   display: flex;
   align-items: center;

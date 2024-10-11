@@ -25,6 +25,13 @@ const ListingGrid = styled.section`
   @media screen and (max-width: 1367px) {
     grid-template-columns: repeat(3, 1fr);
   }
+  @media screen and (max-width: 1000px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 670px) {
+    grid-template-columns: auto;
+    justify-content: center;
+  }
 `;
 
 const WarningMessage = styled.p`
@@ -65,9 +72,7 @@ export default function Home() {
   const [selectedBedrooms, setSelectedBedrooms] = useState<number | null>(
     () => {
       const savedBedrooms = localStorage.getItem("selectedBedrooms");
-      return savedBedrooms !== undefined
-        ? JSON.parse(savedBedrooms)
-        : undefined;
+      return savedBedrooms !== null ? JSON.parse(savedBedrooms) : null;
     }
   );
 
@@ -118,9 +123,7 @@ export default function Home() {
     );
     localStorage.setItem(
       "selectedBedrooms",
-      selectedBedrooms !== undefined
-        ? JSON.stringify(selectedBedrooms)
-        : undefined
+      selectedBedrooms !== null ? JSON.stringify(selectedBedrooms) : null
     );
     localStorage.setItem("selectedPrices", JSON.stringify(selectedPrices));
     localStorage.setItem("selectedAreas", JSON.stringify(selectedAreas));
@@ -145,7 +148,9 @@ export default function Home() {
         : true;
 
       const bedroomsMatch =
-        selectedBedrooms !== "" ? property.bedrooms === selectedBedrooms : true;
+        selectedBedrooms !== null
+          ? property.bedrooms === selectedBedrooms
+          : true;
 
       const priceMatch =
         selectedPrices[0] !== null && selectedPrices[1] !== null

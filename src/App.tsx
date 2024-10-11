@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import { Outlet } from "react-router-dom";
 
 const Wrapper = styled.main`
-  padding-inline: 162px;
+  padding-inline: 8.75%;
   display: flex;
   flex-direction: column;
   margin-bottom: 90px;

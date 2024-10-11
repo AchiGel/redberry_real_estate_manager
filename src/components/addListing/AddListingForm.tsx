@@ -51,8 +51,6 @@ export default function AddListingForm() {
     region_id: null,
   });
 
-  console.log(formData);
-
   const [listingErrors, setListingErrors] = useState<
     | ListingErrorsTypes
     | { [key: string]: string | undefined }
@@ -265,10 +263,6 @@ export default function AddListingForm() {
       region_id: null,
     });
   };
-
-  // console.log("regions", regions);
-  // console.log("cities", cities);
-  // console.log("agents", agents);
 
   return (
     <>

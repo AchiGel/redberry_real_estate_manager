@@ -21,6 +21,11 @@ const FilterSectionWrapper = styled.section`
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 32px;
+  @media screen and (max-width: 780px) {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
 `;
 
 const FilterLeftSection = styled.div`
@@ -38,6 +43,10 @@ const FilterLeftSectionUp = styled.div`
   @media screen and (max-width: 1367px) {
     gap: initial;
   }
+  @media screen and (max-width: 1220px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const FilterLeftSectionDown = styled.div`
@@ -54,6 +63,15 @@ const ClearButton = styled.button`
 const ButtonsSection = styled.div`
   display: flex;
   gap: 16px;
+  @media screen and (max-width: 1027px) {
+    flex-direction: column;
+    gap: 3px;
+  }
+  @media screen and (max-width: 780px) {
+    flex-direction: row;
+    gap: 3px;
+    justify-content: center;
+  }
 `;
 
 export default function FilterSection({
@@ -98,7 +116,7 @@ export default function FilterSection({
   };
 
   const handleRemoveBedrooms = () => {
-    setSelectedBedrooms("");
+    setSelectedBedrooms(null);
     setIsFiltered(true);
   };
 
@@ -163,7 +181,7 @@ export default function FilterSection({
                 removeRegion={handleRemoveRegion}
               />
             ))}
-            {selectedBedrooms !== "" && (
+            {selectedBedrooms !== null && (
               <ChosenOption
                 selectedBedrooms={selectedBedrooms}
                 removeBedrooms={handleRemoveBedrooms}

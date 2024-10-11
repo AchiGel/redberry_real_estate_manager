@@ -82,10 +82,7 @@ export default function ImageUpload({
     if (files && files.length > 0) {
       const file = files[0];
 
-      console.log("file", file);
-
       if (validateField(file)) {
-        console.log("File is valid 2");
         setImagePrev(file);
         if (formType === "agent") {
           setErrors((prevErrors) => {
@@ -94,15 +91,12 @@ export default function ImageUpload({
           });
         }
 
-        console.log(formType);
-
         if (formType === "agent") {
           setAgentForm((prevForm) => ({
             ...prevForm,
             avatar: file,
           }));
         } else if (formType === "listing") {
-          console.log("hi");
           setFormData((prevForm) => ({
             ...prevForm,
             image: file,
@@ -115,13 +109,10 @@ export default function ImageUpload({
   };
 
   const validateField = (file: File | null): boolean => {
-    console.log("Validating file:", file);
-    console.log("Is required:", required);
     if (required && !file) {
       setErrors((prev) => ({ ...prev, avatar: "სავალდებულო" }));
       return false;
     }
-    console.log("File is valid");
     return true;
   };
 
