@@ -84,8 +84,8 @@ const RegionCheckBoxContainer = styled.div`
 `;
 
 const RegionCheckBox = styled.input`
-  width: 20px;
-  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   &:checked {
     background-color: green;
   }
