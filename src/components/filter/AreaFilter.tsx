@@ -32,6 +32,9 @@ export default function AreaFilter({
 }: AreaFilterProps) {
   const areas = [30, 50, 70, 100, 150];
 
+  const [selectedFromArea, setSelectedFromArea] = useState<number | null>(null);
+  const [selectedToArea, setSelectedToArea] = useState<number | null>(null);
+
   const [tempAreas, setTempAreas] = useState<[number | null, number | null]>([
     null,
     null,
@@ -45,10 +48,12 @@ export default function AreaFilter({
 
   const handleAreaFromSelect = (value: number) => {
     setTempAreas((prev) => [value, prev[1]]);
+    setSelectedFromArea(value);
   };
 
   const handleAreaToSelect = (value: number) => {
     setTempAreas((prev) => [prev[0], value]);
+    setSelectedToArea(value);
   };
 
   const handleAreaRange = () => {
@@ -145,7 +150,11 @@ export default function AreaFilter({
             <PriceList>
               <PriceListTitle>მინ. მ²</PriceListTitle>
               {areas.map((el) => (
-                <PriceLabel key={el} onClick={() => handleAreaFromSelect(el)}>
+                <PriceLabel
+                  $color={selectedFromArea === el}
+                  key={el}
+                  onClick={() => handleAreaFromSelect(el)}
+                >
                   <HiddenCheckbox type="checkbox" />
                   {el + " მ²"}
                 </PriceLabel>
@@ -154,7 +163,11 @@ export default function AreaFilter({
             <PriceList>
               <PriceListTitle>მაქს. მ²</PriceListTitle>
               {areas.map((el) => (
-                <PriceLabel key={el} onClick={() => handleAreaToSelect(el)}>
+                <PriceLabel
+                  $color={selectedToArea === el}
+                  key={el}
+                  onClick={() => handleAreaToSelect(el)}
+                >
                   <HiddenCheckbox type="checkbox" />
                   {el + " მ²"}
                 </PriceLabel>

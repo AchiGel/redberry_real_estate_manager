@@ -59,11 +59,11 @@ export const HiddenCheckbox = styled.input`
   display: none;
 `;
 
-export const PriceLabel = styled.label`
+export const PriceLabel = styled.label<{ $color: number | null }>`
   cursor: pointer;
   font-size: 14px;
-  color: #021526;
   margin: 5px 0;
+  color: ${(props) => (props.$color ? "red" : "#021526")};
   &:hover {
     font-weight: bold;
   }
@@ -78,6 +78,10 @@ export default function PriceFilter({
   setSelectedPrices,
 }: PriceFilterProps) {
   const prices = [50000, 100000, 150000, 200000, 300000];
+  const [selectedFromPrice, setSelectedFromPrice] = useState<number | null>(
+    null
+  );
+  const [selectedToPrice, setSelectedToPrice] = useState<number | null>(null);
 
   const [tempPrices, setTempPrices] = useState<[number | null, number | null]>([
     null,
@@ -92,10 +96,12 @@ export default function PriceFilter({
 
   const handlePriceFromSelect = (value: number) => {
     setTempPrices((prev) => [value, prev[1]]);
+    setSelectedFromPrice(value);
   };
 
   const handlePriceToSelect = (value: number) => {
     setTempPrices((prev) => [prev[0], value]);
+    setSelectedToPrice(value);
   };
 
   const handlePriceRange = () => {
@@ -192,7 +198,11 @@ export default function PriceFilter({
             <PriceList>
               <PriceListTitle>მინ. ფასი</PriceListTitle>
               {prices.map((el) => (
-                <PriceLabel key={el} onClick={() => handlePriceFromSelect(el)}>
+                <PriceLabel
+                  $color={selectedFromPrice === el}
+                  key={el}
+                  onClick={() => handlePriceFromSelect(el)}
+                >
                   <HiddenCheckbox type="checkbox" />
                   {el + " ₾"}
                 </PriceLabel>
@@ -201,7 +211,11 @@ export default function PriceFilter({
             <PriceList>
               <PriceListTitle>მაქს. ფასი</PriceListTitle>
               {prices.map((el) => (
-                <PriceLabel key={el} onClick={() => handlePriceToSelect(el)}>
+                <PriceLabel
+                  $color={selectedToPrice === el}
+                  key={el}
+                  onClick={() => handlePriceToSelect(el)}
+                >
                   <HiddenCheckbox type="checkbox" />
                   {el + " ₾"}
                 </PriceLabel>
