@@ -50,7 +50,7 @@ export default function BedroomsFilter({
           <FilterListTitle>საძინებლების რაოდენობა</FilterListTitle>
           <PriceInputsContainer>
             <PriceInput
-              style={{ width: "20%" }}
+              style={{ width: "30px" }}
               type="number"
               placeholder="2"
               value={tempBedrooms}

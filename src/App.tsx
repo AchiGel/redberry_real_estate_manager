@@ -9,6 +9,9 @@ const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
   margin-bottom: 90px;
+  @media screen and (max-width: 560px) {
+    overflow: hidden;
+  }
 `;
 
 function App() {

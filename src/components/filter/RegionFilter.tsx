@@ -63,6 +63,9 @@ const RegionsGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 16px 50px;
   margin-bottom: 32px;
+  @media screen and (max-width: 560px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 export const SelectButton = styled.button`

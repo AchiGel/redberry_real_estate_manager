@@ -45,6 +45,9 @@ export const ListingPrice = styled.h2<{ fontSize: string }>`
   font-size: ${(props) => props.fontSize};
   font-weight: 700;
   margin-bottom: 6.5px;
+  @media screen and (max-width: 560px) {
+    font-size: 24px;
+  }
 `;
 
 export const ListingAddress = styled.h3<{ fontSize: string }>`
@@ -66,6 +69,9 @@ export const ListingAddress = styled.h3<{ fontSize: string }>`
     height: 16px;
     width: 16px;
   }
+  @media screen and (max-width: 560px) {
+    font-size: 16px;
+  }
 `;
 
 export const DownSectionInfos = styled.p<{ $icon: string; fontSize: string }>`
@@ -86,6 +92,9 @@ export const DownSectionInfos = styled.p<{ $icon: string; fontSize: string }>`
     height: 16px;
     width: 16px;
   }
+  @media screen and (max-width: 560px) {
+    font-size: 16px;
+  }
 `;
 
 export const IsRental = styled.div<{
@@ -104,6 +113,11 @@ export const IsRental = styled.div<{
   font-size: ${(props) => props.fontSize};
   font-weight: 500;
   letter-spacing: 0.48px;
+  @media screen and (max-width: 560px) {
+    font-size: 10px;
+    left: 1rem;
+    top: 1rem;
+  }
 `;
 
 export default function ListingCard(props: ListingCardProps) {

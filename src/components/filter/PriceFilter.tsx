@@ -18,6 +18,9 @@ export const PriceInputsContainer = styled.div`
   display: flex;
   gap: 15px;
   margin-bottom: 24px;
+  @media screen and (max-width: 560px) {
+    flex-direction: column;
+  }
 `;
 
 export const PriceInput = styled.input`
@@ -34,6 +37,10 @@ export const PriceInput = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
+
+  @media screen and (max-width: 560px) {
+    width: 100%;
+  }
 `;
 
 export const PriceListContainer = styled.div`
@@ -41,12 +48,16 @@ export const PriceListContainer = styled.div`
   gap: 35%;
   width: 100%;
   justify-content: flex-start;
+  @media screen and (max-width: 560px) {
+    gap: 1rem;
+  }
 `;
 
 export const PriceList = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 32px;
+  width: 3.75rem;
 `;
 
 export const PriceListTitle = styled.h3`

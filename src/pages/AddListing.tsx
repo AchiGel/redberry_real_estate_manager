@@ -15,6 +15,9 @@ const AddListingFormWrapper = styled.div`
   max-width: 1211px;
   align-self: center;
   width: 63%;
+  @media screen and (max-width: 560px) {
+    width: 100%;
+  }
 `;
 
 export default function AddListing() {

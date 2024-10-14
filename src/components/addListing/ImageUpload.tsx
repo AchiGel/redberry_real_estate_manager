@@ -123,8 +123,6 @@ export default function ImageUpload({
     return true;
   };
 
-  console.log($validationError);
-
   return (
     <>
       <ImageUploadLabel htmlFor="image">
@@ -152,7 +150,7 @@ export default function ImageUpload({
         onChange={handleFileChange}
       />
       {$validationError ? <ErrorMessage>სავალდებულო</ErrorMessage> : null}
-      {listingErrors.image && <ErrorMessage>სავალდებულო</ErrorMessage>}
+      {listingErrors ? <ErrorMessage>სავალდებულო</ErrorMessage> : null}
     </>
   );
 }

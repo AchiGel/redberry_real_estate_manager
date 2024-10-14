@@ -8,6 +8,9 @@ const HeaderWrapper = styled.header`
   align-items: center;
   border-bottom: 1px solid #dbdbdb;
   margin-bottom: 77px;
+  @media screen and (max-width: 560px) {
+    margin-bottom: 2rem;
+  }
 `;
 
 const Logo = styled.div`

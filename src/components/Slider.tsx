@@ -9,6 +9,9 @@ import { PropertyTypes } from "../generalTypes.interface";
 
 const SliderWrapper = styled.div`
   padding-bottom: 228px;
+  @media screen and (max-width: 560px) {
+    padding-bottom: 20px;
+  }
 `;
 
 const SliderTitle = styled.h2`
@@ -23,7 +26,24 @@ export default function Slider({ listing }: { listing: PropertyTypes[] }) {
     <SliderWrapper>
       <SliderTitle>ბინები მსგავს ლოკაციაზე</SliderTitle>
 
-      <Swiper spaceBetween={50} slidesPerView={4} navigation loop={true}>
+      <Swiper
+        spaceBetween={50}
+        navigation
+        loop={true}
+        breakpoints={{
+          1024: {
+            slidesPerView: 4,
+          },
+
+          768: {
+            slidesPerView: 2,
+          },
+
+          480: {
+            slidesPerView: 1,
+          },
+        }}
+      >
         <SlidePrevButton />
         {listing.map((item: PropertyTypes) => (
           <SwiperSlide key={item.id}>

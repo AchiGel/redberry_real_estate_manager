@@ -20,6 +20,9 @@ const ListingPageLayout = styled.section`
   margin-top: 29px;
   gap: 68px;
   margin-bottom: 53px;
+  @media screen and (max-width: 560px) {
+    flex-direction: column;
+  }
 `;
 
 const ListingPageLayoutLeft = styled.div`
@@ -63,6 +66,10 @@ const ListingPageCover = styled.img`
   width: 100%;
   height: 670px;
   object-fit: cover;
+  @media screen and (max-width: 560px) {
+    height: 50%;
+    border-radius: 0;
+  }
 `;
 
 const ListingPageLayoutRight = styled.div`

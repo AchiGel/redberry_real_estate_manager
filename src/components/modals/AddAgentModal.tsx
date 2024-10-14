@@ -51,6 +51,10 @@ export const AgentModalLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 560px) {
+    width: 90%;
+    padding: 10px;
+  }
 `;
 
 const AgentInputsFlexbox = styled.form`
@@ -75,8 +79,6 @@ export default function AddAgentModal({
   const [errors, setErrors] = useState<
     AgentErrors | { [key: string]: string | undefined }
   >({});
-
-  console.log(errors);
 
   const [success, setSuccess] = useState(false);
 
