@@ -61,6 +61,8 @@ export default function ImageUpload({
   formType,
   $validationError,
   setErrors,
+  listingErrors,
+  setListingErrors,
 }: {
   setAgentForm?: React.Dispatch<React.SetStateAction<AgentFormTypes>>;
   setFormData?: (
@@ -87,6 +89,11 @@ export default function ImageUpload({
         if (formType === "agent") {
           setErrors((prevErrors) => {
             const { avatar, ...rest } = prevErrors;
+            return rest;
+          });
+        } else if (formType === "listing") {
+          setListingErrors((prevErrors) => {
+            const { image, ...rest } = prevErrors;
             return rest;
           });
         }
@@ -116,6 +123,8 @@ export default function ImageUpload({
     return true;
   };
 
+  console.log($validationError);
+
   return (
     <>
       <ImageUploadLabel htmlFor="image">
@@ -136,13 +145,14 @@ export default function ImageUpload({
         )}
       </ImageUploadLabel>
       <ImageUloadImput
+        name="image"
         id="image"
         type="file"
         accept="image/*"
         onChange={handleFileChange}
-        required={required}
       />
       {$validationError ? <ErrorMessage>სავალდებულო</ErrorMessage> : null}
+      {listingErrors.image && <ErrorMessage>სავალდებულო</ErrorMessage>}
     </>
   );
 }

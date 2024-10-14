@@ -76,6 +76,8 @@ export default function AddAgentModal({
     AgentErrors | { [key: string]: string | undefined }
   >({});
 
+  console.log(errors);
+
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {

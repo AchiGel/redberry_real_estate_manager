@@ -49,6 +49,8 @@ export default function PropertyDetails({
     }));
   };
 
+  console.log(listingErrors);
+
   return (
     <FormSectionWrapper>
       <InputsBoxesTitles>ბინის დეტალები</InputsBoxesTitles>
@@ -114,8 +116,13 @@ export default function PropertyDetails({
             setFormData={setFormData}
             formType="listing"
             required={true}
+            listingErrors={listingErrors}
+            setListingErrors={setListingErrors}
           />
         </InputFieldLayout>
+        {listingErrors?.image && (
+          <ErrorMessage>{listingErrors?.image}</ErrorMessage>
+        )}
       </FormSectionGrid>
     </FormSectionWrapper>
   );

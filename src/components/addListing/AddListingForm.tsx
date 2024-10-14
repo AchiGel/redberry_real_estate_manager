@@ -130,19 +130,7 @@ export default function AddListingForm() {
   };
 
   const validateForm = () => {
-    const newErrors: ListingErrorsTypes = {
-      address: undefined,
-      agent_id: undefined,
-      area: undefined,
-      bedrooms: undefined,
-      city_id: undefined,
-      description: undefined,
-      image: undefined,
-      is_rental: undefined,
-      price: undefined,
-      region_id: undefined,
-      zip_code: undefined,
-    };
+    const newErrors: { [key: string]: string } = {};
 
     if (!formData.address) {
       newErrors.address = "სავალდებულო";
@@ -209,11 +197,19 @@ export default function AddListingForm() {
 
     setListingErrors(newErrors);
 
-    return Object.values(newErrors).every((value) => value === undefined);
+    console.log(newErrors);
+
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("hello");
+
+    const isFormValid = validateForm(); // Call validateForm once and store result
+
+    console.log("Validation errors:", listingErrors);
+    console.log("Form is valid:", isFormValid);
 
     if (!validateForm()) return;
 
