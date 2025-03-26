@@ -7,7 +7,7 @@ import ListingCard from "../components/ListingCard";
 import { useEffect, useState } from "react";
 import { PropertyTypes, RegionsTypes } from "../generalTypes.interface";
 
-export const token = "9cfd9147-04a6-47c4-8eba-407452441d23";
+export const token = "9e86167e-7268-436e-b28c-501a6c8717eb";
 
 export const API_URL =
   "https://api.real-estate-manager.redberryinternship.ge/api/real-estates";
