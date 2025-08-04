@@ -10,7 +10,7 @@ import RegionFilter from "./RegionFilter";
 import PriceFilter from "./PriceFilter";
 import AreaFilter from "./AreaFilter";
 import BedroomsFilter from "./BedroomsFilter";
-import AddAgentModal from "../modals/AddAgentModal";
+import AddAgentModal from "../modals/addAgentModal/AddAgentModal";
 import { FilterSectionProps } from "../../generalTypes.interface";
 
 export const API_REGIONS =

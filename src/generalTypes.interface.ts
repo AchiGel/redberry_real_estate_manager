@@ -12,7 +12,7 @@ export interface AgentTypes {
   id?: number;
 }
 
-import { AgentFormTypes } from "./components/modals/AddAgentModal";
+import { AgentFormTypes } from "./components/modals/addAgentModal/AddAgentModal";
 
 export interface InputFieldsProps {
   type: string;
