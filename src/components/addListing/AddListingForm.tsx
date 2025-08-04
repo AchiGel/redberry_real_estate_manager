@@ -8,9 +8,12 @@ import {
   FormDataTypes,
   ListingErrorsTypes,
 } from "../../generalTypes.interface";
-import { AgentModalLayout, ModalLayer } from "../modals/AddAgentModal";
 import { AddListingFormTiTle } from "../../pages/AddListing";
 import { useNavigate } from "react-router-dom";
+import {
+  ModalLayer,
+  AgentModalLayout,
+} from "../modals/addAgentModal/addAgentModal";
 
 export const ButtonsBox = styled.div`
   display: flex;

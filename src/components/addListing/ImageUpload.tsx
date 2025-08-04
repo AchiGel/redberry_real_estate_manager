@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 import styled from "styled-components";
-import { AgentFormTypes } from "../modals/AddAgentModal";
+import { AgentFormTypes } from "../modals/addAgentModal/AddAgentModal";
 import { FormDataTypes } from "../../generalTypes.interface";
 import { ErrorMessage } from "./InputFields";
 import { useState } from "react";
