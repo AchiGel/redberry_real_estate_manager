@@ -3,8 +3,6 @@ import { AddListingFormTiTle } from "../../../pages/AddListing";
 import FormButton from "../../addListing/FormButton";
 import { ButtonsBox } from "../../addListing/AddListingForm";
 import { FormSectionGrid } from "../../addListing/FormAddress";
-import { token } from "../../../pages/Home";
-import { AgentErrors } from "../../../generalTypes.interface";
 import {
   ModalLayer,
   AgentModalLayout,
@@ -13,35 +11,34 @@ import {
   AgentInputLabel,
   AgentInputBox,
   AgentInputFieldLayout,
-} from "./addAgentModal";
+} from "./addAgentModalStyled";
 import AgentImage from "./AgentImage";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  AgentFormTypes,
+  agentSchema,
+} from "../../../schemas/agentModalValidationSchema";
 
 interface AgentModalProps {
   agentClicked: boolean;
   setAgentClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export interface AgentFormTypes {
-  name: string;
-  surname: string;
-  email: string;
-  phone: string;
-  avatar: Blob | File | null;
-}
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
+const token = import.meta.env.VITE_API_TOKEN;
 
 export default function AddAgentModal({ setAgentClicked }: AgentModalProps) {
-  const [agentForm, setAgentForm] = useState<AgentFormTypes>({
-    name: "",
-    surname: "",
-    email: "",
-    phone: "",
-    avatar: null,
-  });
-
-  const [errors, setErrors] = useState<
-    AgentErrors | { [key: string]: string | undefined }
-  >({});
   const [success, setSuccess] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<AgentFormTypes>({
+    resolver: zodResolver(agentSchema),
+  });
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -49,6 +46,37 @@ export default function AddAgentModal({ setAgentClicked }: AgentModalProps) {
       document.body.style.overflow = "";
     };
   }, []);
+
+  const onSubmit = async (data: AgentFormTypes) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("surname", data.surname);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("avatar", data.avatar[0]);
+
+    try {
+      const response = await fetch(`${apiUrl}/agents`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP error ${response.status}: ${errorText}`);
+      }
+
+      if (response.status === 201) {
+        setSuccess(true);
+        reset(); // clear form after success
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
 
   const handleModalClose = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -58,66 +86,6 @@ export default function AddAgentModal({ setAgentClicked }: AgentModalProps) {
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget === e.target) {
       setAgentClicked(false);
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors: { [key: string]: string } = {};
-
-    if (!agentForm.name) newErrors.name = "სავალდებულო";
-    else if (agentForm.name.length < 2) newErrors.name = "მინიმუმ 2 სიმბოლო";
-
-    if (!agentForm.surname) newErrors.surname = "სავალდებულო";
-    else if (agentForm.surname.length < 2)
-      newErrors.surname = "მინიმუმ 2 სიმბოლო";
-
-    if (!agentForm.email) newErrors.email = "სავალდებულო";
-    else if (!agentForm.email.endsWith("@redberry.ge"))
-      newErrors.email = "უნდა მთავრდებოდეს @redberry.ge-თ";
-
-    if (!agentForm.phone) newErrors.phone = "სავალდებულო";
-    else if (!/^5\d{8}$/.test(agentForm.phone))
-      newErrors.phone = "უნდა იყოს ფორმატის 5XXXXXXXX";
-
-    if (!agentForm.avatar) newErrors.avatar = "სავალდებულო";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
-    const formData = new FormData();
-    formData.append("name", agentForm.name);
-    formData.append("surname", agentForm.surname);
-    formData.append("email", agentForm.email);
-    formData.append("phone", agentForm.phone);
-    if (agentForm.avatar) formData.append("avatar", agentForm.avatar);
-
-    try {
-      const response = await fetch(
-        "https://api.real-estate-manager.redberryinternship.ge/api/agents",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP error ${response.status}: ${errorText}`);
-      }
-
-      if (response.status === 201) {
-        setSuccess(true);
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
     }
   };
 
@@ -131,31 +99,24 @@ export default function AddAgentModal({ setAgentClicked }: AgentModalProps) {
         ) : (
           <>
             <AddListingFormTiTle>აგენტის დამატება</AddListingFormTiTle>
-            <AgentInputsFlexbox onSubmit={handleSubmit}>
+            <AgentInputsFlexbox onSubmit={handleSubmit(onSubmit)}>
               <FormSectionGrid>
                 <AgentInputFieldLayout>
                   <AgentInputLabel htmlFor="name">სახელი *</AgentInputLabel>
-                  <AgentInputBox
-                    type="text"
-                    id="name"
-                    value={agentForm.name}
-                    onChange={(e) =>
-                      setAgentForm({ ...agentForm, name: e.target.value })
-                    }
-                  />
-                  {errors.name && <ErrorText>{errors.name}</ErrorText>}
+                  <AgentInputBox type="text" id="name" {...register("name")} />
+                  {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
                 </AgentInputFieldLayout>
+
                 <AgentInputFieldLayout>
                   <AgentInputLabel htmlFor="surname">გვარი *</AgentInputLabel>
                   <AgentInputBox
                     type="text"
                     id="surname"
-                    value={agentForm.surname}
-                    onChange={(e) =>
-                      setAgentForm({ ...agentForm, surname: e.target.value })
-                    }
+                    {...register("surname")}
                   />
-                  {errors.surname && <ErrorText>{errors.surname}</ErrorText>}
+                  {errors.surname && (
+                    <ErrorText>{errors.surname.message}</ErrorText>
+                  )}
                 </AgentInputFieldLayout>
               </FormSectionGrid>
               <FormSectionGrid>
@@ -164,13 +125,13 @@ export default function AddAgentModal({ setAgentClicked }: AgentModalProps) {
                   <AgentInputBox
                     type="text"
                     id="email"
-                    value={agentForm.email}
-                    onChange={(e) =>
-                      setAgentForm({ ...agentForm, email: e.target.value })
-                    }
+                    {...register("email")}
                   />
-                  {errors.email && <ErrorText>{errors.email}</ErrorText>}
+                  {errors.email && (
+                    <ErrorText>{errors.email.message}</ErrorText>
+                  )}
                 </AgentInputFieldLayout>
+
                 <AgentInputFieldLayout>
                   <AgentInputLabel htmlFor="phone">
                     ტელეფონის ნომერი *
@@ -178,30 +139,26 @@ export default function AddAgentModal({ setAgentClicked }: AgentModalProps) {
                   <AgentInputBox
                     type="text"
                     id="phone"
-                    value={agentForm.phone}
-                    onChange={(e) =>
-                      setAgentForm({ ...agentForm, phone: e.target.value })
-                    }
+                    {...register("phone")}
                   />
-                  {errors.phone && <ErrorText>{errors.phone}</ErrorText>}
+                  {errors.phone && (
+                    <ErrorText>{errors.phone.message}</ErrorText>
+                  )}
                 </AgentInputFieldLayout>
               </FormSectionGrid>
+
               <AgentImage
-                error={errors.avatar}
-                setAgentForm={setAgentForm}
-                agentForm={agentForm}
+                error={errors.avatar?.message}
+                register={register("avatar")}
               />
+
               <ButtonsBox>
                 <FormButton
                   $btnStyle="cancel"
                   btnText="გაუქმება"
                   onClick={handleModalClose}
                 />
-                <FormButton
-                  $btnStyle="add"
-                  btnText="დაამატე აგენტი"
-                  onClick={handleSubmit}
-                />
+                <FormButton $btnStyle="add" btnText="დაამატე აგენტი" />
               </ButtonsBox>
             </AgentInputsFlexbox>
           </>
