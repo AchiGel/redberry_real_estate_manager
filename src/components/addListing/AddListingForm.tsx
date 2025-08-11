@@ -2,8 +2,6 @@ import styled from "styled-components";
 import FormButton from "./FormButton";
 import FormInputsBox from "./FormInputsBox";
 import { useEffect, useState } from "react";
-import { API_REGIONS } from "../filter/FilterSection";
-import { API_AGENTS, API_CITIES, API_URL, token } from "../../pages/Home";
 import {
   FormDataTypes,
   ListingErrorsTypes,
@@ -13,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import {
   ModalLayer,
   AgentModalLayout,
-} from "../modals/addAgentModal/addAgentModal";
+} from "../modals/addAgentModal/addAgentModalStyled";
 
 export const ButtonsBox = styled.div`
   display: flex;
@@ -35,6 +33,9 @@ export const InputsBoxesTitles = styled.h3`
   font-weight: 500;
   text-transform: uppercase;
 `;
+
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
+const token = import.meta.env.VITE_API_TOKEN;
 
 export default function AddListingForm() {
   const [regions, setRegions] = useState([]);
@@ -85,7 +86,7 @@ export default function AddListingForm() {
 
   useEffect(() => {
     const fetchRegions = async () => {
-      const response = await fetch(API_REGIONS, {
+      const response = await fetch(`${apiUrl}/regions`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +99,7 @@ export default function AddListingForm() {
     fetchRegions();
 
     const fetchCities = async () => {
-      const response = await fetch(API_CITIES, {
+      const response = await fetch(`${apiUrl}/cities`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -111,7 +112,7 @@ export default function AddListingForm() {
     fetchCities();
 
     const fetchAgents = async () => {
-      const response = await fetch(API_AGENTS, {
+      const response = await fetch(`${apiUrl}/agents`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -209,7 +210,7 @@ export default function AddListingForm() {
     e.preventDefault();
     console.log("hello");
 
-    const isFormValid = validateForm(); // Call validateForm once and store result
+    const isFormValid = validateForm();
 
     console.log("Validation errors:", listingErrors);
     console.log("Form is valid:", isFormValid);
@@ -230,7 +231,7 @@ export default function AddListingForm() {
     formDataListing.append("agent_id", formData.agent_id?.toString() || "");
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${apiUrl}/real_estates`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

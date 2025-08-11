@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { ButtonsBox } from "../addListing/AddListingForm";
 import FormButton from "../addListing/FormButton";
-import { ModalLayer, AgentModalLayout } from "./addAgentModal/addAgentModal";
+import {
+  ModalLayer,
+  AgentModalLayout,
+} from "./addAgentModal/addAgentModalStyled";
 
 const DeleteListingModalTitle = styled.h2`
   color: #2d3648;
