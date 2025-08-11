@@ -12,7 +12,13 @@ export interface AgentTypes {
   id?: number;
 }
 
-import { AgentFormTypes } from "./components/modals/addAgentModal/AddAgentModal";
+interface AgentFormTypes {
+  name: string;
+  surname: string;
+  email: string;
+  phone: string;
+  avatar: Blob | File | null;
+}
 
 export interface InputFieldsProps {
   type: string;
