@@ -7,7 +7,7 @@ import {
   AgentRemoveImgPreview,
   AgentImageUloadImput,
   ErrorText,
-} from "./addAgentModal";
+} from "./addAgentModalStyled.ts";
 import { AgentFormTypes } from "./AddAgentModal.tsx";
 
 type AgentImageProps = {

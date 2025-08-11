@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import {
   ModalLayer,
   AgentModalLayout,
-} from "../modals/addAgentModal/addAgentModal";
+} from "../modals/addAgentModal/addAgentModalStyled";
 
 export const ButtonsBox = styled.div`
   display: flex;

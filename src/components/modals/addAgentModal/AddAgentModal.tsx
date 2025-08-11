@@ -13,7 +13,7 @@ import {
   AgentInputLabel,
   AgentInputBox,
   AgentInputFieldLayout,
-} from "./addAgentModal";
+} from "./addAgentModalStyled";
 import AgentImage from "./AgentImage";
 
 interface AgentModalProps {
