@@ -8,20 +8,21 @@ import {
   AgentImageUloadImput,
   ErrorText,
 } from "./addAgentModalStyled.ts";
-import { AgentFormTypes } from "./AddAgentModal.tsx";
 
-type AgentImageProps = {
-  error: string | undefined;
-  setAgentForm: React.Dispatch<React.SetStateAction<AgentFormTypes>>;
-  agentForm: AgentFormTypes;
-};
+interface RegisterReturn {
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+  name: string;
+  ref: React.Ref<HTMLInputElement>;
+}
 
-export default function AgentImage({
-  error,
-  setAgentForm,
-  agentForm,
-}: AgentImageProps) {
-  const [imagePrev, setImagePrev] = useState<null | File>(null);
+interface AgentImageProps {
+  error?: string | null;
+  register: RegisterReturn;
+}
+
+export default function AgentImage({ error, register }: AgentImageProps) {
+  const [imagePrev, setImagePrev] = useState<File | null>(null);
 
   const removePreview = () => {
     setImagePrev(null);
@@ -29,10 +30,6 @@ export default function AgentImage({
 
   const avatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) setImagePrev(e.target.files[0]);
-    setAgentForm({
-      ...agentForm,
-      avatar: e.target.files?.[0] || null,
-    });
   };
 
   return (
@@ -59,7 +56,11 @@ export default function AgentImage({
         type="file"
         id="photo"
         accept="image/*"
-        onChange={avatarChange}
+        {...register}
+        onChange={(e) => {
+          register.onChange(e);
+          avatarChange(e);
+        }}
       />
       {error && <ErrorText>{error}</ErrorText>}
     </AgentInputFieldLayout>
