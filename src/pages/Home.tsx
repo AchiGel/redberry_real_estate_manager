@@ -7,17 +7,6 @@ import ListingCard from "../components/ListingCard";
 import { useEffect, useState } from "react";
 import { PropertyTypes, RegionsTypes } from "../generalTypes.interface";
 
-export const token = "9e86167e-7268-436e-b28c-501a6c8717eb";
-
-export const API_URL =
-  "https://api.real-estate-manager.redberryinternship.ge/api/real-estates";
-
-export const API_CITIES =
-  "https://api.real-estate-manager.redberryinternship.ge/api/cities";
-
-export const API_AGENTS =
-  "https://api.real-estate-manager.redberryinternship.ge/api/agents";
-
 const ListingGrid = styled.section`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -39,6 +28,9 @@ const WarningMessage = styled.p`
   font-size: 20px;
   font-weight: 400;
 `;
+
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
+const token = import.meta.env.VITE_API_TOKEN;
 
 export default function Home() {
   const [listing, setListing] = useState<PropertyTypes[]>([]);
@@ -102,7 +94,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${apiUrl}/real-estates`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

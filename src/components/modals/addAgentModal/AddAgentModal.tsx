@@ -3,7 +3,6 @@ import { AddListingFormTiTle } from "../../../pages/AddListing";
 import FormButton from "../../addListing/FormButton";
 import { ButtonsBox } from "../../addListing/AddListingForm";
 import { FormSectionGrid } from "../../addListing/FormAddress";
-import { token } from "../../../pages/Home";
 import {
   ModalLayer,
   AgentModalLayout,
@@ -25,6 +24,9 @@ interface AgentModalProps {
   agentClicked: boolean;
   setAgentClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
+const token = import.meta.env.VITE_API_TOKEN;
 
 export default function AddAgentModal({ setAgentClicked }: AgentModalProps) {
   const [success, setSuccess] = useState(false);
@@ -51,19 +53,16 @@ export default function AddAgentModal({ setAgentClicked }: AgentModalProps) {
     formData.append("surname", data.surname);
     formData.append("email", data.email);
     formData.append("phone", data.phone);
-    formData.append("avatar", data.avatar[0]); // FileList -> first file
+    formData.append("avatar", data.avatar[0]);
 
     try {
-      const response = await fetch(
-        "https://api.real-estate-manager.redberryinternship.ge/api/agents",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
+      const response = await fetch(`${apiUrl}/agents`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
       if (!response.ok) {
         const errorText = await response.text();

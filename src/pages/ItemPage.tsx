@@ -2,7 +2,6 @@ import styled from "styled-components";
 import ArrowButton from "../components/ArrowButton";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { API_URL, token } from "./Home";
 import {
   DownSectionInfos,
   IsRental,
@@ -79,6 +78,9 @@ const ListingPageLayoutRight = styled.div`
   flex: 0 1 40%;
 `;
 
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
+const token = import.meta.env.VITE_API_TOKEN;
+
 export default function ItemPage() {
   const { id } = useParams<{ id: string }>();
 
@@ -93,16 +95,13 @@ export default function ItemPage() {
   useEffect(() => {
     const fetchListingPage = async () => {
       try {
-        const response = await fetch(
-          `https://api.real-estate-manager.redberryinternship.ge/api/real-estates/${id}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${apiUrl}/real-estates/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         const data = await response.json();
         setListingPage(data);
       } catch (error) {
@@ -118,7 +117,7 @@ export default function ItemPage() {
 
     const fetchListings = async () => {
       try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(`${apiUrl}/real-estates`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
