@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import styled from "styled-components";
 import { InputsBoxesTitles } from "./AddListingForm";
 import { IsRentalTypes } from "../../generalTypes.interface";
@@ -32,7 +29,7 @@ export default function IsRental({
   setListingErrors,
 }: IsRentalTypes) {
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value === "იყიდება" ? 0 : 1;
+    const value = e.target.value === "იყიდება" ? "0" : "1";
 
     setListingErrors((prevErrors) => ({
       ...prevErrors,
