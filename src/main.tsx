@@ -18,11 +18,25 @@ const router = createBrowserRouter(
       <Route path="/add_listing" element={<AddListing />} />
       <Route path="/:id" element={<ItemPage />} />
     </Route>
-  )
+  ),
+  {
+    future: {
+      v7_fetcherPersist: true,
+      v7_normalizeFormMethod: true,
+      v7_partialHydration: true,
+      v7_skipActionErrorRevalidation: true,
+      v7_relativeSplatPath: true,
+    },
+  }
 );
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <RouterProvider
+      router={router}
+      future={{
+        v7_startTransition: true,
+      }}
+    />
   </StrictMode>
 );
