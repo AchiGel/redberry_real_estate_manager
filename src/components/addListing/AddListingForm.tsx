@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import FormButton from "./FormButton";
 import FormInputsBox from "./FormInputsBox";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   FormDataTypes,
   ListingErrorsTypes,
@@ -12,6 +12,8 @@ import {
   ModalLayer,
   AgentModalLayout,
 } from "../modals/addAgentModal/addAgentModalStyled";
+import { apiUrl, getData, token } from "../../services/api";
+import { useQuery } from "@tanstack/react-query";
 
 export const ButtonsBox = styled.div`
   display: flex;
@@ -34,13 +36,7 @@ export const InputsBoxesTitles = styled.h3`
   text-transform: uppercase;
 `;
 
-const apiUrl = import.meta.env.VITE_API_BASE_URL;
-const token = import.meta.env.VITE_API_TOKEN;
-
 export default function AddListingForm() {
-  const [regions, setRegions] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [agents, setAgents] = useState([]);
   const [formData, setFormData] = useState<FormDataTypes>({
     price: null,
     zip_code: "",
@@ -84,47 +80,27 @@ export default function AddListingForm() {
     }
   };
 
-  useEffect(() => {
-    const fetchRegions = async () => {
-      const response = await fetch(`${apiUrl}/regions`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      setRegions(data);
-    };
+  // Fetching regions, cities, and agents using React Query
 
-    fetchRegions();
+  const {
+    data: regions,
+    isLoading: regionsLoading,
+    error: regionsError,
+  } = useQuery({ queryKey: ["regions"], queryFn: () => getData("regions") });
 
-    const fetchCities = async () => {
-      const response = await fetch(`${apiUrl}/cities`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      setCities(data);
-    };
+  const {
+    data: cities,
+    isLoading: citiesLoading,
+    error: citiesError,
+  } = useQuery({ queryKey: ["cities"], queryFn: () => getData("cities") });
 
-    fetchCities();
+  const {
+    data: agents,
+    isLoading: agentsLoading,
+    error: agentsError,
+  } = useQuery({ queryKey: ["agents"], queryFn: () => getData("agents") });
 
-    const fetchAgents = async () => {
-      const response = await fetch(`${apiUrl}/agents`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      setAgents(data);
-    };
-
-    fetchAgents();
-  }, []);
+  //-----------------------------------------//
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -201,19 +177,11 @@ export default function AddListingForm() {
 
     setListingErrors(newErrors);
 
-    console.log(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("hello");
-
-    const isFormValid = validateForm();
-
-    console.log("Validation errors:", listingErrors);
-    console.log("Form is valid:", isFormValid);
 
     if (!validateForm()) return;
 
@@ -231,7 +199,7 @@ export default function AddListingForm() {
     formDataListing.append("agent_id", formData.agent_id?.toString() || "");
 
     try {
-      const response = await fetch(`${apiUrl}/real_estates`, {
+      const response = await fetch(`${apiUrl}/real-estates`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -278,8 +246,14 @@ export default function AddListingForm() {
       <AddListingFormLayout onSubmit={handleFormSubmit}>
         <FormInputsBox
           regions={regions}
+          regionsLoading={regionsLoading}
+          regionsError={regionsError}
           cities={cities}
+          citiesLoading={citiesLoading}
+          citiesError={citiesError}
           agents={agents}
+          agentsLoading={agentsLoading}
+          agentsError={agentsError}
           formData={formData}
           setFormData={setFormData}
           onInputChange={handleInputChange}
