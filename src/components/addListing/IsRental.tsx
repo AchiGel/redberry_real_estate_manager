@@ -56,7 +56,7 @@ export default function IsRental({
             type="radio"
             name="transaction"
             value="იყიდება"
-            checked={formData.is_rental === 0}
+            checked={formData.is_rental == 0}
             onChange={handleRadioChange}
           />
           <Label htmlFor="forSale">იყიდება</Label>
@@ -67,7 +67,7 @@ export default function IsRental({
             type="radio"
             name="transaction"
             value="ქირავდება"
-            checked={formData.is_rental === 1}
+            checked={formData.is_rental == 1}
             onChange={handleRadioChange}
           />
           <Label htmlFor="forRent">ქირავდება</Label>

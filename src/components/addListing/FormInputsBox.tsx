@@ -18,6 +18,12 @@ export default function FormInputsBox({
   regions,
   cities,
   agents,
+  regionsLoading,
+  regionsError,
+  citiesLoading,
+  citiesError,
+  agentsLoading,
+  agentsError,
   formData,
   onInputChange,
   setFormData,
@@ -32,28 +38,39 @@ export default function FormInputsBox({
         listingErrors={listingErrors}
         setListingErrors={setListingErrors}
       />
-      <FormAddress
-        formData={formData}
-        onInputChange={onInputChange}
-        regions={regions}
-        cities={cities}
-        setFormData={setFormData}
-        listingErrors={listingErrors}
-        setListingErrors={setListingErrors}
-      />
+      {regionsLoading && <p>Loading regions...</p>}
+      {regionsError && <p style={{ color: "red" }}>{regionsError.message}</p>}
+      {citiesLoading && <p>Loading cities...</p>}
+      {citiesError && <p style={{ color: "red" }}>{citiesError.message}</p>}
+      {regions && cities && (
+        <FormAddress
+          formData={formData}
+          onInputChange={onInputChange}
+          regions={regions}
+          cities={cities}
+          setFormData={setFormData}
+          listingErrors={listingErrors}
+          setListingErrors={setListingErrors}
+        />
+      )}
+
       <PropertyDetails
         formData={formData}
         setFormData={setFormData}
         listingErrors={listingErrors}
         setListingErrors={setListingErrors}
       />
-      <Agent
-        formData={formData}
-        setFormData={setFormData}
-        agents={agents}
-        listingErrors={listingErrors}
-        setListingErrors={setListingErrors}
-      />
+      {agentsError && <p style={{ color: "red" }}>{agentsError.message}</p>}
+      {agentsLoading && <p>Loading agents...</p>}
+      {agents && (
+        <Agent
+          formData={formData}
+          setFormData={setFormData}
+          agents={agents}
+          listingErrors={listingErrors}
+          setListingErrors={setListingErrors}
+        />
+      )}
     </InputsBox>
   );
 }

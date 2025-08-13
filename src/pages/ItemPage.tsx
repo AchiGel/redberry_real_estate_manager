@@ -13,6 +13,8 @@ import Slider from "../components/Slider";
 import DeleteListingButton from "../components/modals/DeleteListingButton";
 import DeleteListingModal from "../components/modals/DeleteListingModal";
 import { PropertyTypes } from "../generalTypes.interface";
+import { getSingleData } from "../services/api";
+import { useQuery } from "@tanstack/react-query";
 
 const ListingPageLayout = styled.section`
   display: flex;
@@ -86,31 +88,19 @@ export default function ItemPage() {
 
   const navigate = useNavigate();
 
-  const [listingPage, setListingPage] = useState<PropertyTypes>();
-
   const [filteredListing, setFilteredListing] = useState([]);
 
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchListingPage = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/real-estates/${id}`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await response.json();
-        setListingPage(data);
-      } catch (error) {
-        console.error("Error fetching listing page:", error);
-      }
-    };
-
-    fetchListingPage();
-  }, [id]);
+  const {
+    data: listingPage,
+    isLoading: listingPageLoading,
+    error: listingPageError,
+  } = useQuery<PropertyTypes>({
+    queryKey: ["listingPage", id],
+    enabled: !!id,
+    queryFn: () => getSingleData("real-estates", id as string),
+  });
 
   useEffect(() => {
     if (!listingPage) return;
@@ -181,52 +171,65 @@ export default function ItemPage() {
       <Link to="/">
         <ArrowButton />
       </Link>
-      <ListingPageLayout>
-        <ListingPageLayoutLeft>
-          <IsRental $left="40px" $top="40px" fontSize="20px">
-            {listingPage.is_rental ? "ქირავდება" : "იყიდება"}
-          </IsRental>
-          <ListingPageCover src={listingPage.image} alt={listingPage.image} />
-          <PublicDate>
-            გამოქვეყნების თარიღი {formatDate(listingPage.created_at)}
-          </PublicDate>
-        </ListingPageLayoutLeft>
-        <ListingPageLayoutRight>
-          <ListingPageLayoutLeftInfo>
-            <ListingPrice fontSize="40px">
-              {Intl.NumberFormat("ka-GE", {
-                useGrouping: true,
-              }).format(listingPage.price) + " ₾"}
-            </ListingPrice>
-            <DetailsFlex>
-              <ListingAddress fontSize="24px">
-                {listingPage.city.name + ", " + listingPage.address}
-              </ListingAddress>
-              <DownSectionInfos
-                fontSize="24px"
-                $icon="./listingicons/Vector.svg"
-              >
-                ფართი {listingPage.area + " მ²"}
-              </DownSectionInfos>
-              <DownSectionInfos fontSize="24px" $icon="./listingicons/bed.svg">
-                საძინებელი {listingPage.bedrooms}
-              </DownSectionInfos>
-              <DownSectionInfos fontSize="24px" $icon="./listingicons/post.svg">
-                საფოსტო ინდექსი {listingPage.zip_code}
-              </DownSectionInfos>
-            </DetailsFlex>
-          </ListingPageLayoutLeftInfo>
-          <ListingDescription>{listingPage.description}</ListingDescription>
-          <AgentCard
-            avatar={listingPage.agent.avatar}
-            name={listingPage.agent.name}
-            surname={listingPage.agent.surname}
-            email={listingPage.agent.email}
-            phone={listingPage.agent.phone}
-          />
-          <DeleteListingButton setDeleteClicked={setDeleteClicked} />
-        </ListingPageLayoutRight>
-      </ListingPageLayout>
+      {listingPageLoading && <div>Loading...</div>}
+      {listingPageError && (
+        <div>Error loading listing: {listingPageError.message}</div>
+      )}
+      {listingPage && (
+        <ListingPageLayout>
+          <ListingPageLayoutLeft>
+            <IsRental $left="40px" $top="40px" fontSize="20px">
+              {listingPage.is_rental ? "ქირავდება" : "იყიდება"}
+            </IsRental>
+            <ListingPageCover src={listingPage.image} alt={listingPage.image} />
+            <PublicDate>
+              გამოქვეყნების თარიღი {formatDate(listingPage.created_at)}
+            </PublicDate>
+          </ListingPageLayoutLeft>
+          <ListingPageLayoutRight>
+            <ListingPageLayoutLeftInfo>
+              <ListingPrice fontSize="40px">
+                {Intl.NumberFormat("ka-GE", {
+                  useGrouping: true,
+                }).format(listingPage.price) + " ₾"}
+              </ListingPrice>
+              <DetailsFlex>
+                <ListingAddress fontSize="24px">
+                  {listingPage.city.name + ", " + listingPage.address}
+                </ListingAddress>
+                <DownSectionInfos
+                  fontSize="24px"
+                  $icon="./listingicons/Vector.svg"
+                >
+                  ფართი {listingPage.area + " მ²"}
+                </DownSectionInfos>
+                <DownSectionInfos
+                  fontSize="24px"
+                  $icon="./listingicons/bed.svg"
+                >
+                  საძინებელი {listingPage.bedrooms}
+                </DownSectionInfos>
+                <DownSectionInfos
+                  fontSize="24px"
+                  $icon="./listingicons/post.svg"
+                >
+                  საფოსტო ინდექსი {listingPage.zip_code}
+                </DownSectionInfos>
+              </DetailsFlex>
+            </ListingPageLayoutLeftInfo>
+            <ListingDescription>{listingPage.description}</ListingDescription>
+            <AgentCard
+              avatar={listingPage.agent.avatar}
+              name={listingPage.agent.name}
+              surname={listingPage.agent.surname}
+              email={listingPage.agent.email}
+              phone={listingPage.agent.phone}
+            />
+            <DeleteListingButton setDeleteClicked={setDeleteClicked} />
+          </ListingPageLayoutRight>
+        </ListingPageLayout>
+      )}
+
       <Slider listing={filteredListing} />
       {deleteClicked && (
         <DeleteListingModal

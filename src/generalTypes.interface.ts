@@ -240,6 +240,12 @@ export interface FormAddressProps {
 export interface FormInputBoxTypes {
   regions: RegionsType[];
   cities: CitiesType[];
+  regionsLoading: boolean;
+  regionsError: Error | null;
+  citiesLoading: boolean;
+  citiesError: Error | null;
+  agentsLoading: boolean;
+  agentsError: Error | null;
   agents: AgentTypes[];
   formData: FormDataTypes;
   onInputChange: (
