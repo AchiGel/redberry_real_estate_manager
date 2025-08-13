@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import styled from "styled-components";
 import { InputsBoxesTitles } from "./AddListingForm";
 import { IsRentalTypes } from "../../generalTypes.interface";
@@ -32,7 +29,7 @@ export default function IsRental({
   setListingErrors,
 }: IsRentalTypes) {
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value === "იყიდება" ? 0 : 1;
+    const value = e.target.value === "იყიდება" ? "0" : "1";
 
     setListingErrors((prevErrors) => ({
       ...prevErrors,
@@ -59,7 +56,7 @@ export default function IsRental({
             type="radio"
             name="transaction"
             value="იყიდება"
-            checked={formData.is_rental === 0}
+            checked={formData.is_rental == 0}
             onChange={handleRadioChange}
           />
           <Label htmlFor="forSale">იყიდება</Label>
@@ -70,7 +67,7 @@ export default function IsRental({
             type="radio"
             name="transaction"
             value="ქირავდება"
-            checked={formData.is_rental === 1}
+            checked={formData.is_rental == 1}
             onChange={handleRadioChange}
           />
           <Label htmlFor="forRent">ქირავდება</Label>
